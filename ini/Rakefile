@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+
+require 'rake/clean'
+
+REV = '1.1.0'
+TOOLSDIR = 'web-public/tools'
+UPLOADDIR = "#{TOOLSDIR}/elispini"
+UPLOADHOST = 'one.net'
+
+EL_FILES = FileList['*.el']
+ELC_FILES = EL_FILES.ext('.elc')
+PKG_DIR = "pkg/elisp-ini-#{REV}"
+TGZ_FILE = "#{PKG_DIR}.tgz"
+
+CLOBBER.include(ELC_FILES)
+CLOBBER.include('html')
+task :clobber => :unpackage
+
+PKG_FILES = EL_FILES + %w(Rakefile remake)
+
+task :elc => ELC_FILES
+
+task :all => [:clobber, :elc]
+
+task :package => [:unpackage, TGZ_FILE]
+
+task :unpackage do
+  rm_rf "pkg"
+end
+
+directory PKG_DIR
+
+file TGZ_FILE => ELC_FILES + EL_FILES + [PKG_DIR] do
+  rm_rf "pkg"
+  mkdir_p PKG_DIR
+  PKG_FILES.each do |fn|
+    ln fn, File.join(PKG_DIR, fn)
+  end
+  ln "../dot.emacs", File.join(PKG_DIR, "dot.emacs")
+  Dir.chdir("pkg") do
+    fn = File.basename(PKG_DIR)
+    sh "tar zcvf #{fn}.tgz #{fn}"
+  end
+end
+
+rule ".elc" => ".el" do |t|
+  sh "xemacs -batch -f batch-byte-compile #{t.source}"
+end

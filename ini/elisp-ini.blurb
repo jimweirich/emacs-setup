@@ -1,0 +1,19 @@
+	<p>
+  <dt> <a href="elispini">Emacs Initialization Files</a>
+
+  <dd> Several people have asked me for my Emacs initialization files.
+  The setup is quite elaborate and has evolved over the many years I
+  have been using Emacs.  <a href="elispini">Here</a> is a html
+  version of my set of file.  You will probably want to start reading
+  with <a href="elispini/_emacs.html">.emacs</a> and <a
+  href="elispini/essential_el.html">essential.el</a>
+
+  <p>To use this files, put the <b>.emacs</b> in your home directory.
+  Create a directory called <b>.elisp/ini</b> and put the rest of the
+  elisp files in there.  There may be some things that need to be
+  tweaked to be run outside of my directories.
+
+  <p>You can download a tar-ball of the elisp files at <a
+  href="ftp://ftp.one.net/pub/users/jweirich/tools/elisp-ini">ftp://ftp.one.net/pub/users/jweirich/tools/elispini</a>.
+  Use at your own risk.
+
