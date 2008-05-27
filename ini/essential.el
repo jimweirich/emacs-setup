@@ -36,6 +36,9 @@
 (defun is-xemacs ()
   (string-match "XEmacs" emacs-version))
 
+(defun is-aquamacs ()
+  (boundp 'aquamacs-version))
+
 ;;; Location Detection ===============================================
 ;;; This code is used to detect where emacs is running.  The location
 ;;; test functions allow customization of the setup file.

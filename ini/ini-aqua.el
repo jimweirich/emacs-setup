@@ -8,10 +8,42 @@
 
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 
-(defun small()
-  (interactive)
-  (set-frame-font "-apple-monaco-medium-r-normal--14-0-72-72-m-0-iso10646-1" t))
+(cond ((is-aquamacs)
+       (setq mac-option-modifier 'meta)
 
-(defun big()
-  (interactive)
-  (set-frame-font "-apple-monaco-medium-r-normal--20-0-72-72-m-0-iso10646-1" t))
+       (defun small-monaco()
+         (interactive)
+         (set-frame-font "-apple-monaco-medium-r-normal--14-0-72-72-m-0-iso10646-1" t))
+       
+       (defun big-monaco()
+         (interactive)
+         (set-frame-font "-apple-monaco-medium-r-normal--20-0-72-72-m-0-iso10646-1" t))
+       
+       (defun micro()
+         (interactive)
+         (set-frame-font "-*-inconsolata-*-r-normal--8-*-*-*-*-*-*-*" t))
+       
+       (defun tiny()
+         (interactive)
+         (set-frame-font "-*-inconsolata-*-r-normal--12-*-*-*-*-*-*-*" t))
+       
+       (defun small()
+         (interactive)
+         (set-frame-font "-*-inconsolata-*-r-normal--14-*-*-*-*-*-*-*" t))
+       
+       (defun normal()
+         (interactive)
+         (set-frame-font "-*-inconsolata-*-r-normal--16-*-*-*-*-*-*-*" t))
+       
+       (defun medium()
+         (interactive)
+         (set-frame-font "-*-inconsolata-*-r-normal--20-*-*-*-*-*-*-*" t))
+       
+       (defun big()
+         (interactive)
+         (set-frame-font "-*-inconsolata-*-r-normal--24-*-*-*-*-*-*-*" t))
+
+       (defun huge()
+         (interactive)
+         (set-frame-font "-*-inconsolata-*-r-normal--36-*-*-*-*-*-*-*" t))
+       ))
