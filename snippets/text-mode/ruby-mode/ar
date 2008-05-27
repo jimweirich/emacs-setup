@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: and_return(...)
+# --
+and_return(${1:return_value})$0

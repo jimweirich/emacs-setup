@@ -1,0 +1,6 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: test method
+# --
+def test_${1:name}
+  $0
+end

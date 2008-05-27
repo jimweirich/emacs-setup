@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert_instance_of(..)
+# --
+assert_equal`(snippet-paren-start)`${1:expected}, ${2:actual}`(snippet-paren-end)`$0

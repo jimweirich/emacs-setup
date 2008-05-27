@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert_instance_of(..)
+# --
+assert_instance_of`(snippet-paren-start)`${1:ExpectedClass}, ${2:actual_instance}`(snippet-paren-end)`$0

@@ -1,0 +1,4 @@
+# -*- mode: rhtml; require-final-newline: nil; backup-inhibited: t -*-
+#name: <tag> ... </tag>
+# --
+<${1:tag}>$0</$1>

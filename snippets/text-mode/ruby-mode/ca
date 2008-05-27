@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: named_path(args)
+# --
+:controller => "${1:controller}", :action => "${2:action}"

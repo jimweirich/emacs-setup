@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: :action => ... :id =>
+# --
+:action => "${1:action}", :id => ${2:id}

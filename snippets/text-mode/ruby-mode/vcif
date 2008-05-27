@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: validates_confirmation_of if
+# --
+validates_confirmation_of :${1:attribute}, :on => :${2:create}, :message => "${3:should match confirmation}", :if => proc { |obj| ${4:obj.condition?} }

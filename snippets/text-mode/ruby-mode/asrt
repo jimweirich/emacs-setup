@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert_respond_to(..)
+# --
+assert_respond_to`(snippet-paren-start)`${1:object}, :${2:method}`(snippet-paren-end)`$0

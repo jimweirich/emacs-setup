@@ -1,0 +1,8 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: begin ... rescue ... end
+# --
+begin
+  $0
+rescue ${1:StandardError} => ${2:ex}
+  
+end

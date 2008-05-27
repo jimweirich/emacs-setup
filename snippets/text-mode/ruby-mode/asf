@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert ! exp
+# --
+assert`(snippet-paren-start)`! ${1:condition}, "${2:Failure message.}"`(snippet-paren-end)`$0

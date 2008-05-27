@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: verify — redirect
+# --
+verify :only => [:$1], :session => :user, :params => :id, :redirect_to => {:action => '${2:index}'}

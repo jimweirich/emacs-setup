@@ -1,0 +1,6 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: migrate table
+# --
+create_table :${1:table_name} do |t|
+  $0
+end

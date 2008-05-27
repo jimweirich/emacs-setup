@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: migrate rename table
+# --
+rename_table :${1:old_table_name}, :${2:new_table_name}

@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil -*-
+# name : no newline
+# --
+# -*- mode: ${1:mode}; require-final-newline: nil -*-

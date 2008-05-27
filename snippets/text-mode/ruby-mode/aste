@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert_template(...)
+# --
+assert_template`(snippet-paren-start)`${1:filename}`(snippet-paren-end)`$0

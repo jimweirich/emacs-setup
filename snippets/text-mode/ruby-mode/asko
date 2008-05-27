@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert_kind_of(..)
+# --
+assert_kind_of`(snippet-paren-start)`${1:ExpectedKind}, ${2:actual_instance}`(snippet-paren-end)`$0

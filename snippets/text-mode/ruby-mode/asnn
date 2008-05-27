@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert_not_nil(..)
+# --
+assert_not_nil`(snippet-paren-start)`${1:instance}`(snippet-paren-end)`$0

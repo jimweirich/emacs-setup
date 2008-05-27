@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: migrate add column
+# --
+add_column :${1:table_name}, :${2:column}, :${3:type}, :null => ${4:false}

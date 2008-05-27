@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert_match(..)
+# --
+assert_match(/${1:expected_pattern}/, ${2:actual_string})$0

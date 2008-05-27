@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert_not_same(..)
+# --
+assert_not_same`(snippet-paren-start)`${1:unexpected}, ${2:actual}`(snippet-paren-end)`$0

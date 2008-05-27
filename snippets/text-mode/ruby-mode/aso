@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert_operator(..)
+# --
+assert_operator`(snippet-paren-start)`${1:left}, :${2:operator}, ${3:right}`(snippet-paren-end)`$0

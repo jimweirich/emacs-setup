@@ -1,0 +1,6 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert_nothing_thrown { .. }
+# --
+assert_nothing_thrown do
+  $0
+end

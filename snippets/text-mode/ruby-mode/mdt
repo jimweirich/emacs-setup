@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: migrate drop table
+# --
+drop_table :${1:table_name}

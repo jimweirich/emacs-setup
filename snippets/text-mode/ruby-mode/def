@@ -1,0 +1,6 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: def method()...end
+# --
+def ${1:method}(${2:args...})
+  $0
+end

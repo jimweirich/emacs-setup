@@ -1,0 +1,6 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: test case
+# --
+class ${1:Name}Test < Test::Unit::TestCase
+  $0
+end

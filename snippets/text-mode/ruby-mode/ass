@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert_send(..)
+# --
+assert_send`(snippet-paren-start)`[${1:object}, :${2:message}, ${3:args}]`(snippet-paren-end)`$0

@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name : each do |...| ... end
+# --
+each do |${item}| $0 end

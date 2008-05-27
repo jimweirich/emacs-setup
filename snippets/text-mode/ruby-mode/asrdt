@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert_redirected_to
+# --
+assert_redirected_to "${1:url or hash}"

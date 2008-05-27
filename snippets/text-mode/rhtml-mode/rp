@@ -1,0 +1,4 @@
+# -*- mode: rhtml; require-final-newline: nil; backup-inhibited: t -*-
+#name: <%= render partial => ... %>
+# --
+<%= render :partial => "${1:partial}", :locals => { :${2:key} => ${3:value} } -%>
