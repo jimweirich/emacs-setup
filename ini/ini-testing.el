@@ -24,7 +24,7 @@
 (defconst jw-rake-command "rake")
 
 ;;; Options to be added to the ruby based test commands.
-(defconst jw-test-options "-Ilib:.")
+(defconst jw-test-options "-Ilib:test:.")
 
 ;;; If true, display the testing buffer in a single window (rather
 ;;; than a split window).

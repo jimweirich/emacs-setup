@@ -29,3 +29,5 @@
  '(ecb-source-path (quote (("/home/jim/working/rubyforge/rubygems" "RubyGems") ("/home/jim/working/rubyforge/rake" "Rake")))))
 
 (setq minibuffer-max-depth nil)
+(custom-set-faces
+ '(default ((t (:size "14pt" :family "Fixed"))) t))
