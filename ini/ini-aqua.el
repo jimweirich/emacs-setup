@@ -35,6 +35,10 @@
          (interactive)
          (set-frame-font "-*-inconsolata-*-r-normal--16-*-*-*-*-*-*-*" t))
        
+       (defun screencast()
+         (interactive)
+         (set-frame-font "-*-inconsolata-*-r-normal--18-*-*-*-*-*-*-*" t))
+       
        (defun medium()
          (interactive)
          (set-frame-font "-*-inconsolata-*-r-normal--20-*-*-*-*-*-*-*" t))
