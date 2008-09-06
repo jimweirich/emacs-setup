@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert_valid_model(..)
+# --
+assert_validation_error_on`(snippet-paren-start)`${1:model}, ${2:field}, ${3:pattern}`(snippet-paren-end)`$0

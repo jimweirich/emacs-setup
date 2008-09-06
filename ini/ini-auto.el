@@ -15,6 +15,7 @@
 (autoload 'lua-mode         "lua-mode"         "Automatic Mode for Lua Code" t)
 (autoload 'filladapt-mode   "filladapt"        "Adaptive Filling Minor mode" t)
 (autoload 'forth-mode       "gforth"           "Mode for FORTH programs" t)
+(autoload 'clojure-mode     "clojure"          "Mode for Clojure programs" t)
 
 (make-auto "\\.awk$"  'awk-mode)
 (make-auto "\\.html$" 'html-helper-mode) ; was html-mode
@@ -44,6 +45,7 @@
 (make-auto "\\.fb$" 'forth-mode)
 (make-auto "\\.fs$" 'forth-mode)
 (make-auto "\\.4th$" 'forth-mode)
+(make-auto "\\.cj$" 'clojure-mode)
 
 ;;;(make-auto "\\.h$"   'c++-c-mode)
 ;;;(make-auto "\\.c$"   'c++-c-mode)
