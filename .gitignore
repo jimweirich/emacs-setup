@@ -3,3 +3,4 @@
 .svn
 emacs-22-lisp
 packages
+*.tgz
