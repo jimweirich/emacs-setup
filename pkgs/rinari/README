@@ -1,0 +1,43 @@
+= Rinari =
+
+Rinari Is Not A Rails IDE. By that we mean the same thing as Gnu's Not
+Unix--that it actually is, but the definition of an (IDE|Unix) is
+slippery and not worth getting into arguments about. 
+
+== Getting Started ==
+
+Add these lines of code to your .emacs file, replacing "~/.emacs.d"
+with your lisp directory:
+
+(add-to-list 'load-path "~/.emacs.d/rinari")
+(add-to-list 'load-path "~/.emacs.d/rinari/rhtml")
+(require 'rinari)
+
+== Command Summary ==
+
+C-c C-s
+    Open script/console in its own buffer
+C-c C-v
+    Toggle between view and action
+C-c C-t
+    Toggle between model/controller and test
+C-c C-r
+    Invoke Rake
+C-c C-f
+    Find config file
+C-c C-M-t
+    Run current test file
+C-c C-S-t
+    Run current test
+C-x C-M-f
+    Find file in project 
+
+== More Info ==
+
+A more detailed explanation is the in tutorial:
+http://technomancy.us/article/emacsrails
+
+== Authors ==
+
+(c) 2006 - 2007 Phil Hagelberg, Forrest Chang, Ryan Davis, Paul
+Stickne, and others.
