@@ -2,5 +2,6 @@
 .DS_Store
 .svn
 packages
+pkgs
 other
 *.tgz

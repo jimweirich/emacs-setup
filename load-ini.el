@@ -91,8 +91,6 @@ The lisp and info subdirectories are added to the load-path and info lookup list
 
 (require 'font-lock)
 
-(add-to-load-path "~/.elisp/packages")
-
 (if (file-readable-p "/usr/local/share/emacs/site-lisp")
     (add-to-load-path "/usr/local/share/emacs/site-lisp") )
 
