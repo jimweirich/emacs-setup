@@ -1,6 +1,6 @@
 *~
 .DS_Store
 .svn
-emacs-22-lisp
 packages
+other
 *.tgz
