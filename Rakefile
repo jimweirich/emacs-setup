@@ -1,16 +1,19 @@
 #!/usr/bin/env ruby
 
-PKG_FILES = FileList['pkgs/**/*']
+require 'rake/clean'
 
-file "third_party_pkgs.tgz" do |t|
-  sh "tar zcvf #{t.name} pkgs"
-end
+EMACS_CMD='/Applications/Aquamacs\ Emacs.app/Contents/MacOS/Aquamacs\ Emacs'
 
-desc "Pack the third party libraries into a tgz file."
-task :pack => "third_party_pkgs.tgz"
+EL_FILES = FileList['ini/*.el', 'local-pkgs/**/*.el']
+ELC_FILES = EL_FILES.ext('.elc')
 
-desc "Unpack the third party libraries"
-task :unpack do
-  mv "pkgs", "pkgs.old"
-  sh "tar zxvf third_party_pkgs.tgz"
+CLOBBER.include(ELC_FILES)
+CLOBBER.include('html')
+
+task :elc => ELC_FILES
+
+rule ".elc" => ".el" do |t|
+  sh "#{EMACS_CMD} -batch -f batch-byte-compile #{t.source}" do |ok, status|
+    puts "Compile failed: #{status}" unless ok
+  end  
 end
