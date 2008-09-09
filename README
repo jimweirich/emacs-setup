@@ -1,0 +1,8 @@
+= Installation
+
+   cd $HOME
+   git clone git://github.com/jimweirich/emacs-setup.git .elisp
+   ln -s .elisp/dot.emacs .emacs
+   cd .elisp
+   rake unpack
+   
