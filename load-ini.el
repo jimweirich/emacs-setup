@@ -83,7 +83,7 @@ Trailing slashes are stripped and duplicate names are not added."
 ;;; Now load all the ini-xxx files in the initialization directory
 
 (let ((ini-directory (concat elisp-directory "/ini"))
-      (files (directory-files ini-directory nil "^ini-.*\\.el$")))
+      (files (directory-files ini-directory nil "^.*\\.el$")))
   (while (not (null files))
     (ini-load (substring (car files) 0 -3))
     (setq files (cdr files)) ))
