@@ -1,23 +1,7 @@
 ;;; Jim Weirich's GNU-Emacs Initialization File
 
-(setq ini-directory (expand-file-name "~jim/.elisp/ini"))
-(setq load-path (cons ini-directory load-path))
-(load "essential")
-
-(require 'font-lock)
-
-(add-to-load-path "~/.elisp/packages")
-
-(if (jw-check-file "/usr/local/share/emacs/site-lisp")
-    (add-to-load-path "/usr/local/share/emacs/site-lisp") )
-    
-
-;;; Now load all the ini-xxx files in the initialization directory
-
-(let ((files (directory-files ini-directory nil "^ini-.*\\.el$")))
-  (while (not (null files))
-    (ini-load (substring (car files) 0 -3))
-    (setq files (cdr files)) ))
+(setq elisp-directory "~jim/.elisp")
+(load (concat elisp-directory "/load-ini.el"))
 
 (custom-set-variables
  '(init-face-from-resources nil)

@@ -2,19 +2,7 @@
 ;;; Author:  Jim Weirich
 ;;; File:    ini-essential.el
 ;;; Purpose: Essential Emacs Functions and bindings
-;;; Version: $Revision: 1.4 $
 ;;; ==================================================================
-
-;;; Debug Messags ====================================================
-
-(defun msg (msg-text)
-  "Write a message to the scratch buffer"
-  (interactive "sMessage: ")
-  (save-excursion
-    (set-buffer (get-buffer-create "*msg*"))
-    (goto-char (point-max))
-    (insert-string msg-text)
-    (insert-string "\n") ))
 
 ;;; Detect emacs version =============================================
 
@@ -43,72 +31,16 @@
 ;;; This code is used to detect where emacs is running.  The location
 ;;; test functions allow customization of the setup file.
 
-(defun jw-check-file (fn)
-  (file-readable-p fn))
-
 (setq jw-site
-      (cond ((jw-check-file "/home/kong/jim") 'lexis)
-	    ((jw-check-file "/u/gcweiric") 'sdrc)
-	    ((jw-check-file "/home/jweirich") 'onenet)
-	    ((jw-check-file "/vmlinuz") 'home)
-	    ((jw-check-file "/boot/vmlinuz") 'home)
-	    ((jw-check-file "/Applications") 'osx)
+      (cond ((file-readable-p "/vmlinuz") 'home)
+	    ((file-readable-p "/boot/vmlinuz") 'home)
 	    (t 'unknown)))
 
 (defun at-home () (eq jw-site 'home))
 (defun at-who-knows-where () (eq jw-site 'unknown))
-(defun on-osx () (eq jw-site 'osx))
 
 (if (and (or (is-emacs-19) (is-emacs-20)) (not (is-xemacs)))
     (transient-mark-mode t))
-
-;;; Setup the load path ==============================================
-(defun add-to-load-path (fn)
-  "Add expanded file name to load path.
-Trailing slashes are stripped and duplicate names are not added."
-  (msg fn)
-  (let ((ffn (expand-file-name fn)))
-    (if (eq (substring ffn -1) "/")
-	(setq ffn (substring ffn 0 -1)))
-    (if (not (member ffn load-path))
-	(setq load-path (cons ffn load-path)))))
-
-(defun add-to-info-path (fn)
-  "Add expanded file name to load path.
-Trailing slashes are stripped and duplicate names are not added."
-  (msg fn)
-  (require 'info)
-  (let ((ffn (expand-file-name fn)))
-    (if (eq (substring ffn -1) "/")
-	(setq ffn (substring ffn 0 -1)))
-    (if (not (member ffn Info-directory-list))
-	(setq Info-directory-list (cons ffn Info-directory-list)))))
-
-(defun lib-is-available (lib-name)
-  "Return the containing directory if the library name can be found in the load-path."
-  (let ((paths load-path)
-	(found nil))
-    (while (and paths (not found))
-      (if (or (jw-check-file (concat (car paths) "/" lib-name))
-	      (jw-check-file (concat (car paths) "/" lib-name ".el"))
-	      (jw-check-file (concat (car paths) "/" lib-name ".elc")))
-	  (setq found (car paths)))
-      (setq paths (cdr paths)))
-    found))
-
-(defun attach-package (dir-name)
-  "Attach the package in dir-name to the currently running emacs.
-The lisp and info subdirectories are added to the load-path and info lookup list."
-  (let ((fdn (expand-file-name dir-name))
-        (lisp-dir (concat dir-name "/lisp"))
-        (info-dir (concat dir-name "/lisp")))
-    (if (jw-check-file lisp-dir)
-        (add-to-load-path lisp-dir)
-      (add-to-load-path fdn))
-    (if (jw-check-file info-dir)
-        (add-to-info-path info-dir))
-    )
-  )
 
 ;;; Define autolist ==================================================
 
@@ -120,30 +52,6 @@ The lisp and info subdirectories are added to the load-path and info lookup list
       (print "Added")
       (setq auto-mode-alist
 	    (cons (cons pattern mode) auto-mode-alist)))))
-
-;;; Loading Function =================================================
-
-(defvar ini-loaded ()
-  "List of files loaded during initialization.")
-
-(defvar ini-not-loaded ()
-  "List of files that failed to load during initialization.")
-
-(defun ini-try-load (inifn ext)
-  "Attempt to load an ini-type elisp file."
-  (let ((fn (concat ini-directory "/" inifn ext)))
-    (if (jw-check-file fn)
-	(progn
-	  (message (concat "Loading " inifn))
-	  (load-file fn)
-	  (setq ini-loaded (cons inifn ini-loaded)) ))))
-
-(defun ini-load (inifn)
-  "Load a ini-type elisp file"
-  (cond ((ini-try-load inifn ".elc"))
-	((ini-try-load inifn ".el"))
-	(t (setq ini-not-loaded (cons inifn ini-not-loaded))
-	   (message (concat inifn " not found")))))
 
 ;;; Backspace Rebinding ==============================================
 

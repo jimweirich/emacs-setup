@@ -5,10 +5,10 @@
 ;;; ==================================================================
 
 (setq oobr-path
-      (cond ((at-home) "/usr/local/lib/oo-browser/")
+      (cond ((file-readable-p "/usr/local/lib/oo-browser/") "/usr/local/lib/oo-browser/")
 	    (t "/no-path/")))
 
-(if (jw-check-file oobr-path)
+(if (file-readable-p oobr-path)
     (progn (add-to-load-path oobr-path)
 	   (add-to-load-path (concat oobr-path "hypb/"))
 	   (load "br-start")

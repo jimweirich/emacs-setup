@@ -8,7 +8,7 @@
 (cond 
  ((is-xemacs)
   (defun jw-mouse-scroll-amount ()
-    (if (on-osx)
+    (if (is-aquamacs)
         (max 1 (window-displayed-height) 3)
       (max 1 (/ (window-displayed-height) 3)) ))
   
