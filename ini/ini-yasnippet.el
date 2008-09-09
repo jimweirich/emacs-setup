@@ -4,7 +4,7 @@
 ;;; Purpose: Setup yasnippet
 ;;; ==================================================================
 
-(setq yas-dir (expand-file-name "~jim/.elisp/packages/thirdparty/yasnippet-0.5.4"))
+(setq yas-dir (expand-file-name "~jim/.elisp/pkgs/yasnippet-0.5.4"))
 
 (cond ((file-exists-p yas-dir)
        (add-to-load-path yas-dir)

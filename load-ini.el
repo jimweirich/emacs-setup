@@ -49,20 +49,6 @@ Trailing slashes are stripped and duplicate names are not added."
       (setq paths (cdr paths)))
     found))
 
-(defun attach-package (dir-name)
-  "Attach the package in dir-name to the currently running emacs.
-The lisp and info subdirectories are added to the load-path and info lookup list."
-  (let ((fdn (expand-file-name dir-name))
-        (lisp-dir (concat dir-name "/lisp"))
-        (info-dir (concat dir-name "/lisp")))
-    (if (file-readable-p lisp-dir)
-        (add-to-load-path lisp-dir)
-      (add-to-load-path fdn))
-    (if (file-readable-p info-dir)
-        (add-to-info-path info-dir))
-    )
-  )
-
 ;;; Loading Function =================================================
 
 (defvar ini-directory (concat elisp-directory "/ini"))

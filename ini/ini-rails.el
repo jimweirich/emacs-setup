@@ -17,11 +17,6 @@
   "Default inherited face for ERB tag delimeters"
   :group 'rhtml-faces)
 
-;;; Load rinari
-
-(add-to-list 'load-path "~/.elisp/packages/thirdparty/rinari")
-(add-to-list 'load-path "~/.elisp/packages/thirdparty/rinari/rhtml")
-
 ;;; I don't like the rinari abbrevs, so ignore them
 (provide 'rinari-abbrevs)
 (require 'rinari)

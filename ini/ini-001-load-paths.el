@@ -15,11 +15,15 @@
 (defun jw-hidden-p (fn)
   (string-equal "." (substring fn 0 1)))
 
+(defun jw-ignore-p (fn)
+  (or (jw-hidden-p fn)
+      (string-equal "inactive" fn)))
+
 (defun load-directories-in (dir-name)
   (mapcar 'add-to-load-path
           (jw-filter 'file-directory-p
                   (mapcar '(lambda (fn) (concat dir-name "/" fn))
-                          (jw-filter '(lambda (fn) (not (jw-hidden-p fn)))
+                          (jw-filter '(lambda (fn) (not (jw-ignore-p fn)))
                                   (directory-files dir-name))))))
 
 (defun load-package-directories (path)
