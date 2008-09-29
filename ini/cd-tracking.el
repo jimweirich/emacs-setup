@@ -13,13 +13,7 @@
 
 (add-to-list
  'jw-directory-mappings                                             
- (list "emaralt" (jw-choose-file                                       
-               '("~/projects/clients/delanor/branches/alt"
-                 "~/projects/clients/medwiz/delanor/branches/alt"
-                 "/home/delanor/src/perforce/branches/alt")) ))
-(add-to-list
- 'jw-directory-mappings                                             
- (list "emar"
+ (list "^emar$"
        (jw-choose-file 
         '("~/projects/clients/delanor/development"
           "~/projects/clients/medwiz/delanor/development"
@@ -27,7 +21,8 @@
 
 (add-to-list
  'jw-directory-mappings                                             
- (list "emar2" "~/delanor2/delanor/development"))
+ (list "^emar\\( +\\([0-9]+\\)\\)$"
+       "~/projects/clients/delanor/iterations/48"))
 
 (defun jw-cd (dir)
   (shell-cd dir)
@@ -35,7 +30,7 @@
 
 (defun jw-check-dir-mappings (cmd mappings)
   (while mappings
-    (cond ((string-equal cmd (caar mappings)) 
+    (cond ((string-match (caar mappings) cmd)
            (jw-cd (cadar mappings))
            (setq mappings nil))
           (t (setq mappings (cdr mappings))) )))
