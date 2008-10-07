@@ -11,3 +11,5 @@
 (defun fam ()
   (interactive)
   (filladapt-mode))
+
+(fam)
