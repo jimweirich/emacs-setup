@@ -1,0 +1,4 @@
+# -*- mode: textile; require-final-newline: nil; backup-inhibited: t -*-
+#name: "text":http:/...
+# --
+"${1:link text}":${2:url}

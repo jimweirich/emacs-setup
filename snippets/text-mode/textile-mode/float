@@ -1,0 +1,6 @@
+# -*- mode: textile; require-final-newline: nil; backup-inhibited: t -*-
+#name: <div style="float:right"> ... </div>
+# --
+<div style="float:right">
+${1:text}
+</div>

@@ -1,0 +1,14 @@
+# -*- mode: textile; require-final-newline: nil; backup-inhibited: t -*-
+#name: blog post ...
+# --
+h1. ${1:title}
+
+start summary::
+
+p(((. <em>${2:summary}</em>
+
+end summary::
+
+h2. ${3:heading}
+
+p. $0
