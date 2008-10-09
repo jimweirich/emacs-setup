@@ -1,30 +1,33 @@
-;;; icicles-menu.el --- Execute menu items as commands, with completion.
+;;; lacarte.el --- Execute menu items as commands, with completion.
 ;;
-;; Filename: icicles-menu.el
+;; Filename: lacarte.el
 ;; Description: Execute menu items as commands, with completion.
 ;; Author: Drew Adams
 ;; Maintainer: Drew Adams
-;; Copyright (C) 2005-2007, Drew Adams, all rights reserved.
+;; Copyright (C) 2005-2008, Drew Adams, all rights reserved.
 ;; Created: Fri Aug 12 17:18:02 2005
 ;; Version: 22.0
-;; Last-Updated: Sun Feb 04 10:47:40 2007 (-28800 Pacific Standard Time)
+;; Last-Updated: Thu Aug 28 13:33:49 2008 (-0700)
 ;;           By: dradams
-;;     Update #: 371
-;; URL: http://www.emacswiki.org/cgi-bin/wiki/icicles-menu.el
+;;     Update #: 463
+;; URL: http://www.emacswiki.org/cgi-bin/wiki/lacarte.el
 ;; Keywords: menu-bar, menu, command, help, abbrev, minibuffer, keys,
 ;;           completion, matching, local, internal, extensions,
 ;; Compatibility: GNU Emacs 20.x, GNU Emacs 21.x, GNU Emacs 22.x
 ;;
 ;; Features that might be required by this library:
 ;;
-;;   `subr-21'.
+;;   None
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Commentary:
 ;;
-;;  Execute menu items as commands, with completion.  Use this, for
-;;  example, instead of standard library `tmm.el'.
+;;  Q. When is a menu not a menu?  A. When it's a la carte.
+;;
+;;  Library La Carte lets you execute menu items as commands, with
+;;  completion.  You can use it as an alternative to standard library
+;;  `tmm.el'.
 ;;
 ;;  Type a menu item.  Completion is available.  Completion candidates
 ;;  are of the form menu > submenu > subsubmenu...  For example:
@@ -36,40 +39,50 @@
 ;;
 ;;  Put this in your init file (~/.emacs):
 ;;
-;;    (require 'icicles-menu)
+;;    (require 'lacarte)
 ;;
 ;;  Suggested binding:
 ;;
-;;    (global-set-key [?\e ?\M-x] 'icicle-execute-menu-command)
+;;    (global-set-key [?\e ?\M-x] 'lacarte-execute-menu-command)
 ;;
-;;  Consider also replacing `tmm-menu':
+;;  Consider also replacing `tmm-menubar' and `menu-bar-open':
 ;;
-;;    (global-set-key [?\M-`] 'icicle-execute-menu-command)
+;;    (global-set-key [?\M-`] 'lacarte-execute-menu-command)
+;;    (global-set-key [f10]   'lacarte-execute-menu-command)
 ;;
-;;  For a powerful and easy-to-use extension to ordinary minibuffer
-;;  completion, try library `icicles.el'.  It enhances the
-;;  functionality of `icicles-menu.el' in several ways, but it is not
-;;  required, to be able to use `icicles-menu.el'.
+;;  To really take advantage of La Carte, use it together with
+;;  Icicles.  Icicles is not required to be able to use La Carte, but
+;;  it enhances the functionality of `lacarte.el' considerably.
+;;  (Note: `lacarte.el' was originally called `icicles-menu.el'.)
 ;;
-;;  Note: If you use MS Windows keyboard accelerators, consider using
-;;        `icicle-remove-w32-keybd-accelerators' as the value of
-;;        `icicle-convert-menu-item-function'.  It removes any
-;;        unescaped `&' characters (indicating an accelerator) from
-;;        the menu items.  A library that adds keyboard accelerators
-;;        to your menu items is `emacsw32-menu.el', by Lennart Borgman
-;;        (<lennart.borgman.073@student.lu.se>).
+;;  It is Icicles that lets you choose menu items a la carte, that is,
+;;  wherever they are in the menu hierachy, directly.  Without
+;;  Icicles, you are limited to choosing items by their menu-hierarchy
+;;  prefixes, and you must complete the entire menu prefix to the
+;;  item, from the top of the menu on down.  With Icicles, you can
+;;  directly match any parts of a menu item and its hierarchy path.
+;;
+;;  Icicles is here: http://www.emacswiki.org/cgi-bin/wiki/Icicles.
+;;
+;;  If you use MS Windows keyboard accelerators, consider using
+;;  `lacarte-remove-w32-keybd-accelerators' as the value of
+;;  `lacarte-convert-menu-item-function'.  It removes any unescaped
+;;  `&' characters (indicating an accelerator) from the menu items.
+;;  One library that adds keyboard accelerators to your menu items is
+;;  `menuacc.el', by Lennart Borgman (< l e n n a r t . b o r g m a n
+;;  @ g m a i l . c o m >).
 ;;
 ;;
-;;  Commands defined here: `icicle-execute-menu-command'.
+;;  Commands defined here: `lacarte-execute-menu-command'.
 ;;
-;;  Options defined here: `icicle-convert-menu-item-function'.
+;;  Options defined here: `lacarte-convert-menu-item-function'.
 ;;
 ;;  Non-interactive functions defined here:
 ;;
-;;    `icicle-escape-w32-accel', `icicle-get-a-menu-item-alist',
-;;    `icicle-get-a-menu-item-alist-1',
-;;    `icicle-get-overall-menu-item-alist',
-;;    `icicle-remove-w32-keybd-accelerators'.
+;;    `lacarte-escape-w32-accel', `lacarte-get-a-menu-item-alist',
+;;    `lacarte-get-a-menu-item-alist-1',
+;;    `lacarte-get-overall-menu-item-alist',
+;;    `lacarte-remove-w32-keybd-accelerators'.
 ;;
 ;;
 ;;  Getting Started
@@ -83,7 +96,7 @@
 ;;  ESC M-x
 ;;  Menu command:
 ;;  Menu command: T [TAB]
-;;  Menu command: Tools > 
+;;  Menu command: Tools >
 ;;  Menu command: Tools > Compa [TAB]
 ;;  Menu command: Tools > Compare (Ediff) > Two F [TAB]
 ;;  Menu command: Tools > Compare (Ediff) > Two Files... [RET]
@@ -98,18 +111,31 @@
 ;;  just part of its name - any part - and use completion to get the
 ;;  rest: the complete path and item name.
 ;;
-;;  Using `icicles-menu.el' with `icicles.el' lets you cycle through
-;;  the menu items in any menu (or all menus), using the arrow keys,
-;;  and then hit `RET' (Return) when you get to the command you want,
-;;  to execute it.
+;;  Icicles Enhances Dining A La Carte
+;;  ----------------------------------
 ;;
-;;  `icicles.el' gives you even more power and convenience: apropos
-;;  completion.  Type any part of a menu-item, then use the Page Up
-;;  and Page Down keys ([prior] and [next]) to cycle through all menu
-;;  commands that contain the text you typed, somewhere in their name.
+;;  Use Icicles with La Carte to get more power and convenience.  Type
+;;  any part of a menu-item, then use the Page Up and Page Down keys
+;;  (`prior' and `next') to cycle through all menu commands that
+;;  contain the text you typed somewhere in their name.  You can match
+;;  within any menu or within all menus; that is, you can match any
+;;  part(s) of the menu-hierachy prefix.
+;;
 ;;  You can use `S-TAB' to show and choose from all such apropos
 ;;  completions, just as you normally use `TAB' to show all prefix
-;;  completions (that is, ordinary completions).
+;;  completions (that is, ordinary completions).  Vanilla prefix
+;;  completion is still available using `TAB', and you can cycle
+;;  through the prefix completions using the arrow keys.
+;;
+;;  Icicles apropos completion also lets you type a regular expression
+;;  (regexp) - it is matched against all of the possible menu items.
+;;  So, for instance, you could type `^e.+buff [next] [next]...' to
+;;  quickly cycle to menu command `Edit > Go To > Goto End of Buffer'.
+;;  Or type `.*print.*buf S-TAB' to choose from the list of all menu
+;;  commands that match `print' followed somewhere by `buf'.  If you
+;;  know how to use regexps, you can easily and quickly get to the
+;;  menu command you want, or at least narrow the list of candidates
+;;  for completion and cycling.
 ;;
 ;;
 ;;  Menu Organization Helps You Find a Command
@@ -124,9 +150,9 @@
 ;;  You want to execute a command that puts the cursor at the end of a
 ;;  buffer, but you don't remember its name, what menu it might be a
 ;;  part of, or where it might appear in that (possibly complex) menu.
-;;  You type `ESC M-x' and type `buffer' at the prompt.  You use the
-;;  Page Up and Page Down keys to cycle through all menu items that
-;;  contain the word `buffer'.
+;;  WIth Icicles and La Carte, you type `ESC M-x' and then type
+;;  `buffer' at the prompt.  You use the Page Up and Page Down keys to
+;;  cycle through all menu items that contain the word `buffer'.
 ;;
 ;;  There are lots of such menu items.  But all items from the same
 ;;  menu (e.g. `File') are grouped together.  You cycle quickly (not
@@ -137,43 +163,26 @@
 ;;  `Edit > Go To > Goto End of Buffer'.  QED.
 ;;
 ;;
-;;  Regexp Matching of Menu Items
-;;  -----------------------------
-;;
-;;  Apropos completion also lets you type a regular expression - it is
-;;  matched against all of the possible menu items.  So, for instance,
-;;  you could type `^e.+buff [next] [next]...' to quickly cycle to
-;;  menu command `Edit > Go To > Goto End of Buffer'.  Or type
-;;  `.*print.*buf S-TAB' to choose from the list of all menu commands
-;;  that match `print' followed somewhere by `buf'.  If you know how
-;;  to use regexps, you can easily and quickly get to the menu command
-;;  you want, or at least narrow the list of candidates for completion
-;;  and cycling.
-;;
-;;
 ;;  Learn About Menu Items By Exploring Them
 ;;  ----------------------------------------
 ;;
-;;  You can display the complete documentation (doc string) for the
-;;  command corresponding to each menu item, as the item appears in
-;;  the minibuffer.  To do this, just cycle menu-item candidates using
-;;  `C-down' or `C-next', instead of `[down]' or `[next]'.  The
-;;  documentation appears in buffer `*Help*'.
+;;  With Icicles, you can display the complete documentation (doc
+;;  string) for the command corresponding to each menu item, as the
+;;  item appears in the minibuffer.  To do this, just cycle menu-item
+;;  candidates using `C-down' or `C-next', instead of `[down]' or
+;;  `[next]'.  The documentation appears in buffer `*Help*'.
 ;;
-;;  Enjoy!
-;;
-;;
+;;  In sum, if you use La Carte, you will want to use it with Icicles
+;;  - enjoy!
 ;;
 ;;
 ;;  To Do?
 ;;  ------
 ;;
-;;  1. Provide an option to sort by menu-bar order, instead of
-;;     alphabetically.
+;;  1. Provide sorting by menu-bar order, instead of alphabetically.
 ;;  2. Echo key bindings for each completed menu item.
 ;;
 ;;  3. Maybe use tmm-get-bind?
-
  
 ;;(@> "Index")
 ;;
@@ -188,12 +197,20 @@
 ;;  (@> "User Options")
 ;;  (@> "Internal Variables")
 ;;  (@> "Functions")
-
  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Change log:
 ;;
+;;(@* "Change log")
+;;
+;; 2008/08/28 dadams
+;;     Renamed from alacarte to lacarte.  Confusion with alacarte Ubuntu source package.
+;; 2008/05/21 dadams
+;;     Renamed library icicles-menu.el to alacarte.el.
+;;     alacarte-execute-menu-command: Case-insensitive completion, by default.
+;; 2008/05/20 dadams
+;;     icicle-get-a-menu-item-alist-1: Don't add non-selectable item to alist.
 ;; 2006/12/22 dadams
 ;;     icicle-convert-menu-item-function: Use choice as :type, allowing nil.
 ;;     :group 'icicles -> :group 'Icicles.
@@ -209,9 +226,9 @@
 ;;     Changed defgroup to icicles-menu from icicles.
 ;;     Added :link.
 ;; 2005/11/08 dadams
-;;     icicle-execute-menu-command: 
+;;     icicle-execute-menu-command:
 ;;       Reset icicle-menu-items-alist in unwind-protect.
-;;       Fix for dynamic menus Select and Paste, Buffers, and Frames: 
+;;       Fix for dynamic menus Select and Paste, Buffers, and Frames:
 ;;         Treat special cases of last-command-event.
 ;;     icicle-get-overall-menu-item-alist: setq result of sort.
 ;; 2005/11/05 dadams
@@ -228,7 +245,7 @@
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; This program is distributed in the hope that it will be useful,
@@ -250,66 +267,67 @@
 (unless (fboundp 'replace-regexp-in-string) (require 'subr-21 nil t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;
-
  
 ;;(@* "User Options")
 
 ;;; User Options -------------------------------------------
 
-(defgroup Icicles-Menu nil
+(defgroup lacarte nil
   "Execute menu items as commands, with completion."
-  :prefix "icicle-" :group 'Icicles
+  :prefix "lacarte-" :group 'menu
   :link `(url-link :tag "Send Bug Report"
           ,(concat "mailto:" "drew.adams" "@" "oracle" ".com?subject=
-icicles-menu.el bug: \
+lacarte.el bug: \
 &body=Describe bug here, starting with `emacs -q'.  \
 Don't forget to mention your Emacs and library versions."))
   :link '(url-link :tag "Other Libraries by Drew"
           "http://www.emacswiki.org/cgi-bin/wiki/DrewsElispLibraries")
-  :link '(url-link :tag "Download" "http://www.emacswiki.org/cgi-bin/wiki/icicles-menu.el")
-  :link '(url-link :tag "Description" "http://www.emacswiki.org/cgi-bin/wiki/IciclesMenu")
-  :link '(emacs-commentary-link :tag "Commentary" "icicles-menu.el")
+  :link '(url-link :tag "Download" "http://www.emacswiki.org/cgi-bin/wiki/lacarte.el")
+  :link '(url-link :tag "Description" "http://www.emacswiki.org/cgi-bin/wiki/LaCarte")
+  :link '(emacs-commentary-link :tag "Commentary" "lacarte.el")
   )
 
-(defcustom icicle-convert-menu-item-function nil
+(defcustom lacarte-convert-menu-item-function nil
   "*Function to call to convert a menu item.
-Used by `icicle-execute-menu-command'.  A typical use would be to
+Used by `lacarte-execute-menu-command'.  A typical use would be to
 remove the `&' characters used in MS Windows menus to define keyboard
-accelerators.  See `icicle-remove-w32-keybd-accelerators'."
-  :type '(choice (const :tag "None" nil) function) :group 'Icicles-Menu)
+accelerators.  See `lacarte-remove-w32-keybd-accelerators'."
+  :type '(choice (const :tag "None" nil) function) :group 'lacarte)
 
 ;; $$$ NOT YET IMPLEMENTED
-;; (defcustom icicle-sort-menu-bar-order-flag nil
-;;   "*Non-nil means that `icicle-execute-menu-command' uses menu-bar order.
+;; (defcustom lacarte-sort-menu-bar-order-flag nil
+;;   "*Non-nil means that `lacarte-execute-menu-command' uses menu-bar order.
 ;; Nil means use alphabetic order.
 ;; The order is what is used for completion.
 ;; Note: Using a non-nil value imposes an extra sorting operation, which
 ;;       slows down the creation of the completion-candidates list."
-;;   :type 'boolean :group 'Icicles-Menu)
-
+;;   :type 'boolean :group 'lacarte)
  
 ;;; Internal Variables -------------------------------------
 
-;; This is used also in `icicle-help-on-candidate', which is defined in `icicles.el'.
-(defvar icicle-menu-items-alist nil
+;; This is used also in `icicle-help-on-candidate', which is defined in Icicles
+;; (library `icicles-mcmd.el').
+(defvar lacarte-menu-items-alist nil
   "Alist of pairs (MENU-ITEM . COMMAND).
 The pairs are defined by the current local and global keymaps.
 MENU-ITEM is a menu item, with ancestor-menu prefixes.
   Example: `(\"Files > Insert File...\" . insert-file)'.
 COMMAND is the command  bound to the menu item.")
-
  
 ;;; Functions -------------------------------
 
-(defun icicle-execute-menu-command ()
+(defun lacarte-execute-menu-command ()
   "Execute a menu-bar menu command.
-Type a menu item.  Completion is available."
+Type a menu item.  Completion is available.
+Completion is not case-sensitive.  However, if you use Icicles, then
+you use `C-A' in the minibuffer to toggle case-sensitivity."
   (interactive)
   (unwind-protect
        (progn
-         (setq icicle-menu-items-alist (icicle-get-overall-menu-item-alist))
-         (let* ((menu-item (completing-read "Menu command: " icicle-menu-items-alist))
-                (cmd (cdr (assoc menu-item icicle-menu-items-alist))))
+         (setq lacarte-menu-items-alist (lacarte-get-overall-menu-item-alist))
+         (let* ((completion-ignore-case t) ; Not case-sensitive, by default.
+                (menu-item (completing-read "Menu command: " lacarte-menu-items-alist))
+                (cmd (cdr (assoc menu-item lacarte-menu-items-alist))))
            (unless cmd (error "No such menu command"))
            ;; Treat special cases of `last-command-event', reconstructing it for
            ;; menu items that get their meaning from the click itself.
@@ -329,33 +347,33 @@ Type a menu item.  Completion is available."
                   (setq menu-item (substring menu-item (match-beginning 1) (match-end 1)))
                   (setq last-command-event menu-item)))
            (call-interactively cmd)))
-    (setq icicle-menu-items-alist nil))) ; Reset it.
+    (setq lacarte-menu-items-alist nil))) ; Reset it.
 
-(defun icicle-get-overall-menu-item-alist ()
+(defun lacarte-get-overall-menu-item-alist ()
   "Alist formed from menu items in current active keymaps.
-See `icicle-get-a-menu-item-alist' for the structure."
+See `lacarte-get-a-menu-item-alist' for the structure."
   (let ((alist
          (apply #'nconc
-                (icicle-get-a-menu-item-alist (assq 'menu-bar (current-local-map)))
-                (icicle-get-a-menu-item-alist (assq 'menu-bar (current-global-map)))
-                (mapcar (lambda (map) (icicle-get-a-menu-item-alist (assq 'menu-bar map)))
+                (lacarte-get-a-menu-item-alist (assq 'menu-bar (current-local-map)))
+                (lacarte-get-a-menu-item-alist (assq 'menu-bar (current-global-map)))
+                (mapcar (lambda (map) (lacarte-get-a-menu-item-alist (assq 'menu-bar map)))
                         (current-minor-mode-maps)))))
-    (if nil;; icicle-sort-menu-bar-order-flag ; Not yet implemented.
+    (if nil;; `lacarte-sort-menu-bar-order-flag' ; Not yet implemented.
         (setq alist (sort alist SOME-PREDICATE))
       alist)))
 
-(defun icicle-get-a-menu-item-alist (keymap)
+(defun lacarte-get-a-menu-item-alist (keymap)
   "Alist of pairs (MENU-ITEM . COMMAND) defined by KEYMAP.
 KEYMAP is any keymap that has menu items.
 MENU-ITEM is a menu item, with ancestor-menu prefixes.
   Example: `(\"Files > Insert File...\" . insert-file)'.
 COMMAND is the command  bound to the menu item."
-  (setq icicle-menu-items-alist nil)
-  (icicle-get-a-menu-item-alist-1 keymap)
-  (nreverse icicle-menu-items-alist))
+  (setq lacarte-menu-items-alist nil)
+  (lacarte-get-a-menu-item-alist-1 keymap)
+  (nreverse lacarte-menu-items-alist))
 
-(defun icicle-get-a-menu-item-alist-1 (keymap &optional root)
-  "Helper function for `icicle-get-a-menu-item-alist'.
+(defun lacarte-get-a-menu-item-alist-1 (keymap &optional root)
+  "Helper function for `lacarte-get-a-menu-item-alist'.
 This calls itself recursively, to process submenus."
   (let ((scan keymap))
     (setq root (or root))               ; nil, for top level.
@@ -396,36 +414,36 @@ This calls itself recursively, to process submenus."
             (while (and (symbolp defn) (fboundp defn) (keymapp (symbol-function defn)))
               (setq defn (symbol-function defn)))
             (if (eq 'keymap (car-safe defn))
-                (icicle-get-a-menu-item-alist-1 (cdr defn) composite-name)
-              (icicle-get-a-menu-item-alist-1 (symbol-function defn) composite-name)))
+                (lacarte-get-a-menu-item-alist-1 (cdr defn) composite-name)
+              (lacarte-get-a-menu-item-alist-1 (symbol-function defn) composite-name)))
 
-          ;; Add menu item and command pair to `icicle-menu-items-alist' alist.
-          ;; (`name' is bound in `icicle-get-a-menu-item-alist'.)
-          (when (and root (not (keymapp defn)))
-            (setq icicle-menu-items-alist
+          ;; Add menu item + command pair to `lacarte-menu-items-alist' alist.
+          ;; Don't add it if `composite-name' is nil - that's a non-selectable item.
+          (when (and root composite-name (not (keymapp defn)))
+            (setq lacarte-menu-items-alist
                   (cons
-                   (cons (if (and (functionp icicle-convert-menu-item-function)
+                   (cons (if (and (functionp lacarte-convert-menu-item-function)
                                   (stringp composite-name)) ; Could be nil
-                             (funcall icicle-convert-menu-item-function composite-name)
+                             (funcall lacarte-convert-menu-item-function composite-name)
                            composite-name)
                          defn)
-                   icicle-menu-items-alist))))
+                   lacarte-menu-items-alist))))
         (when (consp scan) (setq scan (cdr scan)))))
-    icicle-menu-items-alist)) 
+    lacarte-menu-items-alist))
 
-(defun icicle-remove-w32-keybd-accelerators (menu-item)
+(defun lacarte-remove-w32-keybd-accelerators (menu-item)
   "Remove `&' characters that define keyboard accelerators in MS Windows.
 \"&&\" is an escaped `&' - it is replaced by a single `&'.
-This is a candidate value for `icicle-convert-menu-item-function'."
-  (replace-regexp-in-string "&&?" 'icicle-escape-w32-accel menu-item))
+This is a candidate value for `lacarte-convert-menu-item-function'."
+  (replace-regexp-in-string "&&?" 'lacarte-escape-w32-accel menu-item))
 
-(defun icicle-escape-w32-accel (match-string)
+(defun lacarte-escape-w32-accel (match-string)
   "If STRING is \"&&\", then return \"&\".  Else return \"\"."
   (if (> (length match-string) 1) "&" ""))
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 
-(provide 'icicles-menu)
+(provide 'lacarte)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; icicles-menu.el ends here
+;;; lacarte.el ends here

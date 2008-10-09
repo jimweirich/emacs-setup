@@ -12,4 +12,8 @@
   (interactive)
   (filladapt-mode))
 
-(fam)
+(setq-default filladapt-mode t)
+
+;; Use the following as apropriate.
+;; (add-hook 'text-mode-hook 'turn-on-filladapt-mode)
+;; (add-hook 'c-mode-hook 'turn-off-filladapt-mode)

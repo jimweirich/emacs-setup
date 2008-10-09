@@ -4,12 +4,12 @@
 ;; Description: Faces for Icicles
 ;; Author: Drew Adams
 ;; Maintainer: Drew Adams
-;; Copyright (C) 1996-2007, Drew Adams, all rights reserved.
+;; Copyright (C) 1996-2008, Drew Adams, all rights reserved.
 ;; Created: Mon Feb 27 09:19:43 2006
 ;; Version: 22.0
-;; Last-Updated: Sun Aug 19 16:33:34 2007 (-25200 Pacific Daylight Time)
+;; Last-Updated: Sat Mar 29 13:54:39 2008 (Pacific Daylight Time)
 ;;           By: dradams
-;;     Update #: 421
+;;     Update #: 481
 ;; URL: http://www.emacswiki.org/cgi-bin/wiki/icicles-face.el
 ;; Keywords: internal, extensions, help, abbrev, local, minibuffer,
 ;;           keys, apropos, completion, matching, regexp, command
@@ -40,15 +40,16 @@
 ;;
 ;;    `icicle-candidate-part',
 ;;    `icicle-common-match-highlight-Completions',
-;;    `icicle-complete-input',
-;;    `icicle-completing-mustmatch-prompt-prefix',
-;;    `icicle-completing-prompt-prefix',
+;;    `icicle-complete-input', `icicle-completion',
 ;;    `icicle-Completions-instruction-1',
 ;;    `icicle-Completions-instruction-2',
 ;;    `icicle-current-candidate-highlight',
 ;;    `icicle-historical-candidate', `icicle-input-completion-fail',
+;;    `icicle-input-completion-fail-lax',
 ;;    `icicle-match-highlight-Completions',
-;;    `icicle-match-highlight-minibuffer', `icicle-prompt-suffix',
+;;    `icicle-match-highlight-minibuffer',
+;;    `icicle-multi-command-completion',
+;;    `icicle-mustmatch-completion', `icicle-proxy-candidate',
 ;;    `icicle-saved-candidate', `icicle-search-context-level-1',
 ;;    `icicle-search-context-level-2',
 ;;    `icicle-search-context-level-3',
@@ -60,6 +61,8 @@
 ;;    `icicle-search-main-regexp-current',
 ;;    `icicle-search-main-regexp-others', `icicle-special-candidate',
 ;;    `icicle-whitespace-highlight', `minibuffer-prompt'.
+;;
+;;  For descriptions of changes to this file, see `icicles-chg.el'.
  
 ;;(@> "Index")
 ;;
@@ -70,67 +73,9 @@
 ;;  headings throughout this file.  You can get `linkd.el' here:
 ;;  http://dto.freeshell.org/notebook/Linkd.html.
 ;;
-;;  (@> "Change log")
 ;;  (@> "Groups, organized alphabetically")
 ;;  (@> "Faces, organized alphabetically")
  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; Change log:
-;;
-;;(@* "Change log")
-;;
-;; 2007/08/19 dadams
-;;     Added: icicle-input-completion-fail.
-;; 2007/06/21 dadams
-;;     Added: icicle-candidate-part.  Changed definition of icicle-special-candidate.
-;; 2007/06/17 dadams
-;;     Added: icicle-saved-candidate.
-;; 2007/06/12 dadams
-;;     icicle-prompt-suffix: No box for dark background.
-;; 2007/06/11 dadams
-;;     Better defaults for dark background frames.
-;; 2007/06/07 dadams
-;;     Changed emacs-commentary-link to point to icicles-doc1.el and icicles-doc2.el.
-;; 2007/05/22 dadams
-;;     Protected icicle-search-context-level-1 to *-8, in case hexrgb is not loaded.
-;; 2007/04/20 dadams
-;;     Added: icicle-search-context-level-1 through *-8.
-;;     Require icicles-opt.el.
-;; 2006/12/22 dadams
-;;     Renamed group icicles to Icicles.
-;;     Added Icicles subgroups, and assigned them instead of group Icicles:
-;;      -Buffers, -Completions-Display, -Key-Bindings, -Key-Completion, -Matching,
-;;      -Minibuffer-Display, -Miscellaneous, -Searching.
-;; 2006/11/06 dadams
-;;     icicle-search-highlight-all-flag -> icicle-search-highlight-threshold (integer)
-;; 2006/10/16 dadams
-;;     icicle-special-candidate: changed background from Pink to #DB17FFF4E581.
-;; 2006/10/04 dadams
-;;     Added: icicle-special-candidate.
-;; 2006/08/13 dadams
-;;     Added: icicle-completing-prompt-prefix.
-;; 2006/07/16 dadams
-;;     Added dark-background face suggestions from Le Wang - thx.
-;; 2006/06/30 dadams
-;;     Added: minibuffer-prompt for Emacs < 22 (e.g. Emacs 21.4 has propertize).
-;; 2006/04/28 dadams
-;;     Added: icicle-whitespace-highlight.
-;; 2006/04/14 dadams
-;;     Renamed icicle-search-refined-regexp to icicle-search-current-input.
-;; 2006/04/07 dadams
-;;     Added: icicle-search-main-regexp-others.
-;;     Renamed: icicle-search-main-regexp to icicle-search-main-regexp-current.
-;; 2006/03/27 dadams
-;;     Added: icicle-search-*-regexp.
-;; 2006/03/22 dadams
-;;     Renamed: icicle-root-highlight-* to icicle-match-highlight-*.
-;; 2006/03/21 dadams
-;;     Added: icicle-common-match-highlight-Completions.
-;;     icicle-root-highlight-Completions: Changed default face.
-;; 2006/03/08 dadams
-;;     Added: icicle-current-candidate-highlight.
-;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; This program is free software; you can redistribute it and/or modify
@@ -167,8 +112,8 @@
   :group 'completion :group 'convenience :group 'help :group 'apropos
   :group 'dabbrev :group 'matching :group 'minibuffer :group 'recentf
   :link `(url-link :tag "Send Bug Report"
-          ,(concat "mailto:" "drew.adams" "@" "oracle" ".com?subject=\
-icicles.el bug: \
+          ,(concat "mailto:" "drew.adams" "@" "oracle"
+                   ".com?subject=icicles.el bug: \
 &body=Describe bug here, starting with `emacs -q'.  \
 Don't forget to mention your Emacs and Icicles library versions."))
   :link '(url-link :tag "Other Libraries by Drew"
@@ -185,8 +130,8 @@ Don't forget to mention your Emacs and Icicles library versions."))
   "Icicles preferences related to buffers."
   :prefix "icicle-" :group 'Icicles
   :link `(url-link :tag "Send Bug Report"
-          ,(concat "mailto:" "drew.adams" "@" "oracle" ".com?subject=\
-icicles.el bug: \
+          ,(concat "mailto:" "drew.adams" "@" "oracle"
+                   ".com?subject=icicles.el bug: \
 &body=Describe bug here, starting with `emacs -q'.  \
 Don't forget to mention your Emacs and Icicles library versions."))
   :link '(url-link :tag "Other Libraries by Drew"
@@ -203,10 +148,10 @@ Don't forget to mention your Emacs and Icicles library versions."))
   "Icicles preferences related to display of completion candidates."
   :prefix "icicle-" :group 'Icicles
   :link `(url-link :tag "Send Bug Report"
-          ,(concat "mailto:" "drew.adams" "@" "oracle" ".com?subject=\
-icicles.el bug: \
+          ,(concat "mailto:" "drew.adams" "@" "oracle"
+                   ".com?subject=icicles.el bug: \
 &body=Describe bug here, starting with `emacs -q'.  \
-Don't forget to mention your Emacs and lIcicles ibrary versions."))
+Don't forget to mention your Emacs and Icicles library versions."))
   :link '(url-link :tag "Other Libraries by Drew"
           "http://www.emacswiki.org/cgi-bin/wiki/DrewsElispLibraries")
   :link '(url-link :tag "Download"
@@ -221,8 +166,8 @@ Don't forget to mention your Emacs and lIcicles ibrary versions."))
   "Icicles preferences related to key bindings."
   :prefix "icicle-" :group 'Icicles
   :link `(url-link :tag "Send Bug Report"
-          ,(concat "mailto:" "drew.adams" "@" "oracle" ".com?subject=\
-icicles.el bug: \
+          ,(concat "mailto:" "drew.adams" "@" "oracle"
+                   ".com?subject=icicles.el bug: \
 &body=Describe bug here, starting with `emacs -q'.  \
 Don't forget to mention your Emacs and Icicles library versions."))
   :link '(url-link :tag "Other Libraries by Drew"
@@ -239,8 +184,8 @@ Don't forget to mention your Emacs and Icicles library versions."))
   "Icicles preferences related to key completion (`icicle-complete-keys')."
   :prefix "icicle-" :group 'Icicles
   :link `(url-link :tag "Send Bug Report"
-          ,(concat "mailto:" "drew.adams" "@" "oracle" ".com?subject=\
-icicles.el bug: \
+          ,(concat "mailto:" "drew.adams" "@" "oracle"
+                   ".com?subject=icicles.el bug: \
 &body=Describe bug here, starting with `emacs -q'.  \
 Don't forget to mention your Emacs and Icicles library versions."))
   :link '(url-link :tag "Other Libraries by Drew"
@@ -257,8 +202,8 @@ Don't forget to mention your Emacs and Icicles library versions."))
   "Icicles preferences related to matching input for completion."
   :prefix "icicle-" :group 'Icicles
   :link `(url-link :tag "Send Bug Report"
-          ,(concat "mailto:" "drew.adams" "@" "oracle" ".com?subject=\
-icicles.el bug: \
+          ,(concat "mailto:" "drew.adams" "@" "oracle"
+                   ".com?subject=icicles.el bug: \
 &body=Describe bug here, starting with `emacs -q'.  \
 Don't forget to mention your Emacs and Icicles library versions."))
   :link '(url-link :tag "Other Libraries by Drew"
@@ -275,8 +220,8 @@ Don't forget to mention your Emacs and Icicles library versions."))
   "Icicles preferences related to minibuffer display during completion."
   :prefix "icicle-" :group 'Icicles
   :link `(url-link :tag "Send Bug Report"
-          ,(concat "mailto:" "drew.adams" "@" "oracle" ".com?subject=\
-icicles.el bug: \
+          ,(concat "mailto:" "drew.adams" "@" "oracle"
+                   ".com?subject=icicles.el bug: \
 &body=Describe bug here, starting with `emacs -q'.  \
 Don't forget to mention your Emacs and Icicles library versions."))
   :link '(url-link :tag "Other Libraries by Drew"
@@ -293,8 +238,8 @@ Don't forget to mention your Emacs and Icicles library versions."))
   "Miscellaneous Icicles preferences."
   :prefix "icicle-" :group 'Icicles
   :link `(url-link :tag "Send Bug Report"
-          ,(concat "mailto:" "drew.adams" "@" "oracle" ".com?subject=\
-icicles.el bug: \
+          ,(concat "mailto:" "drew.adams" "@" "oracle"
+                   ".com?subject=icicles.el bug: \
 &body=Describe bug here, starting with `emacs -q'.  \
 Don't forget to mention your Emacs and Icicles library versions."))
   :link '(url-link :tag "Other Libraries by Drew"
@@ -311,8 +256,8 @@ Don't forget to mention your Emacs and Icicles library versions."))
   "Icicles preferences related to searching."
   :prefix "icicle-" :group 'Icicles
   :link `(url-link :tag "Send Bug Report"
-          ,(concat "mailto:" "drew.adams" "@" "oracle" ".com?subject=\
-icicles.el bug: \
+          ,(concat "mailto:" "drew.adams" "@" "oracle"
+                   ".com?subject=icicles.el bug: \
 &body=Describe bug here, starting with `emacs -q'.  \
 Don't forget to mention your Emacs and Icicles library versions."))
   :link '(url-link :tag "Other Libraries by Drew"
@@ -347,23 +292,14 @@ Don't forget to mention your Emacs and Icicles library versions."))
   "*Face used to highlight input when it is complete."
   :group 'Icicles-Minibuffer-Display :group 'faces)
 
-(defface icicle-completing-mustmatch-prompt-prefix
-    '((((type x w32 mac graphic) (class color))
-       (:box (:line-width 1 :color "Cyan") :foreground "Cyan" :background "Red"))
-      (t (:inverse-video t)))
-  "*Face used to highlight `icicle-completing-mustmatch-prompt-prefix'.
-This highlighting is done in the minibuffer.
+(defface icicle-completion
+    '((((background dark)) (:foreground "#0000D53CD53C")) ; a dark cyan
+      (t (:foreground "Red")))                            ; red
+  "*Face used to indicate minibuffer completion.
+It highlights the minibuffer indicator and the `Icy' minor-mode
+lighter during completion.
 Not used for versions of Emacs before version 21."
-  :group 'Icicles-Minibuffer-Display :group 'faces)
-
-(defface icicle-completing-prompt-prefix
-    '((((type x w32 mac graphic) (class color))
-       (:box (:line-width 1 :color "Red") :foreground "Red" :background "Cyan"))
-      (t (:inverse-video t)))
-  "*Face used to highlight `icicle-completing-prompt-prefix'.
-This highlighting is done in the minibuffer.
-Not used for versions of Emacs before version 21."
-  :group 'Icicles-Minibuffer-Display :group 'faces)
+  :group 'Icicles-Minibuffer-Display :group 'Icicles-Miscellaneous :group 'faces)
 
 (defface icicle-Completions-instruction-1
   '((((background dark)) (:foreground "#AC4AAC4A0000")) ; a dark yellow
@@ -389,6 +325,18 @@ Not used for versions of Emacs before version 21."
   "*Face used to highlight *Completions* candidates that have been used."
   :group 'Icicles-Completions-Display :group 'faces)
 
+(defface icicle-input-completion-fail
+    '((((background dark)) (:background "#22225F5F2222")) ; a dark green
+      (t (:foreground "Black" :background "Plum")))
+  "*Face for highlighting failed part of input during strict completion."
+  :group 'Icicles-Minibuffer-Display :group 'faces)
+
+(defface icicle-input-completion-fail-lax
+    '((((background dark)) (:background "#00005E3B5A8D")) ; a dark cyan
+      (t (:foreground "Black" :background "#FFFFB8C4BB87")))
+  "*Face for highlighting failed part of input during lax completion."
+  :group 'Icicles-Minibuffer-Display :group 'faces)
+
 (defface icicle-match-highlight-Completions
     '((((background dark)) (:foreground "#1F1FA21CA21C")) ; a very dark cyan
       (t (:foreground "Red3")))
@@ -399,20 +347,32 @@ Not used for versions of Emacs before version 21."
   "*Face used to highlight root that was completed, in minibuffer."
   :group 'Icicles-Minibuffer-Display :group 'faces)
 
-(defface icicle-input-completion-fail
-    '((((background dark)) (:background "#22225F5F2222")) ; a dark green
-      (t (:foreground "Black" :background "Plum")))
-  "*Face for highlighting failed part of input when completing."
-  :group 'Icicles-Minibuffer-Display :group 'faces)
+(defface icicle-multi-command-completion
+    '((((background dark)) ; a dark cyan on a dark magenta
+       (:foreground "#0000D53CD53C" :background "#8B3500007533"))
+      (t (:foreground "Red" :background "#78F6FFFF8E4F"))) ; red on a light green
+  "*Face used to indicate Icicles multi-command completion.
+It highlights the minibuffer indicator and the `Icy+' minor-mode
+lighter during multi-command completion.
+Not used for versions of Emacs before version 21."
+  :group 'Icicles-Minibuffer-Display :group 'Icicles-Miscellaneous :group 'faces)
 
-(defface icicle-prompt-suffix
-  '((((type x w32 mac graphic) (class color) (background dark)) ; a dark yellow
-     (:foreground "#C29DC29D5583"))
-    (((type x w32 mac graphic) (class color))
-     (:box (:line-width 2 :style pressed-button) :foreground "DarkBlue"))
-    (t (:inverse-video t)))
-  "*Face used to highlight `icicle-prompt-suffix', in the minibuffer."
-  :group 'Icicles-Minibuffer-Display :group 'faces)
+(defface icicle-mustmatch-completion
+    '((((type x w32 mac graphic) (class color))
+       (:box (:line-width 2 :color "Blue"))) ; blue box
+      (t (:inverse-video t)))
+  "*Face used to indicate strict minibuffer completion.
+It highlights the minibuffer indicator and the `Icy' or `Icy+'
+minor-mode lighter during strict completion.
+Not used for versions of Emacs before version 21."
+  :group 'Icicles-Minibuffer-Display :group 'Icicles-Miscellaneous :group 'faces)
+
+(defface icicle-proxy-candidate
+    '((((background dark)) (:background "#316B22970000")) ; a very dark brown
+      (t (:background "#E1E1EAEAFFFF"   ; A light blue.
+          :box (:line-width 2 :color "White" :style released-button))))
+  "*Face used to highlight proxy candidates."
+  :group 'Icicles-Completions-Display :group 'faces)
 
 (defface icicle-saved-candidate
     '((((background dark)) (:background "gray20"))   ; a dark gray
@@ -443,7 +403,7 @@ This highlighting is done during Icicles searching whenever
 `icicle-search-highlight-context-levels-flag' is non-nil and the
 search context corresponds to the entire regexp."
   :group 'Icicles-Searching :group 'faces)
-        
+
 (defface icicle-search-context-level-2
     (let ((context-bg (face-background 'icicle-search-main-regexp-current)))
       `((((background dark))
@@ -460,7 +420,7 @@ This highlighting is done during Icicles searching whenever
 `icicle-search-highlight-context-levels-flag' is non-nil and the
 search context corresponds to the entire regexp."
   :group 'Icicles-Searching :group 'faces)
-        
+
 (defface icicle-search-context-level-3
     (let ((context-bg (face-background 'icicle-search-main-regexp-current)))
       `((((background dark))
@@ -477,7 +437,7 @@ This highlighting is done during Icicles searching whenever
 `icicle-search-highlight-context-levels-flag' is non-nil and the
 search context corresponds to the entire regexp."
   :group 'Icicles-Searching :group 'faces)
-        
+
 (defface icicle-search-context-level-4
     (let ((context-bg (face-background 'icicle-search-main-regexp-current)))
       `((((background dark))
@@ -494,7 +454,7 @@ This highlighting is done during Icicles searching whenever
 `icicle-search-highlight-context-levels-flag' is non-nil and the
 search context corresponds to the entire regexp."
   :group 'Icicles-Searching :group 'faces)
-        
+
 (defface icicle-search-context-level-5
     (let ((context-bg (face-background 'icicle-search-main-regexp-current)))
       `((((background dark))
@@ -509,7 +469,7 @@ This highlighting is done during Icicles searching whenever
 `icicle-search-highlight-context-levels-flag' is non-nil and the
 search context corresponds to the entire regexp."
   :group 'Icicles-Searching :group 'faces)
-        
+
 (defface icicle-search-context-level-6
     (let ((context-bg (face-background 'icicle-search-main-regexp-current)))
       `((((background dark))
@@ -524,7 +484,7 @@ This highlighting is done during Icicles searching whenever
 `icicle-search-highlight-context-levels-flag' is non-nil and the
 search context corresponds to the entire regexp."
   :group 'Icicles-Searching :group 'faces)
-        
+
 (defface icicle-search-context-level-7
     (let ((context-bg (face-background 'icicle-search-main-regexp-current)))
       `((((background dark))
@@ -539,7 +499,7 @@ This highlighting is done during Icicles searching whenever
 `icicle-search-highlight-context-levels-flag' is non-nil and the
 search context corresponds to the entire regexp."
   :group 'Icicles-Searching :group 'faces)
-        
+
 (defface icicle-search-context-level-8
     (let ((context-bg (face-background 'icicle-search-main-regexp-current)))
       `((((background dark))
@@ -554,7 +514,7 @@ This highlighting is done during Icicles searching whenever
 `icicle-search-highlight-context-levels-flag' is non-nil and the
 search context corresponds to the entire regexp."
   :group 'Icicles-Searching :group 'faces)
-        
+
 (defface icicle-search-current-input
     '((((background dark))
        (:foreground "White" :background "#7F0D00007F0D")) ; a dark magenta
@@ -576,7 +536,7 @@ This highlighting is done during Icicles searching."
 
 (defface icicle-special-candidate
     '((((background dark)) (:background "#176900004E0A")) ; a dark blue
-      (t (:background "#EF47FFFFC847"))) ; A light yellow.
+      (t (:background "#EF47FFFFC847")))   ; A light yellow.
   "*Face used to highlight *Completions* candidates that are special.
 The meaning of special is that their names match
 `icicle-special-candidate-regexp'."

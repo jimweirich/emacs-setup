@@ -1,15 +1,15 @@
-;;; hexrgb.el --- Functions to manipulate RGB hex strings
+;;; hexrgb.el --- Functions to manipulate colors, including RGB hex strings.
 ;;
 ;; Filename: hexrgb.el
-;; Description: Manipulate RGB hex strings
+;; Description: Functions to manipulate colors, including RGB hex strings.
 ;; Author: Drew Adams
 ;; Maintainer: Drew Adams
-;; Copyright (C) 2004-2007, Drew Adams, all rights reserved.
+;; Copyright (C) 2004-2008, Drew Adams, all rights reserved.
 ;; Created: Mon Sep 20 22:58:45 2004
 ;; Version: 21.0
-;; Last-Updated: Sun Jan 21 15:09:36 2007 (-28800 Pacific Standard Time)
+;; Last-Updated: Tue Jan 01 13:37:31 2008 (-28800 Pacific Standard Time)
 ;;           By: dradams
-;;     Update #: 478
+;;     Update #: 540
 ;; URL: http://www.emacswiki.org/cgi-bin/wiki/hexrgb.el
 ;; Keywords: number, hex, rgb, color, background, frames, display
 ;; Compatibility: GNU Emacs 20.x, GNU Emacs 21.x, GNU Emacs 22.x
@@ -22,14 +22,20 @@
 ;;
 ;;; Commentary:
 ;;
-;;  Functions to manipulate RGB hex strings.
+;;  Functions to manipulate colors, including RGB hex strings.
 ;;
-;;  An RGB hex string, such as used as a frame background-color
-;;  property, is a string of 3 * n + 1 characters, the first of which
-;;  is "#".  The other characters are hex digits, in three groups
-;;  representing (from the left): red, green, and blue hex codes.
+;;  This library provides functions for converting between RGB (red,
+;;  green, blue) color components and HSV (hue, saturation, value)
+;;  color components.  It helps you convert among Emacs color values
+;;  (whole numbers from 0 through 65535), RGB and HSV floating-point
+;;  components (0.0 through 1.0), Emacs color-name strings (such as
+;;  "blue"), and hex RGB color strings (such as "#FC43A7912").
 ;;
-;;  The functions here manipulate such strings.
+;;  An RGB hex string, such as used as a frame `background-color'
+;;  property, is a string of 1 + (3 * n) characters, the first of
+;;  which is "#".  The other characters are hexadecimal digits, in
+;;  three groups representing (from the left): red, green, and blue
+;;  hex codes.
 ;;
 ;;  Constants defined here:
 ;;
@@ -44,14 +50,15 @@
 ;;  Non-interactive functions defined here:
 ;;
 ;;    `hexrgb-approx-equal', `hexrgb-color-name-to-hex',
-;;    `hexrgb-color-values-to-hex', `hexrgb-hex-char-to-integer',
-;;    `hexrgb-hex-to-hsv', `hexrgb-hex-to-rgb', `hexrgb-hsv-to-hex',
-;;    `hexrgb-hex-to-int', `hexrgb-hsv-to-rgb',
-;;    `hexrgb-increment-blue', `hexrgb-increment-equal-rgb',
-;;    `hexrgb-increment-green', `hexrgb-increment-hex',
-;;    `hexrgb-increment-red', `hexrgb-int-to-hex',
-;;    `hexrgb-rgb-hex-string-p', `hexrgb-rgb-to-hex',
-;;    `hexrgb-rgb-to-hsv'.
+;;    `hexrgb-color-values-to-hex', `hexrgb-color-value-to-float',
+;;    `hexrgb-float-to-color-value', `hexrgb-hex-char-to-integer',
+;;    `hexrgb-hex-to-color-values', `hexrgb-hex-to-hsv',
+;;    `hexrgb-hex-to-rgb', `hexrgb-hsv-to-hex', `hexrgb-hex-to-int',
+;;    `hexrgb-hsv-to-rgb', `hexrgb-increment-blue',
+;;    `hexrgb-increment-equal-rgb', `hexrgb-increment-green',
+;;    `hexrgb-increment-hex', `hexrgb-increment-red',
+;;    `hexrgb-int-to-hex', `hexrgb-rgb-hex-string-p',
+;;    `hexrgb-rgb-to-hex', `hexrgb-rgb-to-hsv'.
 ;;
 ;;
 ;;  Add this to your initialization file (~/.emacs or ~/_emacs):
@@ -62,6 +69,10 @@
 ;;
 ;;; Change log:
 ;;
+;; 2007/12/30 dadams
+;;    Added: hexrgb-hex-to-color-values.
+;; 2007/10/20 dadams
+;;    hexrgb-read-color: Treat pseudo colors too (e.g. *point foreground*).
 ;; 2007/01/21 dadams
 ;;    hexrgb-read-color: Error if empty string (and not allow-empty-name-p).
 ;; 2006/06/06 dadams
@@ -138,31 +149,67 @@
 (defun hexrgb-read-color (&optional convert-to-RGB-p allow-empty-name-p prompt)
   "Read a color name or RGB hex value: #RRRRGGGGBBBB.
 Completion is available for color names, but not for RGB hex strings.
-If the user inputs an RGB hex string, it must have the form
-#XXXXXXXXXXXX or XXXXXXXXXXXX, where each X is a hex digit.  The
-number of Xs must be a multiple of 3, with the same number of Xs for
-each of red, green, and blue.  The order is red, green, blue.
+If you input an RGB hex string, it must have the form #XXXXXXXXXXXX or
+XXXXXXXXXXXX, where each X is a hex digit.  The number of Xs must be a
+multiple of 3, with the same number of Xs for each of red, green, and
+blue.  The order is red, green, blue.
 
-Input is checked to be sure it represents a valid color.  If not, an
-error is raised (but see exception for empty input with non-nil
+In addition to standard color names and RGB hex values, the following
+are available as color candidates.  In each case, the corresponding
+color is used.
+
+* `*copied foreground*'  - last copied foreground, if available
+* `*copied background*'  - last copied background, if available
+* `*mouse-2 foreground*' - foreground where you click `mouse-2'
+* `*mouse-2 background*' - background where you click `mouse-2'
+* `*point foreground*'   - foreground under the cursor
+* `*point background*'   - background under the cursor
+
+\(You can copy a color using eyedropper commands such as
+`eyedrop-pick-foreground-at-mouse'.)
+
+Checks input to be sure it represents a valid color.  If not, raises
+an error (but see exception for empty input with non-nil
 ALLOW-EMPTY-NAME-P).
 
-Interactively, or with optional arg CONVERT-TO-RGB-P non-nil, an input
-color name is converted to an RGB hex string.
+Interactively, or with optional arg CONVERT-TO-RGB-P non-nil, converts
+an input color name to an RGB hex string.  Returns the RGB hex string.
 
-Optional arg ALLOW-EMPTY-NAME-P controls what happens if the user
-enters an empty color name (that is, just hits `RET').  If non-nil,
-then an empty color name, \"\", is returned.  If nil, then empty input
-raises an error.  Programs must test for \"\" if ALLOW-EMPTY-NAME-P is
-non-nil.  They can then perform an appropriate action in case of empty
-input.
+Optional arg ALLOW-EMPTY-NAME-P controls what happens if you enter an
+empty color name (that is, you just hit `RET').  If non-nil, then
+`hexrgb-read-color' returns an empty color name, \"\".  If nil, then
+it raises an error.  Programs must test for \"\" if ALLOW-EMPTY-NAME-P
+is non-nil.  They can then perform an appropriate action in case of
+empty input.
 
-Optional arg PROMPT is the prompt; a default prompt is used if nil."
+Optional arg PROMPT is the prompt.  Nil means use a default prompt."
   (interactive "p")                     ; Always convert to RGB interactively.
   (let* ((completion-ignore-case t)
-	 (color (completing-read (or prompt "Color (name or #R+G+B+): ")
-                                 hexrgb-defined-colors-alist))
-         (hex-string (hexrgb-rgb-hex-string-p color t)))
+         (colors (if (fboundp 'eyedrop-foreground-at-point)
+                     (append (and eyedrop-picked-foreground '(("*copied foreground*")))
+                             (and eyedrop-picked-background '(("*copied background*")))
+                             '(("*mouse-2 foreground*") ("*mouse-2 background*")
+                               ("*point foreground*") ("*point background*"))
+                             hexrgb-defined-colors-alist)
+                   hexrgb-defined-colors-alist))
+         (color (completing-read (or prompt "Color (name or #R+G+B+): ") colors))
+         hex-string)
+    (when (fboundp 'eyedrop-foreground-at-point)
+      (cond ((string= "*copied foreground*" color) (setq color eyedrop-picked-foreground))
+            ((string= "*copied background*" color) (setq color eyedrop-picked-background))
+            ((string= "*point foreground*" color)  (setq color (eyedrop-foreground-at-point)))
+            ((string= "*point background*" color)  (setq color (eyedrop-background-at-point)))
+            ((string= "*mouse-2 foreground*" color)
+             (setq color (prog1 (eyedrop-foreground-at-mouse
+                                 (read-event "Click `mouse-2' to choose foreground color - "))
+                           (read-event)))) ; Discard mouse up event.
+            ((string= "*mouse-2 background*" color)
+             (setq color (prog1 (eyedrop-background-at-mouse
+                                 (read-event "Click `mouse-2' to choose background color - "))
+                           (read-event)))))) ; Discard mouse up event.
+    (setq hex-string (or (string-match "^#\\([a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]\\)+$" color)
+                         (and (string-match "^\\([a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]\\)+$" color)
+                              t)))
     (if (and allow-empty-name-p (string= "" color))
         ""
       (when (and hex-string (not (eq 0 hex-string)))
@@ -170,8 +217,8 @@ Optional arg PROMPT is the prompt; a default prompt is used if nil."
       (unless hex-string
         (when (or (string= "" color)
                   (not (if (fboundp 'test-completion) ; Not defined in Emacs 20.
-                           (test-completion color hexrgb-defined-colors-alist)
-                         (try-completion color hexrgb-defined-colors-alist))))
+                           (test-completion color colors)
+                         (try-completion color colors))))
           (error "No such color: %S" color))
         (when convert-to-RGB-p (setq color (hexrgb-color-name-to-hex color))))
       (when (interactive-p) (message "Color: `%s'" color))
@@ -206,7 +253,7 @@ returned; otherwise, t is returned."
   "Return the hue component of COLOR, in range 0 to 1 inclusive.
 COLOR is a color name or hex RGB string that starts with \"#\"."
   (interactive (list (hexrgb-read-color)))
-  (setq color (hexrgb-color-name-to-hex color))    
+  (setq color (hexrgb-color-name-to-hex color))
   (car (hexrgb-rgb-to-hsv (hexrgb-red color) (hexrgb-green color) (hexrgb-blue color))))
 
 ;;;###autoload
@@ -233,7 +280,7 @@ COLOR is a color name or hex RGB string that starts with \"#\"."
   (setq color (hexrgb-color-name-to-hex color))
   (/ (hexrgb-hex-to-int (substring color 1 (1+ (/ (1- (length color)) 3))))
      (expt 16.0 (/ (1- (length color)) 3.0))))
-    
+
 ;;;###autoload
 (defun hexrgb-green (color)
   "Return the green component of COLOR, in range 0 to 1 inclusive.
@@ -244,7 +291,7 @@ COLOR is a color name or hex RGB string that starts with \"#\"."
          (start (1+ len)))
     (/ (hexrgb-hex-to-int (substring color start (+ start len)))
        (expt 16.0 (/ (1- (length color)) 3.0)))))
-    
+
 ;;;###autoload
 (defun hexrgb-blue (color)
   "Return the blue component of COLOR, in range 0 to 1 inclusive.
@@ -375,6 +422,27 @@ Input VALUES is as for the output of `x-color-values'."
           (hexrgb-int-to-hex (nth 2 values) 4))) ; blue
 
 ;;;###autoload
+(defun hexrgb-hex-to-color-values (color)
+  "Convert hex COLOR to a list of rgb color values.
+COLOR is a hex rgb color string, #XXXXXXXXXXXX
+Each X in the string is a hexadecimal digit.  There are 3N X's, N > 0.
+The output list is as for `x-color-values'."
+  (let* ((hex-strgp (string-match
+                     "^\\(#\\)?\\(\\([a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]\\)+\\)$"
+                     color))
+         (ndigits (/ (if (eq (match-beginning 1) (match-end 1))
+                        (length color)
+                       (1- (length color)))
+                    3))
+         red green blue)
+    (unless hex-strgp (error "Invalid RGB color string: %s" color))
+    (setq color (substring color (match-beginning 2) (match-end 2))
+          red   (hexrgb-hex-to-int (substring color 0 ndigits))
+          green (hexrgb-hex-to-int (substring color ndigits (* 2 ndigits)))
+          blue  (hexrgb-hex-to-int (substring color ndigits (* 3 ndigits))))
+    (list red green blue)))
+    
+;;;###autoload
 (defun hexrgb-increment-red (hex nb-digits increment &optional wrap-p)
   "Increment red value of rgb string HEX by INCREMENT.
 String HEX starts with \"#\".  Each color is NB-DIGITS hex digits long.
@@ -462,8 +530,8 @@ The characters of HEX must be hex characters."
       (- character ?0)
     (let ((ch (logior character 32)))
       (if (and (>= ch ?a) (<= ch ?f))
-	  (- ch (- ?a 10))
-	(error "Invalid hex digit `%c'" ch)))))
+          (- ch (- ?a 10))
+        (error "Invalid hex digit `%c'" ch)))))
 
 ;; Originally, I used the code from `int-to-hex-string' in `float.el'.
 ;; This version is thanks to Juri Linkov <juri@jurta.org>.
@@ -489,6 +557,22 @@ The algorithm is:
  (< (abs (- X Y)) (+ AFUZZ (* RFUZZ (+ (abs X) (abs Y)))))."
   (setq rfuzz (or rfuzz 1.0e-8) afuzz (or afuzz (/ rfuzz 10)))
   (< (abs (- x y)) (+ afuzz (* rfuzz (+ (abs x) (abs y))))))
+
+;;;###autoload
+(defun hexrgb-color-value-to-float (n)
+  "Return the floating-point equivalent of color value N.
+N must be an integer between 0 and 65535, or else an error is raised."
+  (unless (and (wholenump n) (<= n 65535))
+    (error "Not a whole number less than 65536"))
+  (/ (float n) 65535.0))
+
+;;;###autoload
+(defun hexrgb-float-to-color-value (x)
+  "Return the color value equivalent of floating-point number X.
+X must be between 0.0 and 1.0, or else an error is raised."
+  (unless (and (numberp x) (<= 0.0 x) (<= x 1.0))
+    (error "Not a floating-point number between 0.0 and 1.0"))
+  (floor (* x 65535.0)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

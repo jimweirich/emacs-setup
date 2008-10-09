@@ -4,12 +4,12 @@
 ;; Description: User options (variables) for Icicles
 ;; Author: Drew Adams
 ;; Maintainer: Drew Adams
-;; Copyright (C) 1996-2007, Drew Adams, all rights reserved.
+;; Copyright (C) 1996-2008, Drew Adams, all rights reserved.
 ;; Created: Mon Feb 27 09:22:14 2006
 ;; Version: 22.0
-;; Last-Updated: Sun Oct 14 15:35:31 2007 (-25200 Pacific Daylight Time)
+;; Last-Updated: Tue Sep 30 11:29:21 2008 (-0700)
 ;;           By: dradams
-;;     Update #: 1196
+;;     Update #: 2121
 ;; URL: http://www.emacswiki.org/cgi-bin/wiki/icicles-opt.el
 ;; Keywords: internal, extensions, help, abbrev, local, minibuffer,
 ;;           keys, apropos, completion, matching, regexp, command
@@ -18,7 +18,8 @@
 ;; Features that might be required by this library:
 ;;
 ;;   `cl', `color-theme', `cus-face', `easymenu', `ffap', `ffap-',
-;;   `hexrgb', `thingatpt', `thingatpt+', `wid-edit', `widget'.
+;;   `hexrgb', `kmacro', `thingatpt', `thingatpt+', `wid-edit',
+;;   `widget'.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -27,13 +28,20 @@
 ;;  This is a helper library for library `icicles.el'.  It defines
 ;;  user options (variables).  See `icicles.el' for documentation.
 ;;
+;;  Widgets defined here:
+;;
+;;    `icicle-key-definition'.
+;;
 ;;  User options defined here (in Custom group `Icicles'):
 ;;
 ;;    `icicle-act-before-cycle-flag', `icicle-add-buffer-name-flag',
+;;    `icicle-add-proxy-candidates-flag',
 ;;    `icicle-alternative-sort-function',
+;;    `icicle-apropos-complete-no-display-keys',
+;;    `icicle-apropos-cycle-next-keys',
+;;    `icicle-apropos-cycle-previous-keys',
 ;;    `icicle-anything-transform-candidates-flag',
-;;    `icicle-bind-top-level-commands-flag', `icicle-buffer-configs',
-;;    `icicle-buffer-extras',
+;;    `icicle-buffer-configs', `icicle-buffer-extras',
 ;;    `icicle-buffer-ignore-space-prefix-flag',
 ;;    `icicle-buffer-match-regexp', `icicle-buffer-no-match-regexp',
 ;;    `icicle-buffer-predicate', `icicle-buffer-require-match-flag'
@@ -41,49 +49,62 @@
 ;;    `icicle-change-region-background-flag',
 ;;    `icicle-change-sort-order-completion-flag',
 ;;    `icicle-C-l-uses-completion-flag', `icicle-color-themes',
+;;    `icicle-command-abbrev-alist',
+;;    `icicle-command-abbrev-match-all-parts-flag',
+;;    `icicle-command-abbrev-priority-flag',
 ;;    `icicle-complete-keys-self-insert-flag',
-;;    `icicle-completing-mustmatch-prompt-prefix',
-;;    `icicle-completing-prompt-prefix',
 ;;    `icicle-completion-history-max-length',
 ;;    `icicle-Completions-display-min-input-chars',
 ;;    `icicle-Completions-frame-at-right-flag',
-;;    `icicle-Completions-window-default-width',
 ;;    `icicle-Completions-window-max-height',
-;;    `icicle-cycle-into-subdirs-flag',
+;;    `icicle-customize-save-flag', `icicle-cycle-into-subdirs-flag',
 ;;    `icicle-cycling-respects-completion-mode-flag',
-;;    `icicle-default-thing-insertion',
+;;    `icicle-default-thing-insertion', `icicle-default-value',
 ;;    `icicle-define-alias-commands-flag',
 ;;    `icicle-deletion-action-flag',
 ;;    `icicle-expand-input-to-common-match-flag',
-;;    `icicle-fuzzy-completion-flag',
+;;    `icicle-filesets-as-saved-completion-sets-flag',
+;;    `icicle-fuzzy-completion-flag', `icicle-generic-S-tab-keys',
 ;;    `icicle-highlight-historical-candidates-flag',
-;;    `icicle-highlight-input-completion-failure-flag',
+;;    `icicle-highlight-input-completion-failure',
+;;    `icicle-highlight-input-completion-failure-delay',
+;;    `icicle-highlight-input-completion-failure-threshold',
 ;;    `icicle-highlight-input-initial-whitespace-flag',
+;;    `icicle-highlight-lighter-flag',
 ;;    `icicle-ignore-space-prefix-flag',
 ;;    `icicle-incremental-completion-delay',
 ;;    `icicle-incremental-completion-flag',
 ;;    `icicle-incremental-completion-threshold',
-;;    `icicle-init-value-flag', `icicle-input-string',
+;;    `icicle-inhibit-ding-flag', `icicle-input-string',
 ;;    `icicle-inter-candidates-min-spaces',
+;;    `icicle-isearch-complete-keys',
 ;;    `icicle-key-descriptions-use-<>-flag',
 ;;    `icicle-key-descriptions-use-angle-brackets-flag',
 ;;    `icicle-keymaps-for-key-completion', `icicle-kmacro-ring-max',
 ;;    `icicle-list-end-string', `icicle-list-join-string',
 ;;    `icicle-list-nth-parts-join-string',
 ;;    `icicle-mark-position-in-candidate',
-;;    `icicle-minibuffer-setup-hook', `icicle-modal-cycle-down-key',
-;;    `icicle-modal-cycle-up-key',
+;;    `icicle-minibuffer-setup-hook', `icicle-modal-cycle-down-keys',
+;;    `icicle-modal-cycle-up-keys',
+;;    `icicle-option-type-prefix-arg-list',
 ;;    `icicle-point-position-in-candidate',
+;;    `icicle-pp-eval-expression-print-length',
+;;    `icicle-pp-eval-expression-print-level',
+;;    `icicle-prefix-complete-keys',
+;;    `icicle-prefix-complete-no-display-keys',
+;;    `icicle-prefix-cycle-next-keys',
+;;    `icicle-prefix-cycle-previous-keys',
 ;;    `icicle-redefine-standard-commands-flag',
 ;;    `icicle-regexp-quote-flag', `icicle-regexp-search-ring-max',
 ;;    `icicle-region-alist', `icicle-region-auto-open-files-flag',
 ;;    `icicle-region-background', `icicle-regions-name-length-max',
-;;    `icicle-reminder-prompt-flag', `icicle-require-match-flag',
-;;    `icicle-saved-completion-sets', `icicle-search-cleanup-flag',
+;;    `icicle-require-match-flag', `icicle-saved-completion-sets',
+;;    `icicle-search-cleanup-flag',
 ;;    `icicle-search-context-match-predicate',
 ;;    `icicle-search-highlight-all-current-flag',
 ;;    `icicle-search-highlight-context-levels-flag',
 ;;    `icicle-search-highlight-threshold', `icicle-search-hook',
+;;    `icicle-search-replace-common-match-flag',
 ;;    `icicle-search-replace-literally-flag',
 ;;    `icicle-search-replace-whole-candidate-flag',
 ;;    `icicle-search-ring-max', `icicle-search-whole-word-flag',
@@ -92,19 +113,35 @@
 ;;    `icicle-sort-function', `icicle-sort-functions-alist',
 ;;    `icicle-special-candidate-regexp',
 ;;    `icicle-TAB-shows-candidates-flag',
+;;    `icicle-test-for-remote-files-flag',
 ;;    `icicle-thing-at-point-functions',
+;;    `icicle-top-level-key-bindings',
 ;;    `icicle-top-level-when-sole-completion-flag',
 ;;    `icicle-touche-pas-aux-menus-flag', `icicle-transform-function',
+;;    `icicle-unpropertize-completion-result-flag',
 ;;    `icicle-update-input-hook', `icicle-use-~-for-home-dir-flag',
+;;    `icicle-use-C-for-actions-flag',
 ;;    `icicle-use-candidates-only-once-flag',
-;;    `icicle-word-completion-key', `icicle-WYSIWYG-Completions-flag',
-;;    `icicle-yank-function'.
+;;    `icicle-word-completion-keys',
+;;    `icicle-WYSIWYG-Completions-flag', `icicle-yank-function'.
 ;;
 ;;  Functions defined here:
 ;;
+;;    `icicle-bind-top-level-commands',
 ;;    `icicle-buffer-sort-*...*-last', `icicle-increment-color-hue',
 ;;    `icicle-increment-color-saturation',
 ;;    `icicle-increment-color-value'.
+;;
+;;  For descriptions of changes to this file, see `icicles-chg.el'.
+;;
+;;  Note that occasionally I have renamed or removed an Icicles
+;;  option.  If you have customized such an option, then your
+;;  customization will no longer have any effect.  With the exception
+;;  of options `icicle-mode' and `icicle-mode-hook', library
+;;  `icicles-opt.el' always contains the complete set of Icicles
+;;  options.  If your custom file or init file contains an Icicles
+;;  option that is not listed above, then you can remove it because it
+;;  is obsolete.
  
 ;;(@> "Index")
 ;;
@@ -115,209 +152,8 @@
 ;;  headings throughout this file.  You can get `linkd.el' here:
 ;;  http://dto.freeshell.org/notebook/Linkd.html.
 ;;
-;;  (@> "Change log")
 ;;  (@> "User options, organized alphabetically, except for dependencies")
  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; Change log:
-;;
-;;(@* "Change log")
-;;
-;; 2007/10/14 dadams
-;;     icicle-act-before-cycle-flag: Default value is now nil.
-;; 2007/10/07 dadams
-;;     Added: icicle-deletion-action-flag.
-;; 2007/09/28 dadams
-;;     Added: icicle-fuzzy-completion-flag.
-;; 2007/08/25 dadams
-;;     Added: icicle-anything-transform-candidates-flag, icicle-define-alias-commands-flag.
-;; 2007/08/19 dadams
-;;     Added: icicle-highlight-input-completion-failure-flag.
-;; 2007/08/16 dadams
-;;     icicle-region-alist, icicle-sort-functions-alist: Use alist as :type for recent Emacs.
-;; 2007/07/27 dadams
-;;     Added: Moved icicle-act-first-then-navigate-p here from icicles-var.el, as option *-flag.
-;;            Thx to Juri Linkov for suggestion.
-;; 2007/07/03 dadams
-;;     Added: icicle-completion-history-max-length, icicle-C-l-uses-completion-flag.
-;;     icicle-expand-input-to-common-match-flag: Updated doc string accordingly.
-;; 2007/06/20 dadams
-;;     icicle-WYSIWYG-Completions-flag: Use string value, not whole number, for sample text.
-;; 2007/06/19 dadams
-;;     icicle-WYSIWYG-Completions-flag: Allow also a whole-number value, for separate swatch.
-;; 2007/06/17 dadams
-;;     Added: icicle-WYSIWYG-Completions-flag.
-;; 2007/06/12 dadams
-;;     icicle-region-background: Use different value for dark-background frames.
-;; 2007/06/09 dadams
-;;     Added: icicle-use-candidates-only-once-flag.
-;; 2007/06/05 dadams
-;;     Don't require hexrgb.el if no window system.
-;;     icicle-increment-color-*: Protected with featurep hexrgb and error message.
-;; 2007/05/06 dadams
-;;     Added: icicle-search-context-match-predicate.
-;; 2007/05/02 dadams
-;;     Added: icicle-search-whole-word-flag, icicle-yank-function.
-;;     icicle-regexp-quote-flag: Updated doc string to mention search.
-;; 2007/04/20 dadams
-;;     Added: icicle-search-highlight-context-levels-flag, icicle-increment-color-saturation.
-;; 2007/04/17 dadams
-;;     Added: icicle-search-replace-literally-flag.
-;; 2007/04/15 dadams
-;;     icicle-search-replace-whole-candidate-flag: Changed default value to t.
-;; 2007/04/07 dadams
-;;     Added: icicle-search-replace-whole-candidate-flag.
-;; 2007/03/31 dadams
-;;     Added: icicle-top-level-when-sole-completion-flag.
-;;     icicle(-regexp)-search-ring-max: Default is 1/10th what it was.
-;; 2007/03/30 dadams
-;;     Added: icicle-candidate-width-factor, icicle-inter-candidates-min-spaces.
-;; 2007/03/12 dadams
-;;     Added: icicle-Completions-window-max-height.
-;;     icicle-show-Completions-help-flag: defvaralias it to completion-show-help (if bound).
-;; 2007/03/10 dadams
-;;     Added: icicle-Completions-window-default-width.
-;; 2007/02/27 dadams
-;;     Changed default value of icicle-incremental-completion-delay to 0.7.
-;; 2007/02/22 dadams
-;;     icicle-buffer-sort: Use icicle-buffer-sort-*...*-last, not nil, as default value.
-;; 2007/02/20 dadams
-;;     Changed icicle-region-auto-open-files-flag default value to nil.
-;; 2007/02/19 dadams
-;;     icicle-region-alist: Added buffer's file to alist entry.
-;;     Added: icicle-region-auto-open-files-flag.
-;; 2007/02/17 dadams
-;;     Added: icicle-keymaps-for-key-completion.
-;; 2007/02/06 dadams
-;;     Added: icicle-add-buffer-name-flag.
-;; 2007/01/29 dadams
-;;     icicle-sort-function: Use icicle-case-string-less-p as value, not string-lessp.
-;; 2007/01/23 dadams
-;;     Added: icicle-highlight-historical-candidates-flag.
-;;     Updated doc strings of *-flag to mention toggles.
-;; 2007/01/18 dadams
-;;     Renamed: icicle-regions to icicle-region-alist.
-;; 2007/01/15 dadams
-;;     Added: icicle-change-sort-order-completion-flag, icicle-sort-functions-alist.
-;;     icicle-cycle-into-subdirs-flag, icicle-sort-function: Updated doc string.
-;; 2007/01/14 dadams
-;;     Added: icicle-list-nth-parts-join-string.
-;; 2007/01/08 dadams
-;;     icicle-reminder-prompt-flag: Reduced default value from 20 to 7 Emacs sessions.
-;; 2007/01/06 dadams
-;;     Added: icicle-use-~-for-home-dir-flag.  Thanks to Timothy Stotts for the suggestion.
-;; 2006/12/29 dadams
-;;     icicle-thing-at-point-functions: Added ffap-guesser as first alternative text grabber.
-;;     icicle-default-thing-insertion: Changed default value to icicle-default-thing-insertion.
-;; 2006/12/25 dadams
-;;     Moved to icicles-fn.el: icicle-historical-alphabetic-p.
-;; 2006/12/22 dadams
-;;     Assigned Icicles subgroups, instead of group Icicles.
-;; 2006/12/10 dadams
-;;     icicle-regions: Corrected (forgot repeat).
-;; 2006/11/26 dadams
-;;     Added: icicle-regions(-name-length-max).
-;; 2006/11/24 dadams
-;;     Added: icicle-kmacro-ring-max.
-;; 2006/11/23 dadams
-;;     Added: icicle-TAB-shows-candidates-flag.  Thx to Tamas Patrovics for the suggestion.
-;; 2006/11/09 dadams
-;;     icicle-search-highlight-all-flag -> icicle-search-highlight-threshold.
-;;     Added: icicle-search-highlight-all-current-flag.
-;; 2006/10/28 dadams
-;;     icicle-region-background: Changed :type to 'color for Emacs 21+.
-;;     icicle(-alternative)-sort-function, icicle-buffer-sort, icicle-transform-function:
-;;       function -> choice of nil or function.
-;;     icicle-buffer-configs: Added :tag's.
-;;     icicle-saved-completion-sets: Corrected doc string.
-;; 2006/10/21 dadams
-;;     Added: icicle-complete-keys-self-insert-flag.
-;; 2006/10/14 dadams
-;;     icicle-list-end-string: Added :type and :group.
-;;     Moved conditional eval-when-compile to top level.
-;; 2006/10/04 dadams
-;;     Added: icicle-special-candidate-regexp.
-;; 2006/10/03 dadams
-;;     icicle-list-join-string: Replaced ^G^J by \007\012, to be able to upload to Emacs Wiki.
-;; 2006/10/01 dadams
-;;     icicle-alternative-sort-function: Updated doc string - it's now a general toggle.
-;; 2006/09/30 dadams
-;;     Added: icicle-key-descriptions-use-*-flag.
-;; 2006/09/16 dadams
-;;     Added: icicle-list-end-string.
-;; 2006/09/03 dadams
-;;     Renamed icicle-show-Completions-help to icicle-show-Completions-help-flag.
-;; 2006/08/13 dadams
-;;     Added: icicle-completing(-mustmatch)-prompt-prefix.
-;; 2006/07/28 dadams
-;;     icicle-change-region-background-flag:
-;;       Default value takes no account of delete-selection mode.  Improved doc string.
-;;     icicle-region-background:
-;;       Don't make region invisible if hexrgb.el was not loaded.
-;;       Change value, not hue, if grayscale frame background.  Improved doc string.
-;; 2006/07/23 dadams
-;;     Added: icicle-transform-function.
-;;     icicle-sort-function: Added Note to doc string.
-;; 2006/07/20 dadams
-;;     Added: icicle-modal-cycle-(up|down)-key.
-;;     Renamed icicle-arrows-respect-* to icicle-cycling-respects-completion-mode-flag.
-;; 2006/07/19 dadams
-;;     Applied patch from Damien Elmes <emacs@repose.cx>:
-;;       Added: icicle-show-completions-help.  Renamed it to icicle-show-Completions-help.
-;; 2006/07/18 dadams
-;;     Added: icicle-Completions-display-min-input-chars.  Thx to Damien Elmes.
-;; 2006/07/10 dadams
-;;     icicle-historical-alphabetic-p: Fallback directory if no previous input.
-;; 2006/07/07 dadams
-;;     Added: icicle-alternative-sort-function, icicle-historical-alphabetic-p.
-;; 2006/07/04 dadams
-;;     icicle-expand-input-to-common-match-flag: Updated doc string.
-;; 2006/06/09 dadams
-;;     icicle-region-background: Use nil in defcustom.  Initialize separately.
-;; 2006/06/08 dadams
-;;     icicle-bind-top-level-commands-flag: Updated doc string.
-;; 2006/05/19 dadams
-;;     Renamed icicle-inhibit-reminder* to icicle-reminder*.
-;;       Changed its functionality to use a countdown.
-;; 2006/05/16 dadams
-;;     Added: icicle-bind-top-level-commands-flag.
-;; 2006/05/15 dadams
-;;     Renamed: icicle-completion-nospace-flag to icicle-ignore-space-prefix-flag.
-;;     Added: icicle-buffer-ignore-space-prefix-flag.
-;;     icicle-ignore-space-prefix-flag: Changed default value to nil.
-;; 2006/05/09 dadams
-;;     icicle-incremental-completion-threshold: Updated doc string (msg "Displaying...").
-;; 2006/04/28 dadams
-;;     Added: icicle-highlight-input-initial-whitespace-flag.
-;; 2006/04/14 dadams
-;;     Added: icicle-input-string, icicle-search-cleanup-flag, icicle-update-input-hook.
-;;     icicle-list-join-string: Added :type and :group.
-;; 2006/04/09 dadams
-;;     Added: icicle-arrows-respect-completion-type-flag.
-;; 2006/04/07 dadams
-;;     Added: icicle-search-highlight-all-flag.
-;; 2006/04/02 dadams
-;;     Added: icicle-regexp-quote-flag.
-;; 2006/03/24 dadams
-;;     Added: icicle-incremental-completion-(delay|threshold).
-;; 2006/03/20 dadams
-;;     icicle-expand-input-to-common-match-flag: Changed default value to t.
-;; 2006/03/19 dadams
-;;     Added: icicle-expand-input-to-common-match-flag.
-;; 2006/03/17 dadams
-;;     Removed: icicle-cache-file.
-;;     Added: icicle-saved-completion-sets.
-;; 2006/03/13 dadams
-;;     Added: icicle-cache-file.
-;; 2006/03/08 dadams
-;;     icicle-default-thing-insertion: Use substitute-command-keys in :tag.
-;; 2006/03/05 dadams
-;;     Moved from here to icicle-mode.el: icicle-mode, icicle-mode-hook.
-;;     Added: icicle-touche-pas-aux-menus-flag.
-;; 2006/03/03 dadams
-;;     icicle-list-join-string: Changed value to ^G^J.  Clarified doc string.
-;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; This program is free software; you can redistribute it and/or
@@ -391,8 +227,28 @@ its buffer name whenever a non-nil value would have shown the buffer
 name."
   :type 'boolean :group 'Icicles-Completions-Display)
 
+
 ;;;###autoload
-(defcustom icicle-alternative-sort-function 'icicle-historical-alphabetic-p
+(defcustom icicle-add-proxy-candidates-flag nil ; Toggle with `C-M-_'.
+  "*Non-nil means to include proxy candidates whenever possible.
+A proxy candidate is a special candidate (shown in *Completions* using
+face `icicle-special-candidate') whose name is a placeholder for the
+real candidate.  The proxy candidate typically stands for some value
+obtained from the cursor position or by some action such as clicking
+the mouse.  Example candidates include a color or file name, named by
+proxy candidates such as `*copied foreground*' or `*file at point*'.
+
+You can toggle this option at any time from the minibuffer using
+`\\<minibuffer-local-completion-map>\\[icicle-toggle-proxy-candidates]'.  However, for \
+commands that provide many proxy candidates, if
+the flag is off initially when input is read, then you must re-invoke
+the completing command for the new value to take effect.  (This is for
+performance reasons.)"
+  :type 'boolean :group 'Icicles-Matching)
+
+;;;###autoload
+(defcustom icicle-alternative-sort-function ; Toggle with `C-M-,'.
+  'icicle-historical-alphabetic-p
   "*An alternative sort function, in place of `icicle-sort-function'.
 You can swap this with `icicle-sort-function' at any time by using
 `icicle-toggle-alternative-sorting' (`\\<minibuffer-local-completion-map>\
@@ -414,11 +270,156 @@ might be more readable."
   :type 'boolean :group 'Icicles-Completions-Display :group 'Icicles-Matching)
 
 ;;;###autoload
-(defcustom icicle-bind-top-level-commands-flag t
-  "*Non-nil means to bind top-level Icicles commands.
-That is done in `icicle-define-icicle-mode-map'.
-If you change this from t to nil, then you must restart Emacs for it
-to take effect.  Going from nil to t requires no restart.
+(defcustom icicle-apropos-complete-no-display-keys '([C-M-S-tab] [C-M-S-iso-lefttab])
+  "*Key sequences to use for `icicle-apropos-complete-no-display'.
+A list of values that each has the same form as a key-sequence
+argument to `define-key'.  It is a list mainly in order to accommodate
+different keyboards - for example, `C-M-S-tab' and `C-M-S-iso-lefttab'."
+  :type '(repeat sexp) :group 'Icicles-Key-Bindings)
+
+;;;###autoload
+(defcustom icicle-apropos-cycle-next-keys '([next])
+  "*Key sequences for apropos completion to cycle to the next candidate.
+A list of values that each has the same form as a key-sequence
+argument to `define-key'.  It is a list mainly in order to accommodate
+different keyboards."
+  :type '(repeat sexp) :group 'Icicles-Key-Bindings)
+
+;;;###autoload
+(defcustom icicle-apropos-cycle-previous-keys '([prior])
+  "*Key sequences for apropos completion to cycle to the previous candidate.
+A list of values that each has the same form as a key-sequence
+argument to `define-key'.  It is a list mainly in order to accommodate
+different keyboards."
+  :type '(repeat sexp) :group 'Icicles-Key-Bindings)
+
+;;;###autoload
+(defcustom icicle-yank-function 'yank
+  "*Yank function.  A function that takes a prefix argument.
+This should be a command that is bound to whatever key you use to yank
+text, whether in Icicle mode or not.  In Icicle mode, command
+`icicle-yank-insert' calls this function, except when
+`icicle-yank-insert' is called from the minibuffer or the prefix
+argument is negative.  `icicle-yank-insert' passes the raw prefix
+argument to `icicle-yank-function'.
+
+By default, the command that is the value of this option is remapped
+to `icicle-yank-insert' the first time you enter Icicle mode.  If you
+customize `icicle-yank-function', then, to take advantage of this
+default remapping behavior, you will need to save your customization
+and then restart Emacs.
+
+Alternatively, you can customize both `icicle-yank-function' and the
+corresponding entry in `icicle-top-level-key-bindings', and then
+toggle Icicle mode off and then back on."
+  :type 'function :group 'Icicles-Miscellaneous)
+
+(define-widget 'icicle-key-definition 'lazy
+  "Key definition type for Icicle mode keys.
+A list of three components: KEY, COMMAND, CONDITION, that represents
+an `icicle-mode-map' binding of COMMAND according to KEY, if CONDITION
+evaluates to non-nil.
+
+KEY is either a key sequence (string or vector) or a command.
+COMMAND is a command.
+CONDITION is a sexp.
+
+If KEY is a command, then the binding represented is its remapping to
+COMMAND."
+  :indent 1 :offset 0 :tag ""           ; $$$$$ "Icicle Mode Key Definition"
+  :type
+  '(list
+    (choice
+     (key-sequence :tag "Key" :value [ignore])
+     ;; Use `symbolp' instead of `commandp', in case the library defining the
+     ;; command is not loaded.
+     (restricted-sexp :tag "Command to remap" :match-alternatives (symbolp) :value ignore))
+     ;; Use `symbolp' instead of `commandp'...
+    (restricted-sexp :tag "Command" :match-alternatives (symbolp) :value ignore)
+    (sexp :tag "Condition")))
+
+(defun icicle-bind-top-level-commands (&optional defs)
+  "Bind top-level commands for Icicle mode."
+  (unless defs (setq defs  icicle-top-level-key-bindings))
+  (let (key command condition)
+    (dolist (key-def defs)
+      (setq key       (car key-def)
+            command   (cadr key-def)
+            condition (car (cddr key-def)))
+      (when (eval condition)
+        (if (symbolp key)
+            (icicle-remap key command icicle-mode-map (current-global-map))
+          (define-key icicle-mode-map key command))))))            
+
+;;;###autoload
+(defcustom icicle-top-level-key-bindings
+  `((,(kbd "<pause>") icicle-switch-to/from-minibuffer    t) ; `pause'
+    (,(kbd "C-c `")   icicle-search-generic               t) ; `C-c `'
+    (,(kbd "C-c $")   icicle-search-word                  t) ; `C-c $'
+    (,(kbd "C-c ^")   icicle-search-keywords              t) ; `C-c ^'
+    (,(kbd "C-c '")   icicle-occur                        t) ; `C-c ''
+    (,(kbd "C-c =")   icicle-imenu                        t) ; `C-c ='
+    (,(kbd "C-c \"")  icicle-search-text-property         t) ; `C-c "'
+    (,(kbd "C-c /")   icicle-complete-thesaurus-entry     t) ; `C-c /'
+    (,(kbd "C-x M-e") icicle-execute-named-keyboard-macro t) ; `C-x M-e'
+    (,(kbd "C-x SPC") icicle-command-abbrev               t) ; `C-x SPC'
+    (,(kbd "C-x 5 o") icicle-select-frame                 t) ; `C-x 5 o'
+    (,(kbd "C-h C-o") icicle-describe-option-of-type      t) ; `C-h C-o'
+    ,@(and (require 'kmacro nil t)      ; (Emacs 22+)
+           `((,(kbd "S-<f4>")    icicle-kmacro            t))) ; `S-f4'
+    (abort-recursive-edit           icicle-abort-recursive-edit     t) ; `C-]'
+    (minibuffer-keyboard-quit icicle-abort-recursive-edit ; `C-g' (minibuffer - `delsel.el')
+     (fboundp 'minibuffer-keyboard-quit))
+    (execute-extended-command       icicle-execute-extended-command t) ; `M-x'
+    (switch-to-buffer               icicle-buffer                   t) ; `C-x b'
+    (switch-to-buffer-other-window  icicle-buffer-other-window      t) ; `C-x 4 b'
+    (find-file                      icicle-file                     t) ; `C-x C-f'
+    (find-file-other-window         icicle-file-other-window        t) ; `C-x 4 f'
+    ;; Don't let Emacs 20 or 21 use `substitute-key-definition' on `M-.' or `M-*', since we need
+    ;; these keys for the minibuffer.  Leave them unbound in `icicle-mode-map' until Emacs 22+.
+    (pop-tag-mark        icicle-pop-tag-mark          (fboundp 'command-remapping)) ; `M-*'
+    (find-tag            icicle-find-tag              (fboundp 'command-remapping)) ; `M-.'
+    (eval-expression     icicle-pp-eval-expression    (fboundp 'command-remapping)) ; `M-:'
+    (pp-eval-expression icicle-pp-eval-expression (fboundp 'command-remapping)) ;`M-:' (`pp+.el')
+    (find-tag-other-window        icicle-find-first-tag-other-window t) ; `C-x 4 .'
+    (kill-buffer                  icicle-kill-buffer                 t) ; `C-x k'
+    (kill-buffer-and-its-windows  icicle-kill-buffer                 t) ; `C-x k'
+    (delete-window                icicle-delete-window               t) ; `C-x 0'
+    (delete-windows-for           icicle-delete-window               t) ; `C-x 0'
+    (other-window-or-frame        icicle-other-window-or-frame       t) ; `C-x o'
+    (other-window                 icicle-other-window-or-frame       t) ; `C-x o'
+    (exchange-point-and-mark      icicle-exchange-point-and-mark     t) ; `C-x C-x'
+    (where-is                     icicle-where-is                    t) ; `C-h w'
+    (,icicle-yank-function        icicle-yank-insert                 t) ; `C-y'
+    (set-mark-command
+     icicle-goto-marker-or-set-mark-command                          t) ; `C-@', `C-SPC'
+    (pop-global-mark
+     icicle-goto-global-marker-or-pop-global-mark                    t) ; `C-x C-@', `C-x C-SPC'
+    ;; For La Carte (`lacarte.el'), not Icicles, but it's convenient to do this here.
+    (,(kbd "ESC M-x")      lacarte-execute-menu-command
+     (fboundp 'lacarte-execute-menu-command)) ; `ESC M-x'
+    (,(kbd "M-`")          lacarte-execute-menu-command
+     (fboundp 'lacarte-execute-menu-command)) ; `M-`' - replaces `tmm-menubar'.
+    (,(kbd "<f10>")        lacarte-execute-menu-command
+     (fboundp 'lacarte-execute-menu-command))) ; `f10' - replaces `menu-bar-open'.
+  "List of top-level commands to bind in Icicle mode.
+Each list element is of custom type `icicle-key-definition' and has
+the form (KEY COMMAND CONDITION).
+
+KEY is either a key sequence (string or vector) to bind COMMAND to or
+a command to remap to COMMAND.
+COMMAND is bound according to the value of KEY, unless the result of
+evaluating CONDITION is nil.
+
+In Customize, to specify a key sequence, choose `Key' in the `Value
+Menu', then enter a key description such as that returned by `C-h k'.
+For convenience, you can use insert each key in the key description by
+hitting `C-q' then the key.  For example, to enter the key description
+`C-c M-k' you can use `C-q C-c C-q M-k'.
+
+If you customize this option, then you must exit and re-enter Icicle
+mode to ensure that the change takes effect.  This is really necessary
+only if your changes would undefine a key.
 
 For this option to have an effect upon startup, it must be set before
 you enter Icicle mode.  This means that you must ensure that the code
@@ -426,7 +427,27 @@ that sets it is invoked before you enter Icicle mode.  If you use
 Customize to change this option, then ensure that the code inserted by
 Customize into your `user-init-file' or your `custom-file' is invoked
 before you enter Icicle mode."
-  :type 'boolean :group 'Icicles-Key-Bindings)
+  :type (if (> emacs-major-version 20)
+            '(repeat icicle-key-definition)
+          '(repeat
+            (list
+             (choice
+              (restricted-sexp :tag "Key"
+               :match-alternatives ((lambda (x) (or (stringp x) (vectorp x))))
+               :value [ignore])
+              (restricted-sexp :tag "Command to remap"
+               ;; Use `symbolp' instead of `commandp', in case the library defining the
+               ;; command is not loaded.
+               :match-alternatives (symbolp) :value ignore))
+             ;; Use `symbolp' instead of `commandp'...
+             (restricted-sexp :tag "Command"
+              :match-alternatives (symbolp) :value ignore)
+             (sexp :tag "Condition"))))
+  :set #'(lambda (sym defs)
+           (custom-set-default sym defs)
+           (icicle-bind-top-level-commands defs))
+  :initialize #'custom-initialize-default
+  :group 'Icicles-Key-Bindings)
 
 ;;;###autoload
 (defcustom icicle-buffer-extras nil
@@ -519,7 +540,13 @@ horizontal space will be wasted between them.
 
 When most candidates are almost as wide as the widest candidate, a
 high value works well.  When most candidates are much shorter than the
-widest candidate, a low value works well."
+widest candidate, a low value works well.
+
+If you use Do Re Mi (library `doremi.el'), then you can modify this
+option incrementally during completion, seeing the effect as it
+changes.  Use `C-x w' from the minibuffer, then use the `right' and
+`left' arrow keys or the mouse wheel to increment and decrement the
+value.  WYSIWYG."
   :type 'integer :group 'Icicles-Completions-Display)
 
 ;;;###autoload
@@ -548,26 +575,30 @@ inputs.  You can override the behavior by using `C-u' with `\\[icicle-retrieve-p
   :type 'hook :group 'Icicles-Miscellaneous)
 
 ;;;###autoload
+(defcustom icicle-command-abbrev-alist nil
+  "Alist of command abbreviations and commands, with frequency of use.
+Each element has the form (COMMAND ABBREV N), where ABBREV is an
+abbreviation of COMMAND and N is the number of times COMMAND has been
+invoked via ABBREV.  Both COMMAND and ABBREV are symbols."
+  :group 'Icicles-Matching :type '(alist :key-type symbol :value-type (list symbol integer)))
+
+;;;###autoload
+(defcustom icicle-command-abbrev-match-all-parts-flag nil
+  "*Non-nil means `icicle-command-abbrev' matches each command-name part.
+Otherwise, an abbrev need match only a prefix of the command name."
+  :type 'boolean :group 'Icicles-Matching)
+
+;;;###autoload
+(defcustom icicle-command-abbrev-priority-flag nil
+  "*nil means commands take precedence over abbreviations for `\\<icicle-mode-map>\
+\\[icicle-command-abbrev]'."
+  :type 'boolean :group 'Icicles-Matching)
+
+;;;###autoload
 (defcustom icicle-complete-keys-self-insert-flag nil
   "*Non-nil means `icicle-complete-keys' includes self-inserting keys.
 That means keys bound to `self-insert-command'."
   :type 'boolean :group 'Icicles-Key-Completion)
-
-;;;###autoload
-(defcustom icicle-completing-mustmatch-prompt-prefix "="
-  "*Prompt prefix to use to indicate must-match completing is possible.
-A space is automatically appended to this string, if non-empty.
-If you don't want this indicator, set this option to \"\".
-Not used for versions of Emacs before Emacs 21."
-  :type 'string :group 'Icicles-Minibuffer-Display)
-
-;;;###autoload
-(defcustom icicle-completing-prompt-prefix " "
-  "*Prompt prefix to use to indicate completing is possible.
-A space is automatically appended to this string, if non-empty.
-If you don't want this indicator, set this option to \"\".
-Not used for versions of Emacs before Emacs 21."
-  :type 'string :group 'Icicles-Minibuffer-Display)
 
 ;;;###autoload
 (defcustom icicle-completion-history-max-length (if icicle-C-l-uses-completion-flag 1000 100)
@@ -592,18 +623,6 @@ This is done by `icicle-candidate-action'.
 It only happens if *Completions* is alone in its frame.
 This can be useful to make *Completions* more visible."
   :type 'boolean :group 'Icicles-Completions-Display)
-
-;;;###autoload
-(defcustom icicle-Completions-window-default-width 80
-  "*Default width of *Completions* window.
-This is not used if any of these conditions is true:
-- *Completions* is already displayed in some window.
-- *Completions will be displayed in some existing window.
-- *Completions* is a special buffer with its own frame.
-If you use a standalone frame, then its specified width is used.
-If *Completions* is already displayed, or it will be displayed in an
-existing window, then its width is not changed."
-  :type 'integer :group 'Icicles-Completions-Display)
 
 ;;;###autoload
 (defcustom icicle-Completions-window-max-height 30
@@ -659,6 +678,65 @@ inserted."
            more-of-the-same))
   :group 'Icicles-Key-Bindings)
 
+;; We don't use `define-obsolete-variable-alias' so that byte-compilation in older Emacs
+;; works for newer Emacs too.
+(when (fboundp 'defvaralias)            ; Emacs 22+
+  (defvaralias 'icicle-init-value-flag 'icicle-default-value)
+  (make-obsolete-variable 'icicle-init-value-flag 'icicle-default-value))
+
+;;;###autoload
+(defcustom icicle-default-value t
+  "*How to treat the default value when reading minibuffer input.
+
+When the default value argument to functions such as
+`completing-read', `read-file-name', `read-from-minibuffer', and
+`read-string' is non-nil and the initial-input argument is nil or
+\"\", the default value can be added to the prompt as a hint or
+inserted into the minibuffer as the initial input.
+
+Adding it to the prompt is the default behavior and corresponds to the
+behavior of vanilla Emacs.
+
+Inserting the default value in the minibuffer as the initial input has
+the advantage of not requiring you to use `M-n' to retrieve it.  It
+has the disadvantage of making you use `M-p' (or do something else) to
+get rid of the default value in the minibuffer if you do not want to
+use or edit it.  If you often want to use or edit the default value,
+then set `icicle-default-value' to non-nil and non-t.  If you rarely
+do so, then set it to nil or t.
+
+If inserted in the minibuffer, the value of this option also
+determines whether or not the inserted text is preselected and where
+the cursor is left: at the beginning or end of the text.
+
+These are the possible option values:
+
+  nil               - Do not insert default value or add it to prompt.
+  t                 - Add default value to prompt.  Do not insert it.
+  `insert-start'    - Insert default value and leave cursor at start.
+  `insert-end'      - Insert default value and leave cursor at end.
+  `preselect-start' - Insert and preselect default value;
+                      leave cursor at beginning.
+  `preselect-end'   - Insert and preselect default value;
+                      leave cursor at end.
+
+My own preference is `insert-end'.
+
+Preselection can be useful in Delete Selection mode or PC Selection
+mode.  It makes it easy to replace the value by typing characters, or
+delete it by hitting `C-d' or `DEL' (backspace).  However, all of the
+initial input is lost if you type or hit `C-d' or `DEL'.  That is
+inconvenient if you want to keep most of it and edit it only slightly."
+  :type '(choice
+          (const :tag "Do not insert default value or add it to prompt"           nil)
+          (const :tag "Add default value to prompt (do not insert in minibuffer)" t)
+          (const :tag "Insert default value.  Leave cursor at beginning"          insert-start)
+          (const :tag "Insert default value.  Leave cursor at end"                insert-end)
+          (const :tag "Insert default value, select it, leave cursor at beginning"
+           preselect-start)
+          (const :tag "Insert default value, select it, leave cursor at end"      preselect-end))
+  :group 'Icicles-Miscellaneous)
+
 ;;;###autoload
 (defcustom icicle-define-alias-commands-flag t
   "*Non-nil means define some commands that do not begin with `icicle-'.
@@ -666,7 +744,8 @@ For convenience, a few top-level commands are defined, typically as
 aliases for commands with longer names.  For example, command `toggle'
 is defined as an alias for command `icicle-toggle-option'.  In any
 case, no such command is ever defined by Icicles if a function with
-the same name is already defined.")
+the same name is already defined."
+   :type 'boolean :group 'Icicles-Miscellaneous)
 
 ;;;###autoload
 (defcustom icicle-deletion-action-flag t
@@ -678,14 +757,20 @@ effect.
 
 If you are worried about inadvertently deleting an object by
 accidentally hitting `S-delete', you can customize this to nil to
-inhibit `S-delete' object deletion during completion.")
+inhibit `S-delete' object deletion during completion."
+  :type 'boolean :group 'Icicles-Miscellaneous)
 
 ;;;###autoload
-(defcustom icicle-expand-input-to-common-match-flag t
-  "*Non-nil means that `\\<minibuffer-local-completion-map>\\[icicle-apropos-complete]' \
-expands your minibuffer input to the
-longest common match among all completion candidates.  This replaces
-your input, completing it as far as possible.
+(defcustom icicle-inhibit-ding-flag nil
+  "*Non-nil means Icicles never uses an audible bell (ding).
+If nil, Icicles sometimes signals you with a sound."
+  :type 'boolean :group 'Icicles-Miscellaneous)
+
+;;;###autoload
+(defcustom icicle-expand-input-to-common-match-flag t ; Toggle with `C-|'.
+  "*Non-nil means `S-TAB' expands input, still matching all candidates.
+Your expanded input is typically the longest common match among all
+completion candidates.  The expansion replaces your input.
 
 If you want to edit your original input, use \\<minibuffer-local-completion-map>\
 `\\[icicle-retrieve-previous-input]'.
@@ -693,11 +778,14 @@ If you want to edit your original input, use \\<minibuffer-local-completion-map>
 For apropos completion, your input is, in general, a regexp.  Setting
 this option to nil will let you always work with a regexp in the
 minibuffer for apropos completion - your regexp is then never replaced
-by the longest common match."
+by the expanded common match.
+
+You can toggle this option at any time from the minibuffer using
+`C-|'."
   :type 'boolean :group 'Icicles-Matching)
 
 ;;;###autoload
-(defcustom icicle-fuzzy-completion-flag nil
+(defcustom icicle-fuzzy-completion-flag nil ; Toggle with `C-('.
   "*Non-nil means use fuzzy prefix completion for \
 `\\<minibuffer-local-completion-map>\\[icicle-prefix-complete]'.
 This has no effect if library `fuzzy-match.el' is not used (loaded).
@@ -716,7 +804,63 @@ You can toggle this option from the minibuffer at any time with \
   :type 'boolean :group 'Icicles-Matching)
 
 ;;;###autoload
-(defcustom icicle-highlight-historical-candidates-flag t
+(defcustom icicle-generic-S-tab-keys (if (> emacs-major-version 21)
+                                         '([backtab])
+                                       '([S-tab] [S-iso-lefttab]))
+  "*Key sequences to use for `icicle-generic-S-tab' in `icicle-mode'.
+In `icicle-mode-map', these are used for `icicle-apropos-complete'.
+In other keymaps, these keys are used for:
+* `icicle-move-to-previous-completion' in `completion-list-mode-map'
+  (*Completions* buffer)
+* `icicle-complete-keys' in other keymaps.
+
+A list of values that each has the same form as a key-sequence
+argument to `define-key'.  It is a list mainly in order to accommodate
+different keyboards - for example, `S-tab' and `S-iso-lefttab'.
+
+In Emacs 22 and later, `backtab' is the canonical key that represents
+both `S-tab' and `S-iso-lefttab', so that is used in the default
+value.  If, for some reason, `backtab' is not being translated to
+`S-tab' and `S-iso-lefttab' on your platform, you might want to
+customize the value to ([S-tab] [S-iso-lefttab]).  And if your Emacs
+version is 22 or later, please file an Emacs bug about the lack of
+translation."
+  :type '(repeat sexp) :group 'Icicles-Key-Bindings)
+
+;;;###autoload
+(defcustom icicle-test-for-remote-files-flag t ; Toggle with `C-^'.
+  "*Non-nil means Icicles tests for remote file names.
+A value of nil turns off all handling of remote file names by Tramp,
+including file-name completion.
+
+The testing due to a non-nil value takes a little time, but the test
+result saves time with Tramp handling, and it is used to avoid some
+other costly operations when a file is determined to be remote.  These
+operations are (a) incremental completion and (b) highlighting of the
+part of your current input that does not complete.
+
+Use a nil value only when you are sure that the file names you are
+completing are local.  The effect will be a slight speed increase for
+operations (a) and (b) for local files.
+
+In addition, a nil value has the effect of ignoring the restriction of
+input mismatch highlighting to strict completion.  That is, it treats
+an `icicle-highlight-input-completion-failure' value of
+`explicit-strict' or `implicit-strict' as if it were `implicit'.  The
+assumption here is that you use these highlighting values only to
+avoid the cost of remote file name completion.
+
+You can toggle this option from the minibuffer using `C-^' (except
+during Icicles search)."
+  :initialize (lambda (opt-name val) (set opt-name t))
+  :set (lambda (opt-name val)
+         (or (not (require 'tramp nil t))
+             (prog1 (set opt-name (not val))
+               (icicle-toggle-remote-file-testing))))
+  :type 'boolean :group 'Icicles-Matching)
+
+;;;###autoload
+(defcustom icicle-highlight-historical-candidates-flag t ; Toggle with `C-pause'.
   "*Non-nil means highlight  *Completions* candidates that have been used.
 This is done using face `icicle-historical-candidate'.
 Historical candidates are those that you have entered (using `RET' or
@@ -725,25 +869,83 @@ at any time using `C-pause'."
   :type 'boolean :group 'Icicles-Completions-Display)
 
 ;;;###autoload
-(defcustom icicle-highlight-input-completion-failure-flag 'lax-and-strict
+(defcustom icicle-highlight-input-completion-failure 'implicit-strict
   "*Non-nil means highlight the part of your input that does not complete.
-This is done using face `icicle-input-completion-fail'.
-You can use `\\<minibuffer-local-completion-map>\\[icicle-kill-failed-input]' to kill the \
+This is done using face `icicle-input-completion-fail' or
+`icicle-input-completion-fail-lax'.  You can use \
+`\\<minibuffer-local-completion-map>\\[icicle-kill-failed-input]' to kill the
 highlighted part.
 
-Note: For this highlighting to occur, option
-`icicle-incremental-completion-flag' must also be non-nil.  You can
-toggle `icicle-incremental-completion-flag' using `C-#' in the
-minibuffer.  One reason you might want to turn this off is that when
-it is non-nil Icicles might recompute completion candidates multiple
-times, in order to determine the longest part that completes.  Also,
-incremental completion is effectively turned off when a remote file
-name is read, so no highlighting occurs then either."
+This highlighting can have a negative impact on performance, because
+it can mean recomputing completion candidates multiple times, in order
+to determine the longest part that completes.  For this reason, you
+can fine tune when you want this highlighting to occur.  The values of
+this option and options
+`icicle-highlight-input-completion-failure-delay' and
+`icicle-highlight-input-completion-failure-threshold' determine when
+the highlighting can take place.
+
+In particular, highlighting the non-matching part of remote file names
+can be slow.  Two values of this option allow remote file name
+highlighting: `always' and `explicit-remote'.  The other values do not
+highlight remote file names.  You probably do not want to use a value
+of `always'.
+
+If the value is nil, then highlighting never occurs.  If the value is
+`explicit-strict', `explicit', or `explicit-remote', then highlighting
+occurs only upon demand: when you hit `TAB' or `S-TAB' to request
+completion.  If the value is `implicit-strict', `implicit', or
+`always', then highlighting occurs also when you update your input
+during incremental completion.
+
+If the value is `implicit-strict' or `implicit', then highlighting
+occurs not only upon demand but also during incremental completion if
+`icicle-incremental-completion-flag' is non-nil.  Remember that you
+can toggle incremental completion, using `C-#' in the minibuffer.
+
+I use a value of `implicit' myself, but the default value is
+`implicit-strict' because, depending on your setup and use cases,
+`implicit' can impact performance for file-name completion (which is
+lax, not strict).  I suggest you try `implicit' to see - this feature
+is especially useful for file names.
+
+Summary of choices for when to highlight:
+
+nil               Never
+`explicit-strict' When you hit `TAB'/`S-TAB' for strict completion
+`explicit'        When you hit `TAB'/`S-TAB'
+`explicit-remote' When you hit `TAB'/`S-TAB', including remote files
+`implicit-strict' During strict completion
+`implicit'        During lax or strict completion
+`always'          Always, even for names of remote files
+
+After highlighting, you can use `C-M-l' to kill the highlighted
+portion or your input.
+
+See also:
+* `icicle-highlight-input-completion-failure-delay'
+* `icicle-highlight-input-completion-failure-threshold'"
   :type '(choice
-          (const :tag "Never"                            nil)
-          (const :tag "Only during strict completion"    strict-only)
-          (const :tag "During lax and strict completion" lax-and-strict))
+          (const :tag "Never"                                              nil)
+          (const :tag "Explicit (`TAB'/`S-TAB') strict completion"         explicit-strict)
+          (const :tag "Explicit (`TAB'/`S-TAB') lax and strict completion" explicit)
+          (const :tag "Explicit completion, even of remote file names"     explicit-remote)
+          (const :tag "Strict completion"                                  implicit-strict)
+          (const :tag "Lax and strict completion"                          implicit)
+          (const :tag "Always (including for remote file names)"           always))
   :group 'Icicles-Minibuffer-Display)
+
+;;;###autoload
+(defcustom icicle-highlight-input-completion-failure-delay 0.7
+  "*Seconds to wait before highlighting non-completing part of your input.
+Zero means there is no wait."
+  :type 'number :group 'Icicles-Minibuffer-Display)
+
+;;;###autoload
+(defcustom icicle-highlight-input-completion-failure-threshold 1000
+  "*More candidates means do not highlight non-completing part of input.
+See also `icicle-highlight-input-completion-failure'."
+  :type 'integer :group 'Icicles-Completions-Display)
 
 ;;;###autoload
 (defcustom icicle-highlight-input-initial-whitespace-flag t
@@ -751,15 +953,28 @@ name is read, so no highlighting occurs then either."
 This is done using face `icicle-whitespace-highlight'.
 Purpose: Otherwise, you might not notice that you accidentally typed
 some whitespace at the beginning of your input, so you might not
-understand the set of matching candidates (or lack thereof)."
+understand the set of matching candidates (or lack thereof).
+
+Note: Highlighting input completion failure (see option
+`icicle-highlight-input-completion-failure') subsumes
+initial-whitespace highlighting.  This means that if no completion
+candidate starts with whitespace, and if Icicles is highlighting input
+completion failure, then only that highlighting is shown."
   :type 'boolean :group 'Icicles-Minibuffer-Display)
 
 ;;;###autoload
-(defcustom icicle-ignore-space-prefix-flag nil
+(defcustom icicle-highlight-lighter-flag t
+  "*Non-nil means highlight the `Icy' mode-line lighter during completion.
+See the Icicles doc, section `Nutshell View of Icicles', subsection
+`Completion Status Indicators' for more information."
+  :type 'boolean :group 'Icicles-Miscellaneous)
+
+;;;###autoload
+(defcustom icicle-ignore-space-prefix-flag nil ; Toggle with `M-_'.
   "*Non-nil means ignore completion candidates that start with a space.
 However, such candidates are not ignored for prefix completion when
 the input also starts with a space.  You can toggle this option from
-the minibuffer (except during searching with `C-c `') using `C-^'.
+the minibuffer using `M-_'.
 Note: Some Icicles functionalities ignore the value of this option."
   :type 'boolean :group 'Icicles-Matching)
 
@@ -772,7 +987,7 @@ See also `icicle-incremental-completion-flag'."
   :type 'number :group 'Icicles-Completions-Display)
 
 ;;;###autoload
-(defcustom icicle-incremental-completion-flag t
+(defcustom icicle-incremental-completion-flag t ; Toggle with `C-#'.
   "*Non-nil means update *Completions* buffer incrementally, as you type.
 nil means do not update *Completions* buffer incrementally, as you type.
 t means do nothing if *Completions* is not already displayed.
@@ -798,50 +1013,6 @@ This threshold is also used to decide when to display the message
   :type 'integer :group 'Icicles-Completions-Display)
 
 ;;;###autoload
-(defcustom icicle-init-value-flag nil
-  "*Non-nil means to use default value as init value when reading input.
-This is used by `completing-read', `read-file-name', `read-string',
-and `read-from-minibuffer'.  When the default-value argument to one of
-these functions is non-nil and the initial-input argument is nil or
-\"\", the default value is inserted in the minibuffer as the initial
-input.
-
-This has the advantage of not requiring you to use `M-n' to
-retrieve the default value.  It has the disadvantage of making
-you use `M-p' (or do something else) to get rid of the default
-value in the minibuffer if you do not want to use or edit it.  If
-you often want to use or edit the default value, then set
-`icicle-init-value-flag' to non-nil; if you rarely do so, then
-set it to nil.
-
-The particular non-nil value determines whether or not the value is
-preselected and, if preselected, where the cursor is left: at the
-beginning or end of the value.  Possible values:
-
-  nil               - Do not insert default value.
-  `insert'          - Insert default value (leave cursor at end).
-  `preselect-start' - Insert and preselect default value;
-                      leave cursor at beginning.
-  `preselect-end'   - Insert and preselect default value;
-                      leave cursor at end.
-
-My own preference is `insert'.  This is not the value by default only
-because people are not used to it.  I recommend that you try `insert'
-for a while, before giving up on it.
-
-Preselection can be useful in Delete Selection mode or PC Selection
-mode.  It makes it easy to replace the value by typing characters, or
-delete it by hitting `C-d' or `DEL' (backspace).  However, all of the
-initial input is lost if you type or hit `C-d' or `DEL'.  That is
-inconvenient if you want to keep most of it and edit it only slightly."
-  :type '(choice
-          (const :tag "Do not insert default value as initial value"     nil)
-          (const :tag "Insert (and leave cursor at end)"                 insert)
-          (const :tag "Insert, preselect, and leave cursor at beginning" preselect-start)
-          (const :tag "Insert, preselect, and leave cursor at end"       preselect-end))
-  :group 'Icicles-Miscellaneous)
-
-;;;###autoload
 (defcustom icicle-input-string ".*"
   "*String to insert in minibuffer via `\\<minibuffer-local-completion-map>\
 \\[icicle-insert-string-from-variable]'.
@@ -854,8 +1025,35 @@ Typically, this is a regexp or a portion of a regexp."
 
 ;;;###autoload
 (defcustom icicle-inter-candidates-min-spaces 1
-  "*Minimum number of spaces between candidates displayed in *Completions*."
+  "*Minimum number of spaces between candidates displayed in *Completions*.
+If you use Do Re Mi (library `doremi.el'), then you can modify this
+option incrementally during completion, seeing the effect as it
+changes.  Use `\\<minibuffer-local-completion-map>\
+\\[icicle-doremi-inter-candidates-min-spaces]' from the minibuffer, then use the `up' and
+`down' arrow keys or the mouse wheel to increment and decrement the
+value.  WYSIWYG."
   :type 'integer :group 'Icicles-Completions-Display)
+
+;;;###autoload
+(defcustom icicle-isearch-complete-keys
+  (append
+   (and (eq system-type 'windows-nt) '([C-M-tab])) ; Windows uses ALT-TAB for something else.
+   '([M-tab] "\M-\t"                    ; Replace vanilla completion.
+     "\M-o"))                           ; Like Icicles minibuffer `M-o'.
+  "*Key sequences to use for `icicle-isearch-complete'.
+A list of values that each has the same form as a key-sequence
+argument to `define-key'.
+
+The default value includes `M-TAB', which replaces the vanilla binding
+of `isearch-complete'.
+
+On MS Windows, it also includes `C-M-TAB', because Windows intercepts
+`M-TAB' for its own use.  But note that you can also use
+\(w32-register-hot-key [M-tab]) to enable Emacs to use `M-TAB'.
+
+The default binding also includes `M-o', in keeping with the Icicles
+use of `M-o' during minibuffer completion."
+  :type '(repeat sexp) :group 'Icicles-Key-Bindings)
 
 ;;;###autoload
 (defcustom icicle-key-descriptions-use-<>-flag nil
@@ -886,12 +1084,15 @@ complete `calendar-mode' prefix keys such as `A'.
 
 Do not add `global-map' or any keymaps, such as `ctl-x-map', that are
 accessible from the global keymap to the list - they are already
-treated, by default.  Do not add `key-translation-map' to the list -
-it won't work."
+treated, by default.
+
+Do not add any of the translation keymaps, `function-key-map',
+`key-translation-map', or `iso-transl-ctl-x-8-map' to the list - that
+will not work."
   :type '(repeat symbol) :group 'Icicles-Key-Bindings)
 
 ;;;###autoload
-(when (boundp 'kmacro-ring)             ; Emacs 22
+(when (boundp 'kmacro-ring)             ; Emacs 22+
   (defcustom icicle-kmacro-ring-max (if (boundp 'most-positive-fixnum)
                                         most-positive-fixnum
                                       67108863) ; 1/2 of `most-positive-fixnum' on Windows.
@@ -927,7 +1128,9 @@ use a regexp that ends in `$', matching the end of the candidate."
 ;; `C-q'.  Emacs Wiki loses the ^G from the file, so I use \007, which works OK.
 ;;
 ;;;###autoload
-(defcustom icicle-list-join-string "\007\012"
+(defcustom icicle-list-join-string (let ((strg "\007\012"))
+                                     (set-text-properties 0 1 '(display "") strg)
+                                     strg)
   "*String joining items in a completion that is a list of strings.
 When a completion candidate is a list of strings, this string is used
 to join the strings in the list, for display and matching purposes.
@@ -947,14 +1150,21 @@ control-j (newline):
  1) ^G does not normally occur in doc strings
  2) a newline visually separates the multiple component strings, which
     helps readability in buffer *Completions*
- 3) you can type the value using `C-q C-g C-q C-j'."
+ 3) you can type the value using `C-q C-g C-q C-j'.
+
+For readability (in Emacs 22 and later), the default value has a
+`display' property that makes it appear as simply a newline in
+*Completions* - the `^G' is hidden.  you can also make the default
+value appear this way in your minibuffer input also, by using \
+`\\<minibuffer-local-completion-map>\\[icicle-insert-list-join-string].'"
   :type 'string :group 'Icicles-Completions-Display)
 
 ;;;###autoload
 (defcustom icicle-list-nth-parts-join-string " "
   "*String joining candidate parts split by `icicle-list-use-nth-parts'.
 This has an effect on multi-completion candidates only, and only if
-the current command uses `icicle-list-use-nth-parts'.")
+the current command uses `icicle-list-use-nth-parts'."
+  :type 'string :group 'Icicles-Completions-Display)
 
 ;;;###autoload
 (defcustom icicle-mark-position-in-candidate 'input-end
@@ -975,20 +1185,46 @@ Possible values are those for `icicle-point-position-in-candidate'."
   :type 'hook :group 'Icicles-Miscellaneous)
 
 ;;;###autoload
-(defcustom icicle-modal-cycle-down-key [down]
-  "*Key sequence to use for modal cycling to the next candidate.
-The value has the same form as a key-sequence arg to `define-key'.
-This is only used if `icicle-cycling-respects-completion-mode-flag' is
+(defcustom icicle-modal-cycle-down-keys '([down])
+  "*Key sequences to use for modal cycling to the next candidate.
+A list of values that each has the same form as a key-sequence
+argument to `define-key'.  It is a list mainly in order to accommodate
+different keyboards.
+
+This is used only if `icicle-cycling-respects-completion-mode-flag' is
 non-nil."
-  :type 'sexp :group 'Icicles-Key-Bindings)
+  :type '(repeat sexp) :group 'Icicles-Key-Bindings)
 
 ;;;###autoload
-(defcustom icicle-modal-cycle-up-key [up]
-  "*Key sequence to use for modal cycling to the previous candidate.
-The value has the same form as a key-sequence arg to `define-key'.
-This is only used if `icicle-cycling-respects-completion-mode-flag' is
+(defcustom icicle-modal-cycle-up-keys '([up])
+  "*Key sequences to use for modal cycling to the previous candidate.
+A list of values that each has the same form as a key-sequence
+argument to `define-key'.  It is a list mainly in order to accommodate
+different keyboards.
+
+This is used only if `icicle-cycling-respects-completion-mode-flag' is
 non-nil."
-  :type 'sexp :group 'Icicles-Key-Bindings)
+  :type '(repeat sexp) :group 'Icicles-Key-Bindings)
+
+;;;###autoload
+(defcustom icicle-option-type-prefix-arg-list '(direct inherit inherit-or-value direct-or-value
+                                                inherit-or-regexp direct-or-regexp)
+  "*Symbols controlling prefix args for `icicle-describe-option-of-type'.
+A list of six symbols taken from this list:
+
+  direct            inherit             inherit-or-value
+  direct-or-value   inherit-or-regexp   direct-or-regexp
+
+Choose the order you like.  The list members map, in order left to
+right, to these prefix argument keys:
+
+ `C-u C-u'           `C-0'            `C-u'
+ `C-9' (positive)    no prefix arg    `C--' (negative)
+
+For the meanings of the symbols, see the doc string of
+`icicle-describe-option-of-type', which describes the default
+prefix-argument bindings for the command."
+  :type '(list symbol symbol symbol symbol symbol symbol) :group 'Icicles-Key-Bindings)
 
 ;;;###autoload
 (defcustom icicle-point-position-in-candidate 'root-end
@@ -1085,12 +1321,58 @@ delete-selection mode."
                                         (hexrgb-hsv-to-rgb hue saturation value)))))
 
 ;;;###autoload
+(defcustom icicle-pp-eval-expression-print-length nil
+  "Value for `print-length' while printing value in `pp-eval-expression'.
+A value of nil means no limit."
+  :type '(choice (const :tag "No Limit" nil) integer) :group 'Icicles-Miscellaneous)
+
+;;;###autoload
+(defcustom icicle-pp-eval-expression-print-level nil
+  "Value for `print-level' while printing value in `pp-eval-expression'.
+A value of nil means no limit."
+  :type '(choice (const :tag "No Limit" nil) integer) :group 'Icicles-Miscellaneous)
+
+;;;###autoload
+(defcustom icicle-prefix-complete-keys '([tab] [(control ?i)])
+  "*Key sequences to use for `icicle-prefix-complete'.
+A list of values that each has the same form as a key-sequence
+argument to `define-key'.  It is a list mainly in order to accommodate
+different keyboards."
+  :type '(repeat sexp) :group 'Icicles-Key-Bindings)
+
+;;;###autoload
+(defcustom icicle-prefix-complete-no-display-keys '([(control meta tab)])
+  "*Key sequences to use for `icicle-prefix-complete-no-display'.
+A list of values that each has the same form as a key-sequence
+argument to `define-key'.  It is a list mainly in order to accommodate
+different keyboards."
+  :type '(repeat sexp) :group 'Icicles-Key-Bindings)
+
+;;;###autoload
+(defcustom icicle-prefix-cycle-next-keys '([down])
+  "*Key sequences for prefix completion to cycle to the next candidate.
+This is also used to move down a line in the *Completions* buffer.
+A list of values that each has the same form as a key-sequence
+argument to `define-key'.  It is a list mainly in order to accommodate
+different keyboards."
+  :type '(repeat sexp) :group 'Icicles-Key-Bindings)
+
+;;;###autoload
+(defcustom icicle-prefix-cycle-previous-keys '([up])
+  "*Key sequences for prefix completion to cycle to the previous candidate.
+This is also used to move up a line in the *Completions* buffer.
+A list of values that each has the same form as a key-sequence
+argument to `define-key'.  It is a list mainly in order to accommodate
+different keyboards."
+  :type '(repeat sexp) :group 'Icicles-Key-Bindings)
+
+;;;###autoload
 (defcustom icicle-redefine-standard-commands-flag t
   "*Non-nil means Icicle mode redefines some standard Emacs commands."
   :type 'boolean :group 'Icicles-Miscellaneous)
 
 ;;;###autoload
-(defcustom icicle-regexp-quote-flag nil
+(defcustom icicle-regexp-quote-flag nil ; Toggle with `C-`'.
   "*Non-nil means special characters in regexps are escaped.
 This means that no characters are recognized as special: they match
 themselves.  This turns apropos completion into simple substring
@@ -1107,9 +1389,8 @@ time using `C-`'."
   :type 'integer :group 'Icicles-Searching)
 
 ;;;###autoload
-(if (< emacs-major-version 21)
-    (defcustom icicle-region-alist nil  ; Emacs 20
-      "*Alist of regions (in any buffers).
+(defcustom icicle-region-alist nil
+  "*Alist of regions (in any buffers).
 Use commands `icicle-add-region' and `icicle-remove-region' to define
 this list.
 
@@ -1119,33 +1400,14 @@ STRING is the first `icicle-regions-name-length-max' characters in the
 BUFFER is the name of the buffer containing the region.
 FILE is the buffer's `buffer-file-name', or nil if not a file buffer.
 START and END are character positions that delimit the region."
-      :type '(repeat (list
-                      (string  :tag "Tag")
-                      (string  :tag "Buffer name")
-                      (file    :tag "File name (absolute)")
-                      (integer :tag "Region start")
-                      (integer :tag "Region end")
-                      ))
-      :group 'Icicles-Miscellaneous)
-  (defcustom icicle-region-alist nil    ; Emacs 21+
-    "*Alist of regions (in any buffers).
-Use commands `icicle-add-region' and `icicle-remove-region' to define
-this list.
-
-List elements have the form (STRING BUFFER FILE START END), where:
-STRING is the first `icicle-regions-name-length-max' characters in the
-  region.
-BUFFER is the name of the buffer containing the region.
-FILE is the buffer's `buffer-file-name', or nil if not a file buffer.
-START and END are character positions that delimit the region."
-    :type '(alist
-            :key-type (string :tag "Tag")
-            :value-type (list
-                         (string  :tag "Buffer name")
-                         (file    :tag "File name (absolute)")
-                         (integer :tag "Region start")
-                         (integer :tag "Region end")))
-    :group 'Icicles-Miscellaneous))
+  :type '(alist
+          :key-type (string :tag "Tag")
+          :value-type (list
+                       (string  :tag "Buffer name")
+                       (file    :tag "File name (absolute)")
+                       (integer :tag "Region start")
+                       (integer :tag "Region end")))
+  :group 'Icicles-Miscellaneous)
 
 ;;;###autoload
 (defcustom icicle-region-auto-open-files-flag nil
@@ -1161,7 +1423,19 @@ command `icicle-region-open-all-files'."
 ;; prefer highlighting background to be slightly darker instead of a slightly different hue.
 ;;
 ;;;###autoload
-(defcustom icicle-region-background nil
+(defcustom icicle-region-background
+  (if (featurep 'hexrgb)
+      (let ((bg (or (and (boundp '1on1-active-minibuffer-frame-background)
+                         1on1-active-minibuffer-frame-background) ; In `oneonone.el'.
+                    (cdr (assq 'background-color (frame-parameters)))
+                    (face-background 'region))))
+        (if (hexrgb-approx-equal (hexrgb-saturation bg) 0.0)
+            (icicle-increment-color-value bg ; Grayscale - change bg value slightly.
+                                          (if (eq frame-background-mode 'dark)
+                                              20
+                                            -10))
+          (icicle-increment-color-hue bg 24))) ; Color - change bg hue slightly.
+    (face-background 'region)) ; Use normal region background.
   "*Background color to use for region during minibuffer cycling.
 This has no effect if `icicle-change-region-background-flag' is nil.
 If you do not define this explicitly, and if you have loaded library
@@ -1169,24 +1443,8 @@ If you do not define this explicitly, and if you have loaded library
 different from your frame background.  This still lets you notice the
 region, but it makes the region less conspicuous, so you can more
 easily read your minibuffer input."
-  :type (if (>= emacs-major-version 21) 'color 'string) :group 'Icicles-Minibuffer-Display)
-
-;; Do it this way, not inside `defcustom', to avoid processing by
-;; `customize-update-all' run on idle timer by `cus-edit+.el'.
-(setq icicle-region-background
-      (or icicle-region-background      ; Don't redefine, if user has set it.
-          (if (featurep 'hexrgb)
-              (let ((bg (or (and (boundp '1on1-active-minibuffer-frame-background)
-                                 1on1-active-minibuffer-frame-background) ; In `oneonone.el'.
-                            (cdr (assq 'background-color (frame-parameters)))
-                            (face-background 'region))))
-                (if (hexrgb-approx-equal (hexrgb-saturation bg) 0.0)
-                    (icicle-increment-color-value bg ; Grayscale - change bg value slightly.
-                                                  (if (eq frame-background-mode 'dark)
-                                                      20
-                                                    -10))
-                  (icicle-increment-color-hue bg 24))) ; Color - change bg hue slightly.
-            (face-background 'region)))) ; Use normal region background.
+  :type (if (and (require 'wid-edit nil t) (get 'color 'widget-type)) 'color 'string)
+  :group 'Icicles-Minibuffer-Display)
 
 ;;;###autoload
 (defcustom icicle-regions-name-length-max 80
@@ -1196,17 +1454,13 @@ used to name the region."
   :type 'integer :group 'Icicles-Miscellaneous)
 
 ;;;###autoload
-(defcustom icicle-reminder-prompt-flag 7
-  "*Whether to use `icicle-prompt-suffix' reminder in minibuffer prompt.
-Nil means never use the reminder.
-Non-nil means use the reminder, if space permits:
- An integer value means use only for that many Emacs sessions.
- t means always use it."
-  :type '(choice
-          (const   :tag "Never use a reminder in the prompt"                  nil)
-          (const   :tag "Always use a reminder in the prompt"                 t)
-          (integer :tag "Use a reminder in the prompt for this many sessions" :value 20))
-  :group 'Icicles-Minibuffer-Display)
+(defcustom icicle-customize-save-flag t
+  "*Non-nil means save some updated Icicles options when you quit Emacs.
+That is, add some functions to `kill-emacs-hook' that call
+`customize-save-variable'.  Currently, this includes only function
+`icicle-command-abbrev-save', which saves updated option
+`icicle-command-abbrev-alist'."
+  :type 'boolean :group 'Icicles-Minibuffer-Display)
 
 ;;;###autoload
 (defcustom icicle-require-match-flag nil
@@ -1242,6 +1496,17 @@ Instead, you add or remove sets using commands
   :type '(repeat (cons string file)) :group 'Icicles-Matching)
 
 ;;;###autoload
+(defcustom icicle-filesets-as-saved-completion-sets-flag t
+  "*Non-nil means you can use filesets to save candidates persistently.
+This means that you can save file-name candidates in a persistent
+Icicles saved completion set (cache file) or in in an Emacs fileset.
+It also means that an Icicles persistent completion set can contain
+filesets, in addition to file names: any number of filesets, and
+filesets of different type.  Available only for Emacs 22 and later,
+and you must load library `filesets.el'."
+  :type 'boolean :group 'Icicles-Matching)
+
+;;;###autoload
 (defcustom icicle-search-cleanup-flag t
   "*Controls whether to remove highlighting after a search.
 If this is nil, highlighting can be removed manually with
@@ -1263,7 +1528,7 @@ which includes the context position."
   :type '(choice (const :tag "None" nil) function) :group 'Icicles-Matching)
 
 ;;;###autoload
-(defcustom icicle-search-highlight-all-current-flag nil
+(defcustom icicle-search-highlight-all-current-flag nil ; Toggle with `C-^'.
   "*Non-nil means highlight input match in each context search hit.
 Setting this to non-nil can impact performance negatively, because the
 highlighting is updated with each input change.  You can toggle this
@@ -1290,7 +1555,18 @@ This highlighting uses face `icicle-search-main-regexp-others'."
   :type 'hook :group 'Icicles-Searching)
 
 ;;;###autoload
-(defcustom icicle-search-replace-literally-flag nil
+(defcustom icicle-search-replace-common-match-flag t ; Toggle with `C-M-|'.
+  "*Non-nil means to replace the expanded common match of your input.
+This has no effect if either
+`icicle-search-highlight-all-current-flag' or
+`icicle-expand-input-to-common-match-flag' is nil.
+You can toggle those options from the minibuffer using `C-^' and
+`C-|', respectively.  You can toggle
+`icicle-search-replace-common-match-flag' using `C-M-|'."
+  :type 'boolean :group 'Icicles-Searching)
+
+;;;###autoload
+(defcustom icicle-search-replace-literally-flag nil ; Toggle with `M-`'.
   "*Non-nil means to treat replacement text literally.
 Nil means to interpret `\' specially in replacement text, as in the
   LITERAL argument to `replace-match'.
@@ -1298,7 +1574,7 @@ You can use `M-`' to toggle this at any time during Icicles search."
   :type 'boolean :group 'Icicles-Searching)
 
 ;;;###autoload
-(defcustom icicle-search-replace-whole-candidate-flag t
+(defcustom icicle-search-replace-whole-candidate-flag t ; Toggle with `C-,'.
   "*Non-nil means replacement during search replaces the entire search hit.
 Nil means to replace only what matches your current input.
 You can use `C-,' to toggle this at any time during Icicles search."
@@ -1312,7 +1588,7 @@ You can use `C-,' to toggle this at any time during Icicles search."
   :type 'integer :group 'Icicles-Searching)
 
 ;;;###autoload
-(defcustom icicle-search-whole-word-flag nil
+(defcustom icicle-search-whole-word-flag nil ; Toggle with `M-q'.
   "*Non-nil means that `icicle-search' looks for a whole word.
 You can use `M-q' to toggle this at any time during Icicles search."
   :type 'boolean :group 'Icicles-Searching)
@@ -1337,7 +1613,7 @@ initially)."
   :type 'boolean :group 'Icicles-Completions-Display)
 
 ;;;###autoload
-(defcustom icicle-sort-function 'icicle-case-string-less-p
+(defcustom icicle-sort-function 'icicle-case-string-less-p ; Toggle with `C-,'.
   "*Comparison function passed to `sort', to sort completion candidates.
 This sorting determines the order of candidates when cycling and their
 order in buffer *Completions*.  If the value is nil, then no sorting
@@ -1394,9 +1670,9 @@ completion and their order."
         (and (string-match "^\\*" b2) (string< b1 b2))
       (or (string-match "^\\*" b2) (string< b1 b2)))))
 
-(if (< emacs-major-version 21)
-    (defcustom icicle-sort-functions-alist nil ; Emacs 20
-      "Alist of sort functions.
+
+(defcustom icicle-sort-functions-alist nil ; Emacs 21+
+  "*Alist of sort functions.
 You probably do not want to customize this option.  Instead, use macro
 `icicle-define-sort-command' to define a new sort function and add it
 to this alist.
@@ -1405,28 +1681,11 @@ SORT-ORDER is a short string (or symbol) describing the sort order.
  Examples: \"by date\", \"alphabetically\", \"directories first\".
 COMPARISON-FN is a function that compares two strings, returning
  non-nil if and only if the first string sorts before the second."
-      ;; We don't use `alist' :type, because we want Emacs-20 compatibility.
-      :type '(repeat
-              (cons
-               (choice :tag "Sort order" string symbol)
-               (choice (function :tag "Comparison function") (const :tag "Do not sort" nil))))
-      :group 'Icicles-Completions-Display :group 'Icicles-Matching)
-  (defcustom icicle-sort-functions-alist nil ; Emacs 21+
-    "Alist of sort functions.
-You probably do not want to customize this option.  Instead, use macro
-`icicle-define-sort-command' to define a new sort function and add it
-to this alist.
-Each alist element has the form (SORT-ORDER . COMPARISON-FUNCTION).
-SORT-ORDER is a short string (or symbol) describing the sort order.
- Examples: \"by date\", \"alphabetically\", \"directories first\".
-COMPARISON-FN is a function that compares two strings, returning
- non-nil if and only if the first string sorts before the second."
-    ;; We don't use `alist' :type, because we want Emacs-20 compatibility.
-    :type '(alist
-            :key-type (choice :tag "Sort order" string symbol)
-            :value-type
-            (choice (function :tag "Comparison function") (const :tag "Do not sort" nil)))
-    :group 'Icicles-Completions-Display :group 'Icicles-Matching))
+  :type '(alist
+          :key-type (choice :tag "Sort order" string symbol)
+          :value-type
+          (choice (function :tag "Comparison function") (const :tag "Do not sort" nil)))
+  :group 'Icicles-Completions-Display :group 'Icicles-Matching)
 
 ;;;###autoload
 (defcustom icicle-special-candidate-regexp nil
@@ -1440,7 +1699,10 @@ The candidates are highlighted in buffer *Completions* using face
   "*Non-nil means that `TAB' always shows completion candidates.
 Nil means follow the standard Emacs behavior of completing to the
 longest common prefix, and only displaying the candidates after a
-second `TAB'."
+second `TAB'.
+
+Actually, the concerned keys are those defined by option
+`icicle-prefix-complete-keys', not necessarily `TAB'."
   :type 'boolean :group 'Icicles-Key-Bindings)
 
 ;;;###autoload
@@ -1458,7 +1720,7 @@ second `TAB'."
             thing-at-point-url-at-point)
           'forward-word))
   "*Functions that return a string at or near the cursor when you use `M-.'.
-This is a cons cell whose car and cdr may each be empty.
+A cons cell whose car and cdr may each be empty.
 
 The car of the cons cell is a list of functions that grab different
 kinds of strings at or near point.  By default, there are four
@@ -1509,7 +1771,7 @@ before you enter Icicle mode."
   :type 'boolean :group 'Icicles-Key-Bindings)
 
 ;;;###autoload
-(defcustom icicle-transform-function nil
+(defcustom icicle-transform-function nil ; Toggle with `C-$,'.
   "*Function used to transform the list of completion candidates.
 This is applied to the list of initial candidates.
 If this is nil, then no transformation takes place.
@@ -1532,15 +1794,31 @@ duplicates, by binding it to `icicle-remove-duplicates'."
   :type '(choice (const :tag "None" nil) function) :group 'Icicles-Completions-Display)
 
 ;;;###autoload
+(defcustom icicle-unpropertize-completion-result-flag nil
+  "*Non-nil means strip text properties from the completion result.
+Set this option to non-nil only if you need to ensure, for some other
+library, that the string returned by `completing-read' and (starting
+with Emacs 23) `read-file-name' has no text properties."
+  :type 'boolean :group 'Icicles-Miscellaneous)
+
+;;;###autoload
 (defcustom icicle-update-input-hook nil
   "*Functions run when minibuffer input is updated (typing or deleting)."
   :type 'hook :group 'Icicles-Miscellaneous)
 
 ;;;###autoload
-(defcustom icicle-use-~-for-home-dir-flag t
+(defcustom icicle-use-~-for-home-dir-flag t ; Toggle with `M-~'.
   "*Non-nil means abbreviate your home directory using `~'.
 You can toggle this option from the minibuffer at any time using
 `M-~'."
+  :type 'boolean :group 'Icicles-Key-Bindings)
+
+;;;###autoload
+(defcustom icicle-use-C-for-actions-flag t ; Toggle with `M-g'.
+  "*Non-nil means use modifier `C-' (Control) for multi-command actions.
+If nil, then you need no `C-' modifier for actions, and, instead, you
+need a `C-' modifier for ordinary candidate cycling.  You can toggle
+this option from the minibuffer at any time using `M-g'."
   :type 'boolean :group 'Icicles-Key-Bindings)
 
 ;;;###autoload
@@ -1561,12 +1839,14 @@ again, and they are not distracted seeing it as a candidate."
   :type 'boolean :group 'Icicles-Matching)
 
 ;;;###autoload
-(defcustom icicle-word-completion-key [(meta ?\ )]
-  "*Key sequence to use for minibuffer word completion.
-The value has the same form as a key-sequence arg to `define-key'.
+(defcustom icicle-word-completion-keys '([(meta ?\ )])
+  "*Key sequences to use for minibuffer prefix word completion.
+A list of values that each has the same form as a key-sequence
+argument to `define-key'.  It is a list mainly in order to accommodate
+different keyboards.
 
 Because file names, in particular, can contain spaces, some people
-prefer this to be a non-printable key sequence, such as `M-SPC'.  This
+prefer such a key sequence to be non-printable, such as `M-SPC'.  This
 is the default value in Icicles.
 
 But because the spacebar is such a convenient key to hit, other people
@@ -1576,11 +1856,18 @@ other way.  The usual way to do that is via `C-q SPC', but command
 this to `M-SPC', for instance, in `minibuffer-local-completion-map',
 `minibuffer-local-completion-map', and
 `minibuffer-local-must-match-map'."
-  :type 'sexp :group 'Icicles-Key-Bindings)
+  :type '(repeat sexp) :group 'Icicles-Key-Bindings)
 
 ;;;###autoload
 (defcustom icicle-WYSIWYG-Completions-flag "MMMM"
-  "*Non-nil means to show candidates in *Completions* using WYSIWYG.
+  "*Non-nil means show candidates in *Completions* using WYSIWYG.
+This has an effect only for completion of faces and colors.
+
+The particular non-nil value determines the appearance:
+* If t, the candidate is shown with its text properties.
+* If a string, the string is propertized and then appended to the
+  candidate,  to serve as a color swatch.
+
 Some commands might override a string value with different text.  This
 is the case for `icicle-read-color', for instance: the swatch text is
 always the color's RGB code."
@@ -1589,17 +1876,6 @@ always the color's RGB code."
           (const  :tag "Show candidate itself using WYSIWYG"               t)
           (const  :tag "Show candidate as is, with no text properties"     nil))
   :group 'Icicles-Completions-Display)
-
-;;;###autoload
-(defcustom icicle-yank-function 'yank
-  "*Yank function.  A function that takes a prefix argument.
-This should be a command that is bound to whatever key you use to yank
-text, whether in Icicle mode or not.  In Icicle mode, command
-`icicle-yank-insert' calls this function, except when
-`icicle-yank-insert' is called from the minibuffer or the prefix
-argument is negative.  `icicle-yank-insert' passes the raw prefix
-argument to `icicle-yank-function'."
-  :type 'function :group 'Icicles-Miscellaneous)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

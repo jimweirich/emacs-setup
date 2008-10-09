@@ -22,7 +22,7 @@
 ;;; interfacing with ELPA, the package archive.
 ;;; Move this code earlier if you want to reference
 ;;; packages in your .emacs.
-(when
-    (load
-     (expand-file-name "~/.emacs.d/elpa/package.el"))
-  (package-initialize))
+(let ((fn (expand-file-name "~/.emacs.d/elpa/package.el")))
+  (when (file-readable-p fn)
+    (load fn)
+    (package-initialize)))
