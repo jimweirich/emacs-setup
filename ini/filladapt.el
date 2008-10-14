@@ -12,7 +12,7 @@
   (interactive)
   (filladapt-mode))
 
-(setq-default filladapt-mode t)
+;;(setq-default filladapt-mode t)
 
 ;; Use the following as apropriate.
 ;; (add-hook 'text-mode-hook 'turn-on-filladapt-mode)
