@@ -146,6 +146,7 @@
 (add-hook 'ruby-mode-hook 'font-lock-fontify-buffer)
 (add-hook 'ruby-mode-hook '(lambda () (inf-ruby-keys) ))
 (add-hook 'ruby-mode-hook '(lambda () (setq zoom-step 2) ))
+(add-hook 'ruby-mode-hook 'turn-off-filladapt-mode)
 
 ;;; Undefine the Control-G binding in the Ruby Mode Control-C submap
 ;;; Rinari maps this to rinari-get-path

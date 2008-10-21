@@ -20,6 +20,7 @@
 (make-auto "\\.awk$"  'awk-mode)
 (make-auto "\\.html$" 'html-helper-mode) ; was html-mode
 (make-auto "\\.htm$"  'html-helper-mode)
+(make-auto "\\.erb.html$"  'rhtml-mode)
 (make-auto "\\.e$"    'eiffel-mode)
 (make-auto "\\.tcl$"  'tcl-mode)
 (make-auto "\\.4th$"  'forth-mode)
@@ -46,7 +47,8 @@
 (make-auto "\\.fs$" 'forth-mode)
 (make-auto "\\.4th$" 'forth-mode)
 (make-auto "\\.cj$" 'clojure-mode)
-
+(make-auto "\\.haml$" 'haml-mode)
+(make-auto "\\.sass$" 'sass-mode))
 ;;;(make-auto "\\.h$"   'c++-c-mode)
 ;;;(make-auto "\\.c$"   'c++-c-mode)
 

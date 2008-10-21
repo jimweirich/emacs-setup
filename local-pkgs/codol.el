@@ -2,7 +2,7 @@
 
 (provide 'codol)
 
-(defconst codol-re " *\\(def \\|class \\|module \\|include \\|extend \\|attr_\\|private\\|public\\|context \\|should \\|.* FLOW: \\|flow_step\\)")
+(defconst codol-re " *\\(def \\|class \\|module \\|include \\|extend \\|attr_\\|private\\|public\\|context \\|should \\|.* FLOW: \\|flow_step\\|# == [A-Za-z0-9]\\)")
 
 (defvar codol-state 'full)
 
