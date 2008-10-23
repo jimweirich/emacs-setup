@@ -80,6 +80,13 @@
              '("^==+ \\(.*\n\\)"
                (1 'test-heading2)))
 
+(defun jw-test-remove-stupid-messages ()
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "\\(WARNING\\|CONTEXT\\|NOTICE\\):.*
+" nil t)
+      (replace-match "_"))))
+
 (defun jw-test-remove-crs ()
   (save-excursion
     (goto-char (point-min))
@@ -91,7 +98,8 @@
   (save-current-buffer
     (set-buffer (get-buffer jw-test-buffer-name))
     (let ((buffer-read-only nil))
-      (jw-test-remove-crs) )))
+      (jw-test-remove-crs)
+      (jw-test-remove-stupid-messages))))
 
 (add-hook 'compilation-filter-hook 'jw-test-compilation-buffer-hook-function)
 

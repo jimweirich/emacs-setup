@@ -48,7 +48,7 @@
 (make-auto "\\.4th$" 'forth-mode)
 (make-auto "\\.cj$" 'clojure-mode)
 (make-auto "\\.haml$" 'haml-mode)
-(make-auto "\\.sass$" 'sass-mode))
+(make-auto "\\.sass$" 'sass-mode)
 ;;;(make-auto "\\.h$"   'c++-c-mode)
 ;;;(make-auto "\\.c$"   'c++-c-mode)
 
