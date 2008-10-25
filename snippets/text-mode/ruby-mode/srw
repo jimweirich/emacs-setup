@@ -1,4 +1,0 @@
-# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
-#name: should_receive
-# --
-should_receive(:${1:method}).with(${2:args})$0
