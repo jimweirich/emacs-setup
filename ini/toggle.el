@@ -19,6 +19,11 @@
 
 (add-to-list
  'toggle-mapping-styles
+ '(jw-rails-spec . (("spec/\\1_spec.rb"              . "app/\\1.rb")
+               ) ))
+
+(add-to-list
+ 'toggle-mapping-styles
  '(jw-postfix    . (("test/\\1_test.rb" . "lib/\\1.rb")
                     ("\\1_test.rb"      . "\\1.rb")
                     ) ))
@@ -37,6 +42,7 @@
   (lambda () 
     (interactive)
     (insert ";; (buffer-toggle-style 'jw-rails)\n")
+    (insert ";; (buffer-toggle-style 'jw-rails-spec)\n")
     (insert ";; (buffer-toggle-style 'jw-postfix)\n") 
     (insert ";; (buffer-toggle-style 'jw-prefix)\n") ))
 

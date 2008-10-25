@@ -26,6 +26,9 @@
 ;;; Options to be added to the ruby based test commands.
 (defconst jw-test-options "-Ilib:test:.")
 
+;;; Options to be added to the spec command.
+(defconst jw-spec-options "")
+
 ;;; If true, display the testing buffer in a single window (rather
 ;;; than a split window).
 (defvar jw-testing-single-window nil)
@@ -65,11 +68,15 @@
                     :weight 'bold)
 
 (add-to-list 'compilation-mode-font-lock-keywords
-             '("^\\(.* 0 failures, 0 errors.*\n\\)"
-                                     (1 'test-success)))
+             '("^\\([0-9]+ examples?, 0 failures?.*\n\\)"
+               (1 'test-success)))
 
 (add-to-list 'compilation-mode-font-lock-keywords
-             '("^\\(.* [1-9][0-9]* \\(failures\\|errors\\).*\n\\)"
+             '("^\\(.* 0 failures, 0 errors.*\n\\)"
+               (1 'test-success)))
+
+(add-to-list 'compilation-mode-font-lock-keywords
+             '("^\\(.* [1-9][0-9]* \\(failures?\\|errors?\\).*\n\\)"
                (1 'test-failure)))
 
 (add-to-list 'compilation-mode-font-lock-keywords
@@ -87,10 +94,10 @@
 " nil t)
       (replace-match "_"))))
 
-(defun jw-test-remove-crs ()
+(defun jw-test-remove-crud ()
   (save-excursion
     (goto-char (point-min))
-    (while (search-forward "" nil t)
+    (while (re-search-forward "\\(\\|\\[[0-9]+[a-zA-Z]\\)" nil t)
       (replace-match "") )))
 
 (defun jw-test-compilation-buffer-hook-function ()
@@ -98,7 +105,7 @@
   (save-current-buffer
     (set-buffer (get-buffer jw-test-buffer-name))
     (let ((buffer-read-only nil))
-      (jw-test-remove-crs)
+      (jw-test-remove-crud)
       (jw-test-remove-stupid-messages))))
 
 (add-hook 'compilation-filter-hook 'jw-test-compilation-buffer-hook-function)
@@ -150,13 +157,21 @@ Redefine as needed to define the top directory of a project."
     (setq buf (get-buffer-create jw-test-buffer-name))
     (pop-to-buffer buf) ))
 
+(defun jw-spec-file-name-p (file-name)
+  "Is the given file name a spec file?"
+  (string-match "\\bspec\\b" (file-name-nondirectory file-name)) )
+
 (defun jw-test-file-name-p (file-name)
   "Is the given file name a test file?"
-  (string-match "\\btest\\b" file-name) )
+  (string-match "\\btest\\b" (file-name-nondirectory file-name)) )
 
-(defun jw-test-file-name (file-name)
+(defun jw-test-or-spec-file-name-p (file-name)
+  "Is the given file name a test or spec file?"
+  (or (jw-test-file-name-p file-name) (jw-spec-file-name-p file-name)) )
+
+(defun jw-target-file-name (file-name)
   "Return the test file name associated with the given file name."
-  (cond ((jw-test-file-name-p file-name) file-name)
+  (cond ((jw-test-or-spec-file-name-p file-name) file-name)
         ((toggle-filename file-name toggle-mappings))
         (t file-name) ))
 
@@ -165,6 +180,26 @@ Redefine as needed to define the top directory of a project."
   (save-excursion
     (next-line)
     (re-search-backward "^ *def *\\(test_[a-zA-Z0-9_]+\\(!\\|\\?\\)?\\)")
+    (buffer-substring (match-beginning 1) (match-end 1))))
+
+(defun testor-choose-file (files)
+  "Return the first file name in the list of files that exists, or nil."
+  (cond ((null files) ())
+        ((file-exists-p (car files)) (car files))
+        (t (testor-choose-file (cdr files)))))
+
+(defun jw-spec-command (buffer)
+  "Return the name of the appropriate spec command to run for the given buffer."
+  (let* ((default-directory (jw-find-project-top (buffer-file-name buffer))))
+    (or (testor-choose-file 
+         (list (concat default-directory "vendor/plugins/rspec/bin/spec")))
+        "spec")))
+
+(defun jw-find-spec-name ()
+  "Return the name of the current test method."
+  (save-excursion
+    (next-line)
+    (re-search-backward "^ *it +['\"]\\([^\"]*\\)['\"] +do")
     (buffer-substring (match-beginning 1) (match-end 1))))
 
 (defun jw-take-down-test-buffer ()
@@ -249,17 +284,52 @@ test headers."
    "= Test Rake\n"
    "== Target: cruise\n\n") )
 
-(defun jw-run-test-file (arg)
+(defun jw-run-spec-method (arg)
   "Run the current file as a test.
 If this file name does not include the string 'test' and there is
+a toggle mapping for this file, then run the test on the toggled
+test file."
+  (interactive "P")
+  (bookmark-set "test")
+  (jw-take-down-test-buffer)
+  (let* ((file-name (buffer-file-name))
+         (default-directory (jw-find-project-top file-name))
+         (test-buffer (current-buffer)) )
+    (if (not (jw-spec-file-name-p file-name)) 
+        (progn
+          (jw-toggle-buffer)
+          (setq file-name (buffer-file-name)) ))
+    (save-buffer)
+    (setq jw-testing-last-test-buffer (buffer-name))
+    (let ((method-name (jw-find-spec-name)))
+      (cond ((null default-directory) (message "Cannot find project top"))
+            ((null arg)
+             (jw-prep-test-buffer)
+             (jw-test-start-process
+              (jw-spec-command test-buffer) jw-spec-options
+              file-name (concat "-e" " \"" method-name "\""))
+             (jw-test-insert-headers
+              "= Individual Spec ...\n"
+              "== In:    " default-directory "\n"
+              "== File:  " (file-name-nondirectory file-name) "\n"
+              "== Spec:  " method-name "\n\n"))
+            (t (jw-prep-test-buffer)
+               (jw-test-start-debugging
+                jw-rdebug-command jw-test-options
+                file-name "--" (concat "-n" method-name))) ))))
+
+(defun jw-run-spec-file (arg)
+  "Run the current file as a spec.
+If this file name does not include the string 'spec' and there is
 a toggle mapping for this file, then run the test on the toggled
 test file."
   (interactive "P")
   (jw-take-down-test-buffer)
   (if (string-equal jw-test-buffer-name (buffer-name))
       (kill-buffer jw-test-buffer-name))
-  (let* ((file-name (jw-test-file-name (buffer-file-name)))
-         (default-directory (jw-find-project-top file-name)) )
+  (let* ((file-name (jw-target-file-name (buffer-file-name)))
+         (default-directory (jw-find-project-top file-name))
+         (test-buffer (current-buffer)) )
     (cond ((null default-directory) (message "Cannot find project top"))
           (t
            (save-buffer)
@@ -267,9 +337,9 @@ test file."
            (jw-prep-test-buffer)
            (cond ((null arg)
                   (jw-test-start-process
-                   jw-ruby-command jw-test-options file-name)
+                   (jw-spec-command test-buffer) jw-spec-options file-name)
                   (jw-test-insert-headers
-                   "= Test File ...\n"
+                   "= Spec File ...\n"
                    "== In:   " default-directory "\n"
                    "== File: " (file-name-nondirectory file-name) "\n\n") )
                  (t (jw-test-start-debugging
@@ -307,6 +377,46 @@ test file."
                (jw-test-start-debugging
                 jw-rdebug-command jw-test-options
                 file-name "--" (concat "-n" method-name))) ))))
+
+(defun jw-run-test-file (arg)
+  "Run the current file as a test.
+If this file name does not include the string 'test' and there is
+a toggle mapping for this file, then run the test on the toggled
+test file."
+  (interactive "P")
+  (jw-take-down-test-buffer)
+  (if (string-equal jw-test-buffer-name (buffer-name))
+      (kill-buffer jw-test-buffer-name))
+  (let* ((file-name (jw-target-file-name (buffer-file-name)))
+         (default-directory (jw-find-project-top file-name)) )
+    (cond ((null default-directory) (message "Cannot find project top"))
+          (t
+           (save-buffer)
+           (setq jw-testing-last-test-buffer (buffer-name))
+           (jw-prep-test-buffer)
+           (cond ((null arg)
+                  (jw-test-start-process
+                   jw-ruby-command jw-test-options file-name)
+                  (jw-test-insert-headers
+                   "= Test File ...\n"
+                   "== In:   " default-directory "\n"
+                   "== File: " (file-name-nondirectory file-name) "\n\n") )
+                 (t (jw-test-start-debugging
+                     jw-rdebug-command jw-test-options file-name)) )))))
+
+(defun jw-run-test-or-spec-method (args)
+  (interactive "P")
+  (let ((file-name (buffer-file-name)))
+    (cond ((jw-test-file-name-p file-name) (jw-run-test-method args))
+          ((jw-spec-file-name-p file-name) (jw-run-spec-method args))
+          (t (error "not a test nor a spec")) )))
+
+(defun jw-run-test-or-spec-file (args)
+  (interactive "P")
+  (let ((file-name (buffer-file-name)))
+    (cond ((jw-test-file-name-p file-name) (jw-run-test-file args))
+          ((jw-spec-file-name-p file-name) (jw-run-spec-file args))
+          (t (error "not a test nor a spec")) )))
 
 (defun jw-mark-for-testing (n)
   (interactive "P")
@@ -402,8 +512,8 @@ mappings from other projects."
 (global-set-key "\C-Ctl" 'jw-run-test-functionals)
 (global-set-key "\C-Cti" 'jw-run-test-integration)
 (global-set-key "\C-Ctc" 'jw-run-test-cruise)
-(global-set-key "\C-Ctf" 'jw-run-test-file)
-(global-set-key "\C-Ctm" 'jw-run-test-method)
+(global-set-key "\C-Ctf" 'jw-run-test-or-spec-file)
+(global-set-key "\C-Ctm" 'jw-run-test-or-spec-method)
 (global-set-key "\C-ctt" 'jw-mark-for-testing)
 
 (global-set-key "\C-Ct1" (lambda () (interactive)(setq jw-testing-single-window t)))
