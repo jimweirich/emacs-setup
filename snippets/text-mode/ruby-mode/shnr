@@ -1,0 +1,6 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+s#name: should_not raise_error
+# --
+lambda do
+  $0
+end.should_not raise_error(${1:Error}, /${2:msg_pattern}/)
