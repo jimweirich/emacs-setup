@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: should match
+# --
+${1:actual}.should match(/${2:regex}/)

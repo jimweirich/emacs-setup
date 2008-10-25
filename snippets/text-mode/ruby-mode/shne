@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: should_not ==
+# --
+${1:actual}.should_not == ${2:expected}$0

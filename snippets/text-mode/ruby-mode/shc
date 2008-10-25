@@ -1,0 +1,6 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: should change
+# --
+lambda do
+  $0
+end.should change(#{1:obj}, #{2:method}).by(${3:amount})

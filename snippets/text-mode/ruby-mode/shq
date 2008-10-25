@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: should eql
+# --
+${1:actual}.should eql(${2:expected})

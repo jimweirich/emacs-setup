@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: should_not throw_symbol
+# --
+${1:actual}.should_not throw_symbol(${2:symbol})

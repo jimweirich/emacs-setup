@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: should_not include
+# --
+${1:actual}.should_not include(${2:expected_list})
