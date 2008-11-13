@@ -18,8 +18,8 @@
 (autoload 'clojure-mode     "clojure"          "Mode for Clojure programs" t)
 
 (make-auto "\\.awk$"  'awk-mode)
-(make-auto "\\.html$" 'html-helper-mode) ; was html-mode
-(make-auto "\\.htm$"  'html-helper-mode)
+(make-auto "\\.html$" 'rhtml-mode) ; was html-mode
+(make-auto "\\.htm$"  'rhtml-mode)
 (make-auto "\\.erb.html$"  'rhtml-mode)
 (make-auto "\\.e$"    'eiffel-mode)
 (make-auto "\\.tcl$"  'tcl-mode)
