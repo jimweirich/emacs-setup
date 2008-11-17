@@ -123,6 +123,8 @@
 
 (global-set-key "\C-z" 'scroll-down)	; I *hate* suspend bound on this key
 
+(global-set-key "\C-c>" 'tags-reset-tags-tables)
+
 (setq shell-dirstack-query "resync_dirs")
 
 ;;; The following are only done in emacs-19 --------------------------
