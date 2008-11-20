@@ -1,4 +1,4 @@
 # -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
 #name: migrate add index
 # --
-add_index :${1:table_name}, :${2:column}, :unique => ${3:true}
+add_index :${1:table_name}, [:${2:column}], :unique => ${3:true}

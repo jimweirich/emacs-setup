@@ -39,6 +39,7 @@
 (make-auto "\\.java$" 'java-mode)
 (make-auto "\\.jav$"  'java-mode)
 (make-auto "\\.rb$"   'ruby-mode)
+(make-auto "\\.rjs$"   'ruby-mode)
 (make-auto "\\.rbw$"   'ruby-mode)
 (make-auto "\\.rake$"   'ruby-mode)
 (make-auto "^Rakefile$" 'ruby-mode)
