@@ -1,0 +1,4 @@
+# -*- mode: rhtml; require-final-newline: nil; backup-inhibited: t -*-
+#name: <label></label>
+# --
+<label for="${1:name}">${2:content}</label>

@@ -1,0 +1,4 @@
+# -*- mode: rhtml; require-final-newline: nil; backup-inhibited: t -*-
+#name: <a></a>
+# --
+<a href="${1:url}">${2:text}</a>

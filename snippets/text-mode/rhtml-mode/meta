@@ -1,0 +1,4 @@
+# -*- mode: rhtml; require-final-newline: nil; backup-inhibited: t -*-
+#name: <meta />
+# --
+<meta name="${1:description}" content="${2:content}" />
