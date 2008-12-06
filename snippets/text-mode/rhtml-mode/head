@@ -1,6 +1,6 @@
 # -*- mode: rhtml; require-final-newline: nil; backup-inhibited: t -*-
-#name: <ol></ol>
+#name: <head></head>
 # --
-<ol>
-  <li>${1:text}</li>$0
-</ol>
+<head>
+  $0
+</head>

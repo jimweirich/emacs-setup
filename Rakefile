@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# -*- ruby -*-
 
 require 'rake/clean'
 
@@ -17,3 +18,22 @@ rule ".elc" => ".el" do |t|
     puts "Compile failed: #{status}" unless ok
   end  
 end
+
+
+task :send_to, [:dest] do |t, args|
+  if args.dest.nil?
+    puts "Usage: rake send_to[DEST]"
+    puts "   DEST is an ssh destination, e.g. jim@some.host"
+  else
+    d = args.dest
+    sh "ssh #{d} mkdir -p .elisp"
+    %w(
+      Rakefile README
+      load-ini.el dot.emacs 
+      ini local-pkgs pkgs snippets
+    ).each do |fn|
+      sh "scp -r '#{fn}' #{d}:.elisp"
+    end
+  end
+    
+end  

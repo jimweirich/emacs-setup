@@ -1,4 +1,4 @@
 # -*- mode: rhtml; require-final-newline: nil; backup-inhibited: t -*-
 #name: <hn></hn>
 # --
-<h${1:level}>$0</h$1>
+<h${1:level}>${2:text}</h$1>

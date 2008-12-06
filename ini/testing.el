@@ -105,8 +105,7 @@
   (save-current-buffer
     (set-buffer (get-buffer jw-test-buffer-name))
     (let ((buffer-read-only nil))
-      (jw-test-remove-crud)
-      (jw-test-remove-stupid-messages))))
+      (jw-test-remove-crud))))
 
 (add-hook 'compilation-filter-hook 'jw-test-compilation-buffer-hook-function)
 
