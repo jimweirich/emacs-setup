@@ -11,43 +11,28 @@
 (cond ((is-aquamacs)
        (setq mac-option-modifier 'meta)
 
-       (defun small-monaco()
-         (interactive)
-         (set-frame-font "-apple-monaco-medium-r-normal--14-0-72-72-m-0-iso10646-1" t))
-       
-       (defun big-monaco()
-         (interactive)
-         (set-frame-font "-apple-monaco-medium-r-normal--20-0-72-72-m-0-iso10646-1" t))
-       
-       (defun micro()
-         (interactive)
-         (set-frame-font "-*-inconsolata-*-r-normal--8-*-*-*-*-*-*-*" t))
-       
-       (defun tiny()
-         (interactive)
-         (set-frame-font "-*-inconsolata-*-r-normal--12-*-*-*-*-*-*-*" t))
-       
-       (defun small()
-         (interactive)
-         (set-frame-font "-*-inconsolata-*-r-normal--14-*-*-*-*-*-*-*" t))
-       
-       (defun normal()
-         (interactive)
-         (set-frame-font "-*-inconsolata-*-r-normal--16-*-*-*-*-*-*-*" t))
-       
-       (defun screencast()
-         (interactive)
-         (set-frame-font "-*-inconsolata-*-r-normal--18-*-*-*-*-*-*-*" t))
-       
-       (defun medium()
-         (interactive)
-         (set-frame-font "-*-inconsolata-*-r-normal--20-*-*-*-*-*-*-*" t))
-       
-       (defun big()
-         (interactive)
-         (set-frame-font "-*-inconsolata-*-r-normal--24-*-*-*-*-*-*-*" t))
+       (defun monaco (points)
+         (interactive "NPoints: ")
+         (set-frame-font
+          (concat "-*-monaco-medium-r-normal--"
+                  (number-to-string points)
+                  "-0-72-72-m-0-iso10646-1")
+          t))
 
-       (defun huge()
-         (interactive)
-         (set-frame-font "-*-inconsolata-*-r-normal--36-*-*-*-*-*-*-*" t))
+       (defun inconsolata (points)
+         (interactive "NPoints: ")
+         (set-frame-font
+          (concat "-*-inconsolata-*-r-normal--"
+                  (number-to-string points)
+                  "-0-72-72-m-0-iso10646-1")
+          t))
+
+       (defun micro()      (interactive) (inconsolata 8))
+       (defun tiny()       (interactive) (inconsolata 12))
+       (defun small()      (interactive) (inconsolata 14))
+       (defun normal()     (interactive) (inconsolata 16))
+       (defun screencast() (interactive) (inconsolata 18))
+       (defun medium()     (interactive) (inconsolata 20))
+       (defun big()        (interactive) (inconsolata 24))
+       (defun huge()       (interactive) (inconsolata 36))
        ))
