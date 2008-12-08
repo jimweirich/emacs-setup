@@ -5,7 +5,7 @@
 ;;; ==================================================================
 
 (require 'ido)
-(load-file "x-ido.el")
+;;(load-file "x-ido.el")
 (ido-mode t)
 
 (defun ido-find-file-in-tag-files ()
