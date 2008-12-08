@@ -43,3 +43,11 @@
                 '(lambda () (interactive)
                    (jw-clear-overlays)
                    (top-level)))
+
+
+;;; The default background tends to wash out the foreground color a
+;;; bit.  Let's try something different.
+(defface yas/field-highlight-face
+  '((((class color) (background light)) (:background "DarkSeaGreen2"))
+    (t (:background "maroon4")))
+  "The face used to highlight a field of snippet.")
