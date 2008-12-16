@@ -1,0 +1,7 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: teardown method
+# --
+def teardown
+  super
+  $0
+end

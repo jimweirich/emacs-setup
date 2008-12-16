@@ -39,6 +39,16 @@
 ;;; Name of the last buffer running a file or method style test.
 (defvar jw-testing-last-test-buffer nil)
 
+;;; Regexp for matching test unit test names
+(defvar jw-testing-test-unit-pattern "^ *def *\\(test_[a-zA-Z0-9_]+\\(!\\|\\?\\)?\\)")
+
+;;; Regexp for matching test unit test names
+(defvar jw-testing-shoulda-pattern "^ *should *\"\\([^\"]+\\)\"")
+
+(defvar jw-testing-all-pattern
+  "^ *\\(def\\|should\\|context\\) *['\"]?\\(test_[a-zA-Z0-9_]+[!?]?$\\|[^\"]+\\)" )
+;;;   (concat jw-testing-test-unit-pattern "\\|" jw-testing-shoulda-pattern))
+
 (set-face-attribute (make-face 'test-heading1) nil
                     :family "arial"
                     :height 240
@@ -178,8 +188,8 @@ Redefine as needed to define the top directory of a project."
   "Return the name of the current test method."
   (save-excursion
     (next-line)
-    (re-search-backward "^ *def *\\(test_[a-zA-Z0-9_]+\\(!\\|\\?\\)?\\)")
-    (buffer-substring (match-beginning 1) (match-end 1))))
+    (re-search-backward jw-testing-all-pattern)
+    (buffer-substring (match-beginning 2) (match-end 2))))
 
 (defun testor-choose-file (files)
   "Return the first file name in the list of files that exists, or nil."
@@ -366,7 +376,7 @@ test file."
              (jw-prep-test-buffer)
              (jw-test-start-process
               jw-ruby-command jw-test-options
-              file-name (concat "-n" method-name))
+              file-name (concat "-n\"/" method-name "/\""))
              (jw-test-insert-headers
               "= Test Method ...\n"
               "== In:     " default-directory "\n"
