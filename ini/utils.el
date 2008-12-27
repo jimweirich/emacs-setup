@@ -19,9 +19,9 @@
   "Find the Errors in the current shell buffer."
   (interactive)
   (save-excursion 
-    (re-search-backward "^[a-zA-Z0-9-]*\\$")
+    (re-search-backward "^[a-zA-Z0-9-\[\]*]*\\$")
     (set-mark (point))
-    (re-search-backward "^[a-zA-Z0-9-]*\\$")
+    (re-search-backward "^[a-zA-Z0-9-\[\]*]*\\$")
     (find-errors-in-region)
     (next-error '(4)))
  )
