@@ -46,7 +46,7 @@
 (defvar jw-testing-shoulda-pattern "^ *should *\"\\([^\"]+\\)\"")
 
 (defvar jw-testing-all-pattern
-  "^ *\\(def\\|should\\|context\\) *['\"]?\\(test_[a-zA-Z0-9_]+[!?]?$\\|[^\"]+\\)" )
+  "^ *\\(def\\|should\\|context\\) +['\"]?\\(test_[a-zA-Z0-9_]+[!?]?$\\|[^\"]+\\)" )
 ;;;   (concat jw-testing-test-unit-pattern "\\|" jw-testing-shoulda-pattern))
 
 (set-face-attribute (make-face 'test-heading1) nil
