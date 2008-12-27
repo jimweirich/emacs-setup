@@ -6,8 +6,8 @@
 
 (setq default-major-mode 'indented-text-mode)
 
-(autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
-(autoload 'html-mode        "html-mode"        "HTML major mode." t)
+;(autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
+;(autoload 'html-mode        "html-mode"        "HTML major mode." t)
 (autoload 'tcl-mode         "tcl-mode"         "Major Mode for TCL" t)
 (autoload 'eiffel-mode      "eiffel-mode"      "Mode for Eiffel programs" t)
 (autoload 'python-mode      "python-mode"      "Automatic Mode for Python Code" t)
