@@ -15,7 +15,8 @@
  'jw-directory-mappings                                             
  (list "^emar$"
        (jw-choose-file 
-        '("~/projects/clients/delanor/development"
+        '("~/projects/clients/delanor/git/development"
+          "~/projects/clients/delanor/development"
           "~/projects/clients/medwiz/delanor/development"
           "/home/delanor/src/perforce/development")) ))
 
