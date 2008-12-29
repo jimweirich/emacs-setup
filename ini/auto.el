@@ -42,7 +42,7 @@
 (make-auto "\\.rjs$"   'ruby-mode)
 (make-auto "\\.rbw$"   'ruby-mode)
 (make-auto "\\.rake$"   'ruby-mode)
-(make-auto "^Rakefile$" 'ruby-mode)
+(make-auto "Rakefile$" 'ruby-mode)
 (make-auto "\\.lua$"  'lua-mode)
 (make-auto "\\.fb$" 'forth-mode)
 (make-auto "\\.fs$" 'forth-mode)
