@@ -166,6 +166,10 @@ Redefine as needed to define the top directory of a project."
     (setq buf (get-buffer-create jw-test-buffer-name))
     (pop-to-buffer buf) ))
 
+(defun jw-koan-file-name-p (file-name)
+  "Is the given file name a koan file?"
+  (string-match "\\about\\b" (file-name-nondirectory file-name)) )
+
 (defun jw-spec-file-name-p (file-name)
   "Is the given file name a spec file?"
   (string-match "\\bspec\\b" (file-name-nondirectory file-name)) )
@@ -176,7 +180,9 @@ Redefine as needed to define the top directory of a project."
 
 (defun jw-test-or-spec-file-name-p (file-name)
   "Is the given file name a test or spec file?"
-  (or (jw-test-file-name-p file-name) (jw-spec-file-name-p file-name)) )
+  (or (jw-test-file-name-p file-name)
+      (jw-spec-file-name-p file-name)
+      (jw-koan-file-name-p file-name) ) )
 
 (defun jw-target-file-name (file-name)
   "Return the test file name associated with the given file name."
@@ -428,6 +434,7 @@ test file."
   (let ((file-name (buffer-file-name)))
     (cond ((jw-test-file-name-p file-name) (jw-run-test-method args))
           ((jw-spec-file-name-p file-name) (jw-run-spec-method args))
+          ((jw-koan-file-name-p file-name) (jw-run-test-method args))
           (t (error "not a test nor a spec")) )))
 
 (defun jw-run-test-or-spec-file (args)
@@ -435,6 +442,7 @@ test file."
   (let ((file-name (buffer-file-name)))
     (cond ((jw-test-file-name-p file-name) (jw-run-test-file args))
           ((jw-spec-file-name-p file-name) (jw-run-spec-file args))
+          ((jw-koan-file-name-p file-name) (jw-run-test-file args))
           (t (error "not a test nor a spec")) )))
 
 (defun jw-mark-for-testing (n)
