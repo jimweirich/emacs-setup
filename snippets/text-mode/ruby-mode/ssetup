@@ -1,0 +1,6 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: setup do ... end
+# --
+setup do
+  $0
+end

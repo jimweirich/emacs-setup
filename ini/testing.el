@@ -43,10 +43,10 @@
 (defvar jw-testing-test-unit-pattern "^ *def *\\(test_[a-zA-Z0-9_]+\\(!\\|\\?\\)?\\)")
 
 ;;; Regexp for matching test unit test names
-(defvar jw-testing-shoulda-pattern "^ *should *\"\\([^\"]+\\)\"")
+(defvar jw-testing-shoulda-pattern "^ *should +\\('[^']+'\\|\"[^\"]+\"\\)")
 
 (defvar jw-testing-all-pattern
-  "^ *\\(def\\|should\\|context\\) +['\"]?\\(test_[a-zA-Z0-9_]+[!?]?$\\|[^\"]+\\)" )
+  "^ *\\(def\\|should\\|context\\) +\\(\\(test_[a-zA-Z0-9_]+[!?]?$\\)\\|'\\([^']+\\)'\\|\"\\([^\"]+\\)\"\\)" )
 ;;;   (concat jw-testing-test-unit-pattern "\\|" jw-testing-shoulda-pattern))
 
 (set-face-attribute (make-face 'test-heading1) nil
@@ -184,12 +184,22 @@ Redefine as needed to define the top directory of a project."
         ((toggle-filename file-name toggle-mappings))
         (t file-name) ))
 
+(defun jw-extract-name ()
+  "Extract the name of the test from the match."
+  (cond 
+   ((match-beginning 3)
+    (buffer-substring (match-beginning 3) (match-end 3)))
+   ((match-beginning 4)
+    (buffer-substring(match-beginning 4) (match-end 4)))
+   ((match-beginning 5)
+    (buffer-substring (match-beginning 5) (match-end 5))) ))
+
 (defun jw-find-test-method-name ()
   "Return the name of the current test method."
   (save-excursion
     (next-line)
     (re-search-backward jw-testing-all-pattern)
-    (buffer-substring (match-beginning 2) (match-end 2))))
+    (jw-extract-name)))
 
 (defun testor-choose-file (files)
   "Return the first file name in the list of files that exists, or nil."
