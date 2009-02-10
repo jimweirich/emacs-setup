@@ -15,13 +15,15 @@
 
 ;;; Finding errors in the shell
 
+(defconst find-errors-pattern "^[][A-Za-z*-]*\\$")
+
 (defun find-errors ()
   "Find the Errors in the current shell buffer."
   (interactive)
   (save-excursion 
-    (re-search-backward "^[a-zA-Z0-9-\[\]*]*\\$")
+    (re-search-backward find-errors-pattern)
     (set-mark (point))
-    (re-search-backward "^[a-zA-Z0-9-\[\]*]*\\$")
+    (re-search-backward find-errors-pattern)
     (find-errors-in-region)
     (next-error '(4)))
  )
