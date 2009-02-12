@@ -21,6 +21,9 @@
 (defun is-emacs-22 ()
   (string-equal (substring emacs-version 0 2) "22"))
 
+(defun is-emacs-23 ()
+  (string-equal (substring emacs-version 0 2) "23"))
+
 (defun is-xemacs ()
   (string-match "XEmacs" emacs-version))
 

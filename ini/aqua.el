@@ -8,7 +8,7 @@
 
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 
-(cond ((is-aquamacs)
+(cond ((or (is-aquamacs) (is-emacs-23))
        (setq mac-option-modifier 'meta)
 
        (defun monaco (points)
