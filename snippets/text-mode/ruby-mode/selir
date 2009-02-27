@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: should_ensure_length_in_range
+# --
+should_ensure_length_in_range :${1:attribute}, ${2:range} 

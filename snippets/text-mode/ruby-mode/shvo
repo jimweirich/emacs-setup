@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: should_have_one
+# --
+should_have_on :${1:attributes...} 

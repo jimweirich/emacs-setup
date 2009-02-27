@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: should_validate_uniqueness_of
+# --
+should_validate_uniqueness_of :${1:attributes...} 

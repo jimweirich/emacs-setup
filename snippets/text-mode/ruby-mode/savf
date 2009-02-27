@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: should_allow_values_for
+# --
+should_allow_values_for :${1:attribute}, ${2:values...} 

@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: should_have_many through
+# --
+should_have_many :${1:attributes...}, :through => ${2:field} 

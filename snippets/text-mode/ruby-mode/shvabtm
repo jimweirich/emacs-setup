@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: should_have_and_belong_to_many
+# --
+should_have_and_belong_to_many :${1:attributes...} 

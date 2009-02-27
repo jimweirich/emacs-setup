@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: should_change from to
+# --
+should_change "${1:expression}", :from => ${2:start}, :to => ${3:end}
