@@ -9,6 +9,7 @@
 (if (boundp 'osx-key-mode-map)
     (progn
       (define-key osx-key-mode-map (kbd "A-p") 'jw-noop)
+      (define-key osx-key-mode-map (kbd "A-t") 'jw-noop)
       (define-key osx-key-mode-map (kbd "C-A-p") 'aquamacs-print) ))
 
 (cond (t

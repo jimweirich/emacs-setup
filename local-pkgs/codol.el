@@ -2,11 +2,25 @@
 
 (provide 'codol)
 
-(defconst codol-re " *\\(def \\|class \\|module \\|include \\|extend \\|attr_\\|private\\|public\\|context \\|should\\|.* FLOW: \\|flow_step\\|# == [A-Za-z0-9]\\)")
+(defconst codol-ruby-re " *\\(def \\|class \\|module \\|include \\|extend \\|attr_\\|private\\|public\\|context \\|should\\|.* FLOW: \\|flow_step\\|# == [A-Za-z0-9]\\)")
+
+(defvar codol-re-patterns
+  (list (cons "Ruby"  codol-ruby-re)
+        (cons "Emacs-Lisp" "(defun")
+        (cons "Text" "==><==")))
 
 (defvar codol-state 'full)
 
 (make-variable-buffer-local 'codol-state)
+
+(defun codol-pattern-recurse (patterns)
+  (cond ((null patterns) nil)
+        ((equal (caar patterns) mode-name)
+         (cdar patterns))
+        (t (codol-pattern-recurse (cdr patterns))) ))
+
+(defun codol-pattern ()
+  (codol-pattern-recurse codol-re-patterns))
 
 (defun codol-hide (a b)
   (overlay-put (make-overlay a b) 'invisible 'hide))
@@ -26,7 +40,7 @@
     (let (pt)
       (while (not (eq (point) (point-max)))
         (beginning-of-line)
-        (cond ((looking-at codol-re)
+        (cond ((looking-at (codol-pattern))
                (cond (pt 
                       (codol-hide pt (point))
                       (setq pt nil)) ))

@@ -94,7 +94,7 @@
    (jw-font 'font-lock-string-face             "LightGreen") ; Strings and Regex
    (jw-font 'font-lock-comment-face            "grey60")
    (jw-font 'font-lock-comment-delimiter-face  "grey60")
-   (jw-font 'font-lock-type-face               "#80a0ff")
+   (jw-font 'font-lock-type-face               "#c0c0ff" :bold)
    (jw-font 'font-lock-variable-name-face      "#90b0ff") ;
    (jw-font 'font-lock-function-name-face      "cyan")
    (jw-font 'font-lock-constant-face           "pink")

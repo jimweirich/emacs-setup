@@ -24,7 +24,7 @@
 (defconst jw-rake-command "rake")
 
 ;;; Options to be added to the ruby based test commands.
-(defconst jw-test-options "-Ilib:test:.")
+(defconst jw-test-options "-w -Ilib:test:.")
 
 ;;; Options to be added to the spec command.
 (defconst jw-spec-options "")
