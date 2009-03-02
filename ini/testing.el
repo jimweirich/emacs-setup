@@ -24,30 +24,33 @@
 (defconst jw-rake-command "rake")
 
 ;;; Options to be added to the ruby based test commands.
-(defconst jw-test-options "-w -Ilib:test:.")
+(defconst jw-test-options "-Ilib:test:.")
 
 ;;; Options to be added to the spec command.
 (defconst jw-spec-options "")
 
+;;; If true, run the tests with warnings turned on.
+(defvar jw-test-warnings t)
+
 ;;; If true, display the testing buffer in a single window (rather
 ;;; than a split window).
-(defvar jw-testing-single-window nil)
+(defvar jw-test-single-window nil)
 
 ;;; If true, keep the mode line in the compilation buffer.
-(defvar jw-testing-keep-mode-line nil)
+(defvar jw-test-keep-mode-line nil)
 
 ;;; Name of the last buffer running a file or method style test.
-(defvar jw-testing-last-test-buffer nil)
+(defvar jw-test-last-test-buffer nil)
 
 ;;; Regexp for matching test unit test names
-(defvar jw-testing-test-unit-pattern "^ *def *\\(test_[a-zA-Z0-9_]+\\(!\\|\\?\\)?\\)")
+(defvar jw-test-test-unit-pattern "^ *def *\\(test_[a-zA-Z0-9_]+\\(!\\|\\?\\)?\\)")
 
 ;;; Regexp for matching test unit test names
-(defvar jw-testing-shoulda-pattern "^ *should +\\('[^']+'\\|\"[^\"]+\"\\)")
+(defvar jw-test-shoulda-pattern "^ *should +\\('[^']+'\\|\"[^\"]+\"\\)")
 
-(defvar jw-testing-all-pattern
+(defvar jw-test-all-pattern
   "^ *\\(def\\|should\\|context\\|test\\) +\\(\\(test_[a-zA-Z0-9_]+[!?]?$\\)\\|'\\([^']+\\)'\\|\"\\([^\"]+\\)\"\\)" )
-;;;   (concat jw-testing-test-unit-pattern "\\|" jw-testing-shoulda-pattern))
+;;;   (concat jw-test-test-unit-pattern "\\|" jw-test-shoulda-pattern))
 
 (set-face-attribute (make-face 'test-heading1) nil
                     :family "arial"
@@ -104,6 +107,12 @@
 (add-to-list 'compilation-mode-font-lock-keywords
              '("^==+ \\(.*\n\\)"
                (1 'test-heading2)))
+
+(defun jw-test-warning-options()
+  (if jw-test-warnings "-w " "") )
+
+(defun jw-test-option-string()
+  (concat (jw-test-warning-options) jw-test-options))
 
 (defun jw-test-remove-stupid-messages ()
   (save-excursion
@@ -212,7 +221,7 @@ Redefine as needed to define the top directory of a project."
   "Return the name of the current test method."
   (save-excursion
     (next-line)
-    (re-search-backward jw-testing-all-pattern)
+    (re-search-backward jw-test-all-pattern)
     (jw-extract-name)))
 
 (defun testor-choose-file (files)
@@ -242,15 +251,15 @@ test."
   (if (string-equal jw-test-buffer-name (buffer-name))
       (progn
         (kill-buffer jw-test-buffer-name)
-        (if jw-testing-last-test-buffer (pop-to-buffer jw-testing-last-test-buffer)) )))
+        (if jw-test-last-test-buffer (pop-to-buffer jw-test-last-test-buffer)) )))
 
 (defun jw-test-deal-with-mode-line ()
   "Remove the mode line if so configured.
 The compilation buffer by default gets a mode line.  Remove it
-unless the jw-testing-keep-mode-line variable is true.  Otherwise
+unless the jw-test-keep-mode-line variable is true.  Otherwise
 just skip past it and insert an extra line in preparation for the
 test headers."
-    (if (and (looking-at "-*-") (not jw-testing-keep-mode-line))
+    (if (and (looking-at "-*-") (not jw-test-keep-mode-line))
         (let
             ((bol (save-excursion (beginning-of-line)(point)))
              (eol (save-excursion (end-of-line)(point))))
@@ -268,7 +277,7 @@ test headers."
     (apply 'insert headers)
     (setq buffer-read-only t)
     (goto-char (point-max)) 
-    (if jw-testing-single-window (delete-other-windows)) ))
+    (if jw-test-single-window (delete-other-windows)) ))
 
 ;;; -- Test Run Commands ---------------------------------------------
 
@@ -333,7 +342,7 @@ test file."
           (jw-toggle-buffer)
           (setq file-name (buffer-file-name)) ))
     (save-buffer)
-    (setq jw-testing-last-test-buffer (buffer-name))
+    (setq jw-test-last-test-buffer (buffer-name))
     (let ((method-name (jw-find-spec-name)))
       (cond ((null default-directory) (message "Cannot find project top"))
             ((null arg)
@@ -348,7 +357,7 @@ test file."
               "== Spec:  " method-name "\n\n"))
             (t (jw-prep-test-buffer)
                (jw-test-start-debugging
-                jw-rdebug-command jw-test-options
+                jw-rdebug-command (jw-test-option-string)
                 file-name "--" (concat "-n" method-name))) ))))
 
 (defun jw-run-spec-file (arg)
@@ -366,7 +375,7 @@ test file."
     (cond ((null default-directory) (message "Cannot find project top"))
           (t
            (save-buffer)
-           (setq jw-testing-last-test-buffer (buffer-name))
+           (setq jw-test-last-test-buffer (buffer-name))
            (jw-prep-test-buffer)
            (cond ((null arg)
                   (jw-test-start-process
@@ -376,7 +385,7 @@ test file."
                    "== In:   " default-directory "\n"
                    "== File: " (file-name-nondirectory file-name) "\n\n") )
                  (t (jw-test-start-debugging
-                     jw-rdebug-command jw-test-options file-name)) )))))
+                     jw-rdebug-command (jw-test-option-string) file-name)) )))))
 
 (defun jw-run-test-method (arg)
   "Run the current file as a test.
@@ -393,13 +402,13 @@ test file."
           (jw-toggle-buffer)
           (setq file-name (buffer-file-name)) ))
     (save-buffer)
-    (setq jw-testing-last-test-buffer (buffer-name))
+    (setq jw-test-last-test-buffer (buffer-name))
     (let ((method-name (jw-find-test-method-name)))
       (cond ((null default-directory) (message "Cannot find project top"))
             ((null arg)
              (jw-prep-test-buffer)
              (jw-test-start-process
-              jw-ruby-command jw-test-options
+              jw-ruby-command (jw-test-option-string)
               file-name (concat "-n\"/" method-name "/\""))
              (jw-test-insert-headers
               "= Test Method ...\n"
@@ -408,7 +417,7 @@ test file."
               "== Method: " method-name "\n\n"))
             (t (jw-prep-test-buffer)
                (jw-test-start-debugging
-                jw-rdebug-command jw-test-options
+                jw-rdebug-command (jw-test-option-string)
                 file-name "--" (concat "-n" method-name))) ))))
 
 (defun jw-run-test-file (arg)
@@ -425,17 +434,17 @@ test file."
     (cond ((null default-directory) (message "Cannot find project top"))
           (t
            (save-buffer)
-           (setq jw-testing-last-test-buffer (buffer-name))
+           (setq jw-test-last-test-buffer (buffer-name))
            (jw-prep-test-buffer)
            (cond ((null arg)
                   (jw-test-start-process
-                   jw-ruby-command jw-test-options file-name)
+                   jw-ruby-command (jw-test-option-string) file-name)
                   (jw-test-insert-headers
                    "= Test File ...\n"
                    "== In:   " default-directory "\n"
                    "== File: " (file-name-nondirectory file-name) "\n\n") )
                  (t (jw-test-start-debugging
-                     jw-rdebug-command jw-test-options file-name)) )))))
+                     jw-rdebug-command (jw-test-option-string) file-name)) )))))
 
 (defun jw-run-test-or-spec-method (args)
   (interactive "P")
@@ -460,9 +469,9 @@ test file."
 
 ;;; -- Toggle Enhancements -------------------------------------------
 
-(defvar jw-testing-toggle-style nil
+(defvar jw-test-toggle-style nil
 "Buffer local variable describing the buffer's toggle style.")
-(make-variable-buffer-local 'jw-testing-toggle-style)
+(make-variable-buffer-local 'jw-test-toggle-style)
 
 (defun jw-test-load-project-toggle-style ()
   "Set the buffer's toggle style from the project defaults."
@@ -470,16 +479,16 @@ test file."
          (togglerc (concat project-dir ".togglerc")))
     (if (file-readable-p togglerc)
         (load-file togglerc))
-    (if (null jw-testing-toggle-style)
-        (setq jw-testing-toggle-style toggle-mapping-style))  ))
+    (if (null jw-test-toggle-style)
+        (setq jw-test-toggle-style toggle-mapping-style))  ))
 
 (defun jw-test-select-buffer-toggle-style ()
   "Set the buffer's toggle style.
 If no style is currently selected, load the style from the
 project .togglerc file."
-  (if (null jw-testing-toggle-style)
+  (if (null jw-test-toggle-style)
       (jw-test-load-project-toggle-style) )
-  (setq toggle-mappings (toggle-style jw-testing-toggle-style)) )
+  (setq toggle-mappings (toggle-style jw-test-toggle-style)) )
   
 (defun jw-toggle-buffer ()
   "Enhanced version of the Ryan Davis's toggle-buffer function
@@ -495,10 +504,10 @@ allowing per-project toggle customizations."
   (interactive)
   (let ((buffers (buffer-list)))
     (while buffers
-      (if (local-variable-p 'jw-testing-toggle-style (car buffers))
+      (if (local-variable-p 'jw-test-toggle-style (car buffers))
           (save-current-buffer
             (set-buffer (car buffers))
-            (setq jw-testing-toggle-style nil) ))
+            (setq jw-test-toggle-style nil) ))
       (setq buffers (cdr buffers)) )
     (message "All buffer toggle styles are reset") ))
 
@@ -531,13 +540,21 @@ allowing per-project toggle customizations."
 (defun buffer-toggle-style (style-name)
   "Set the testing toggle style for this buffer.
 Normally called in the .togglerc file at the project level."
-  (setq jw-testing-toggle-style style-name) )
+  (setq jw-test-toggle-style style-name) )
 
 (defun buffer-toggle-mapping (mapping)
   "Define a project specific mapping.
 Note: Make sure the mapping name is unique and doesn't class with
 mappings from other projects."
   (jw-add-or-replace 'toggle-mapping-styles mapping))
+
+(defun jw-test-toggle-warnings ()
+  "Toggle the 'use warnings' flag for when testing"
+  (interactive)
+  (setq jw-test-warnings (not jw-test-warnings))
+  (if jw-test-warnings
+      (message "Warnings enabled in tests")
+    (message "Warnings disabled in tests") ))
 
 ;;; -- Key mappings --------------------------------------------------
 
@@ -550,9 +567,10 @@ mappings from other projects."
 (global-set-key "\C-Ctf" 'jw-run-test-or-spec-file)
 (global-set-key "\C-Ctm" 'jw-run-test-or-spec-method)
 (global-set-key "\C-ctt" 'jw-mark-for-testing)
+(global-set-key "\C-ctw" 'jw-test-toggle-warnings)
 
-(global-set-key "\C-Ct1" (lambda () (interactive)(setq jw-testing-single-window t)))
-(global-set-key "\C-Ct2" (lambda () (interactive)(setq jw-testing-single-window nil)))
+(global-set-key "\C-Ct1" (lambda () (interactive)(setq jw-test-single-window t)))
+(global-set-key "\C-Ct2" (lambda () (interactive)(setq jw-test-single-window nil)))
 
 ;;; Map the toggle-style command for easy access
 (global-set-key "\C-Cts" 'toggle-style)
@@ -566,7 +584,7 @@ mappings from other projects."
 (defun jw-test-kill-test-buffer ()
   (interactive)
   (kill-buffer jw-test-buffer-name)
-  (if jw-testing-last-test-buffer
-      (pop-to-buffer jw-testing-last-test-buffer) ))
+  (if jw-test-last-test-buffer
+      (pop-to-buffer jw-test-last-test-buffer) ))
 
 (define-key compilation-mode-map "\C-c\C-t" 'jw-test-kill-test-buffer)
