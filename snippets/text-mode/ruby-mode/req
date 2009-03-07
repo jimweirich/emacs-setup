@@ -1,4 +1,4 @@
 # -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
-#name : Arbitrarary String
+#name: require 'test/unit'
 # --
-`"arbitrary string"`
+require '${1:file name}'
