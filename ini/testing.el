@@ -454,6 +454,17 @@ test file."
           ((jw-koan-file-name-p file-name) (jw-run-test-method args))
           (t (error "not a test nor a spec")) )))
 
+(defun jw-run-last-test-or-spec-method (args)
+  (interactive "P")
+  (bookmark-jump "test")
+  (jw-run-test-or-spec-method args))
+  
+  (let ((file-name (buffer-file-name)))
+    (cond ((jw-test-file-name-p file-name) (jw-run-test-method args))
+          ((jw-spec-file-name-p file-name) (jw-run-spec-method args))
+          ((jw-koan-file-name-p file-name) (jw-run-test-method args))
+          (t (error "not a test nor a spec")) )))
+
 (defun jw-run-test-or-spec-file (args)
   (interactive "P")
   (let ((file-name (buffer-file-name)))
@@ -566,6 +577,7 @@ mappings from other projects."
 (global-set-key "\C-Ctc" 'jw-run-test-cruise)
 (global-set-key "\C-Ctf" 'jw-run-test-or-spec-file)
 (global-set-key "\C-Ctm" 'jw-run-test-or-spec-method)
+(global-set-key "\C-CtM" 'jw-run-last-test-or-spec-method)
 (global-set-key "\C-ctt" 'jw-mark-for-testing)
 (global-set-key "\C-ctw" 'jw-test-toggle-warnings)
 
