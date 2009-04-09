@@ -126,6 +126,16 @@
 (defun rd () (interactive) (rdebug))
 (defun rdr () (interactive) (rdebug-rails))
 
+;;; Running Ruby Files -----------------------------------------------
+
+(defun jw-run-ruby-file ()
+  "Run the current buffer in a ruby subprocess."
+  (interactive)
+  (compilation-start
+   (concat "ruby " (buffer-name (current-buffer)))
+   nil
+   (lambda (x) "*ruby-execution*")) )
+
 ;;; Auto loads -------------------------------------------------------
 
 (autoload 'run-ruby "inf-ruby"
@@ -136,6 +146,7 @@
   (define-key ruby-mode-map "\C-ci"  'jw-ruby-insert-template)
   (define-key ruby-mode-map "\M-q"   'jw-rb-fill-comment-region)
   (define-key ruby-mode-map "\C-C\C-t" 'jw-toggle-buffer)
+  (define-key ruby-mode-map "\C-Cx"  'jw-run-ruby-file)
   )
 
 (global-set-key "\C-cm" 'jw-mark-for-rdebug)
@@ -151,3 +162,6 @@
 ;;; Undefine the Control-G binding in the Ruby Mode Control-C submap
 ;;; Rinari maps this to rinari-get-path
 (define-key ruby-mode-map "\C-c\C-g" 'undefined)
+
+
+  
