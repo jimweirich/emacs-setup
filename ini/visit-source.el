@@ -15,6 +15,28 @@
 
 (defun jw-generate-candidates (line)
   "Extract a list of file/line pairs from the given line of text."
+  (jw-enhance-candidates (jw-generate-basic-candidates line)))
+
+(defun jw-enhance-candidates (candidates)
+  " Enhance the list of candidates by adding a relative path version for each absolute version."
+  (cond ((null candidates) ())
+        ((string-match "^/" (car (car candidates)))
+         (cons (car candidates)
+               (cons (list (jw-relative-path-for (caar candidates)) (cadar candidates))
+                     (jw-enhance-candidates (cdr candidates)) ) ) )
+        (t (cons (car candidates)
+                 (jw-enhance-candidates (cdr candidates)) )) ))
+
+(defun jw-relative-candidate-for (candidate)
+  "The relative path version of a candiate.
+Remove the leading / from the file name of the candidate."
+  (cons (jw-relative-path-for (car candidate) (cdr candidate))) )
+
+(defun jw-relative-path-for (absolute-path)
+  "Remove the leading / on an absolute path."
+  (substring absolute-path 1))
+
+(defun jw-generate-basic-candidates (line)
   (let*
       ((unix_fn "[^ \t\n\r\"'([<{]+")
        (dos_fn  "[a-zA-Z]:[^\t\n\r\"'([<{]+")
