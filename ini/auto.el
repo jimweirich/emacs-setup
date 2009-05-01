@@ -20,6 +20,7 @@
 (make-auto "\\.awk$"  'awk-mode)
 (make-auto "\\.html$" 'rhtml-mode) ; was html-mode
 (make-auto "\\.htm$"  'rhtml-mode)
+(make-auto "\\.html.erb$"  'rhtml-mode)
 (make-auto "\\.erb$"  'rhtml-mode)
 (make-auto "\\.e$"    'eiffel-mode)
 (make-auto "\\.tcl$"  'tcl-mode)
