@@ -38,9 +38,10 @@ Remove the leading / from the file name of the candidate."
 
 (defun jw-generate-basic-candidates (line)
   (let*
-      ((unix_fn "[^ \t\n\r\"'([<{]+")
-       (dos_fn  "[a-zA-Z]:[^\t\n\r\"'([<{]+")
-       (flre (concat "\\(" unix_fn "\\|" dos_fn "\\):\\([0-9]+\\)"))
+      ((unix-fn "[^ \t\n\r\"'([<{]+")
+       (non-dos "[^ \t\n\r\"'([<{]+")
+       (dos-fn  (concat "[a-zA-Z]:\\(\\(" non-dos " " non-dos "\\)\\|" non-dos "\\)+"))
+       (flre (concat "\\(" unix-fn "\\|" dos-fn "\\):\\([0-9]+\\)"))
        (start nil)
        (result nil))
     (while (string-match flre line start)
