@@ -50,8 +50,8 @@ Remove the leading / from the file name of the candidate."
             (cons (list 
                    (substring line (match-beginning 1) (match-end 1))
                    (string-to-int (substring line
-                                             (match-beginning 2)
-                                             (match-end 2))))
+                                             (match-beginning 4)
+                                             (match-end 4))))
                   result)))
     (dbg "Generated Candidates: " result)
     result))
