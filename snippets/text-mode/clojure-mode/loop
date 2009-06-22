@@ -1,0 +1,5 @@
+# -*- mode: clojure; require-final-newline: nil; backup-inhibited: t -*-
+#name: (loop [var val ...] ... )
+# --
+(loop [${1:var} ${2:val}]
+  $0 )

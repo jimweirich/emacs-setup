@@ -1,0 +1,4 @@
+# -*- mode: clojure; require-final-newline: nil; backup-inhibited: t -*-
+#name: :else result
+# --
+:else ${1:result} 

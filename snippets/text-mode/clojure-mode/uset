@@ -1,0 +1,4 @@
+# -*- mode: clojure; require-final-newline: nil; backup-inhibited: t -*-
+#name: (use 'clojure.contrib.test-is)
+# --
+(use 'clojure.contrib.test-is)

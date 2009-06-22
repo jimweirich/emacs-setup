@@ -1,0 +1,5 @@
+# -*- mode: clojure; require-final-newline: nil; backup-inhibited: t -*-
+#name: (cond (test result ...)
+# --
+(cond
+ ${1:test} ${2:result} $0)

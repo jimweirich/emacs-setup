@@ -1,0 +1,5 @@
+# -*- mode: clojure; require-final-newline: nil; backup-inhibited: t -*-
+#name: (use 'clojure.contrib.test-is)
+# --
+(deftest ${1:name}-test
+  $0 )

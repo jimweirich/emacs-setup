@@ -1,0 +1,4 @@
+# -*- mode: clojure; require-final-newline: nil; backup-inhibited: t -*-
+#name: ( ... )
+# --
+(${1:items})
