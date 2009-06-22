@@ -4,13 +4,30 @@
 ;;; Purpose: Setup for Tags
 ;;; ==================================================================
 
-(defun jw-extended-find-tag (tag)
-  (interactive (find-tag-interactive "Extended find tag: "))
-  (if (string= (substring tag 0 3) "be_")
-      (find-tag (substring tag 3))
-    (find-tag tag) ))
+(defun jw-ft-be-prefix-transform (tagname)
+  "Transform the tagname if it matches the 'be_xxxx' pattern."
+  (and tagname
+       (> (length tagname) 3)
+       (string= (substring tagname 0 3) "be_")
+       (substring tagname 3) ))
 
-(global-set-key "\C-C." 'jw-extended-find-tag)
-(if (boundp 'osx-key-mode-map)
-    (progn
-      (define-key osx-key-mode-map (kbd "A-.") 'jw-extended-find-tag) ))
+(defun jw-ft-transform (tagname)
+  "Transform the extended tagname to its actual name, or nil if there is no transform."
+  (jw-ft-be-prefix-transform tagname))
+
+(defun jw-ft-extended-find (tagname next-p regexp-p)
+  "Call find-tag with a tranformed tagname."
+  (let ((transformed-tagname (jw-ft-transform tagname)))
+    (if transformed-tagname
+        (find-tag transformed-tagname next-p regexp-p)
+      (error (concat "No extended tags containing " tagname)) )))
+
+(defun jw-extended-find-tag (tagname &optional next-p regexp-p)
+  "Extended find-tag function to handle tags that don't literally match."
+  (interactive (find-tag-interactive "Find extended tag: "))
+  (condition-case nil
+      (jw-ft-extended-find tagname next-p regexp-p)
+    (find-tag tagname next-p regexp-p) ))
+
+;;; Remap the standard find-tag key to use the extended version.
+(global-set-key "\M-." 'jw-extended-find-tag)
