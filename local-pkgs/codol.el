@@ -2,7 +2,7 @@
 
 (provide 'codol)
 
-(defconst codol-ruby-re " *\\(def \\|class \\|module \\|include \\|extend \\|attr_\\|private\\|public\\|context \\|should\\|.* FLOW: \\|flow_step\\|# == [A-Za-z0-9]\\)")
+(defconst codol-ruby-re " *\\(def \\|class \\|module \\|include \\|extend \\|attr_\\|private\\|public\\|context \\|should\\|.* FLOW: \\|flow_step\\|describe \\|it \\|# == [A-Za-z0-9]\\)")
 
 (defvar codol-re-patterns
   (list (cons "Ruby"  codol-ruby-re)
