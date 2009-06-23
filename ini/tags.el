@@ -1,7 +1,7 @@
 ;;; ==================================================================
 ;;; Author:  Jim Weirich
 ;;; File:    tags
-;;; Purpose: Setup for Tags
+;;; Purpose: Extended find-tag support.
 ;;; ==================================================================
 
 (defun jw-ft-be-prefix-transform (tagname)
@@ -26,8 +26,8 @@
   "Extended find-tag function to handle tags that don't literally match."
   (interactive (find-tag-interactive "Find extended tag: "))
   (condition-case nil
-      (jw-ft-extended-find tagname next-p regexp-p)
-    (find-tag tagname next-p regexp-p) ))
+      (find-tag tagname next-p regexp-p)
+    (error (jw-ft-extended-find tagname next-p regexp-p)) ))
 
 ;;; Remap the standard find-tag key to use the extended version.
 (global-set-key "\M-." 'jw-extended-find-tag)
