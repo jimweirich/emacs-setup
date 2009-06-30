@@ -13,4 +13,5 @@
           (delete-p t)
           (buffer (current-buffer))
           (redisplay-p t))
-      (call-process-region start end shell-file-name delete-p buffer redisplay-p) )))
+      (call-process-region start end shell-file-name delete-p buffer redisplay-p)
+      (javascript-mode) )))
