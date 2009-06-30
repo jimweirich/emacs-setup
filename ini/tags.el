@@ -4,6 +4,8 @@
 ;;; Purpose: Extended find-tag support.
 ;;; ==================================================================
 
+(require 'etags)
+
 (defun jw-ft-be-prefix-transform (tagname)
   "Transform the tagname if it matches the 'be_xxxx' pattern."
   (and tagname
