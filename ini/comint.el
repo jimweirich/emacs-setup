@@ -8,10 +8,10 @@
 
 (setq comint-input-ring-size 100)
 (setq comint-password-prompt-regexp
-  "\\(^[Pp]assword\\|^enter password\\|pass phrase\\|[Pp]assword for '[a-zA-Z0-9]+'\\):\\s *\\'")
+      "\\(^[Pp]assword\\|^enter password\\|pass phrase\\|[Pp]assword for '[a-zA-Z0-9]+'\\):\\s *\\'")
 
 (if (not (is-xemacs))
-    (setq comint-output-filter-functions '(comint-watch-for-password-prompt))
+    (add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt))
 
 (defun jnw-set-shell-prompt-hookcode ()
   (setq comint-prompt-regexp "^[^#$%>- \n]*[#$%>-] *")
@@ -20,7 +20,7 @@
 (add-hook 'telnet-mode-hook 'jnw-set-shell-prompt-hookcode)
 
 (require 'shell)
-(define-key shell-mode-map  "\C-c\C-i" 'send-invisible))
+(define-key shell-mode-map  "\C-c\C-i" 'send-invisible)
 
 (require 'comint)
 (define-key comint-mode-map "\C-c\C-i" 'send-invisible)
