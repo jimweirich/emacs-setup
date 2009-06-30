@@ -36,8 +36,23 @@
            (setq mappings nil))
           (t (setq mappings (cdr mappings))) )))
 
+(defun jw-track-go-directories (string)
+  (let ((out (replace-regexp-in-string "\n$" "" string)))
+    (if (string-match "\\[cd: \\(.*\\)\\]" out)
+        (let ((dir (substring out (match-beginning 1) (match-end 1))))
+          (jw-cd dir) ))))
+
 (defun jw-tracker (string) 
   (let ((cmd (replace-regexp-in-string "\n$" "" string)))
     (jw-check-dir-mappings cmd jw-directory-mappings) ))
 
+;;; Add the hooks
+
 (add-hook 'comint-input-filter-functions 'jw-tracker)
+(add-hook 'comint-output-filter-functions 'jw-track-go-directories)
+
+;;; Debugging --------------------------------------------------------
+
+(defun jw-debug-tracker (string)
+  (message (concat "TRACKING STRING: '" string "'")))
+
