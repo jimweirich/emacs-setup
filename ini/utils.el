@@ -15,7 +15,7 @@
 
 ;;; Finding errors in the shell
 
-(defconst find-errors-pattern "^[][A-Za-z*-]*\\$")
+(defconst find-errors-pattern "^[][A-Za-z*+./-]*\\$")
 
 (defun find-errors ()
   "Find the Errors in the current shell buffer."
