@@ -1,0 +1,4 @@
+# -*- mode: shell; require-final-newline: nil; backup-inhibited: t -*-
+#name: git config push.default MODE
+# --
+git config push.default ${1:nothing|matching|tracking|current}
