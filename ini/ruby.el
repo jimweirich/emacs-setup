@@ -162,6 +162,3 @@
 ;;; Undefine the Control-G binding in the Ruby Mode Control-C submap
 ;;; Rinari maps this to rinari-get-path
 (define-key ruby-mode-map "\C-c\C-g" 'undefined)
-
-
-  
