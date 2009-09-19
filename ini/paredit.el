@@ -6,4 +6,4 @@
 	(let ((hook (intern (concat (symbol-name mode)
 				    "-mode-hook"))))
 	  (add-hook hook (lambda () (paredit-mode +1)))))
-      '(emacs-lisp lisp inferior-lisp clojure))
+      '(emacs-lisp lisp inferior-lisp clojure scheme))
