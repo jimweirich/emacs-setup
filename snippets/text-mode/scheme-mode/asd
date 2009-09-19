@@ -1,0 +1,4 @@
+# -*- mode: scheme; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert-in-delta
+# --
+(assert-in-delta ${1:expected} ${2:actual} ${3:delta})

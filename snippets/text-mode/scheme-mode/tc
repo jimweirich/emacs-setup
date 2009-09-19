@@ -1,0 +1,5 @@
+# -*- mode: scheme; require-final-newline: nil; backup-inhibited: t -*-
+#name: unit tests
+# --
+(test-case "${1:Test Name}"
+            $0)

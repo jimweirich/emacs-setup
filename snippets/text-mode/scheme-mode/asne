@@ -1,0 +1,4 @@
+# -*- mode: scheme; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert-not-equal
+# --
+(assert-not-equal ${1:expected} ${2:actual})

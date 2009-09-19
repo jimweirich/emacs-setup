@@ -1,0 +1,12 @@
+# -*- mode: scheme; require-final-newline: nil; backup-inhibited: t -*-
+#name: unit tests
+# --
+(let ((testing-file
+       (get-environment-variable "TESTING_SCM")))
+  (if testing-file
+      (begin
+        (load testing-file)
+
+        $0
+        
+        (tests))))
