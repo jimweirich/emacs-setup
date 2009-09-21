@@ -4,15 +4,17 @@
 ;;; Purpose: Setups for working in scheme
 ;;; ==================================================================
 
+(require 'xscheme)
+
 (defun jw-scheme-load-and-go ()
   (interactive)
-  (scheme-load-file (buffer-file-name (current-buffer)))
-  (switch-to-scheme "scheme --emacs"))
+  (xscheme-send-buffer)
+  (pop-to-buffer "*scheme*") )
 
 (add-hook 'scheme-mode-hook
           '(lambda ()
-             (require 'xscheme)
-             (require 'cmuscheme)
+             (define-key scheme-mode-map "\C-c\C-p" 'scheme-trace-procedure)
+             (define-key scheme-mode-map "\C-c\C-t" 'jw-toggle-buffer)
              (define-key scheme-mode-map "\C-c\C-g" 'jw-scheme-load-and-go)))
 
 (defun jw-scheme-send-expression ()
@@ -22,7 +24,5 @@
 
 (add-hook 'scheme-interaction-mode-hook
           '(lambda ()
-             (require 'xscheme)
-             (require 'cmuscheme)
-             (define-key scheme-interaction-mode-map [S-return]
+            (define-key scheme-interaction-mode-map [S-return]
                'jw-scheme-send-expression)))
