@@ -106,3 +106,9 @@
       (next-line) )) )
    
 (global-set-key [(control tab)] 'jw-indent-line)
+
+;;; Notes 
+
+(defun notes ()
+  (interactive)
+  (find-file "~/.notes"))

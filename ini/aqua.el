@@ -27,6 +27,14 @@
                   "-0-72-72-m-0-iso10646-1")
           t))
 
+       (defun vera-sans-mono (points)
+         (interactive "NPoints: ")
+         (set-frame-font
+          (concat "-*-bitstreamverasansmono-*-r-normal--"
+                  (number-to-string points)
+                  "-0-72-72-m-0-iso10646-1")
+          t))
+
        (defun micro()      (interactive) (inconsolata 8))
        (defun tiny()       (interactive) (inconsolata 12))
        (defun small()      (interactive) (inconsolata 14))
