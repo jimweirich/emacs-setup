@@ -9,7 +9,7 @@
 (defun jw-scheme-load-and-go ()
   (interactive)
   (xscheme-send-buffer)
-  (pop-to-buffer "*scheme*") )
+  (switch-to-buffer "*scheme*") )
 
 (add-hook 'scheme-mode-hook
           '(lambda ()
@@ -26,3 +26,6 @@
           '(lambda ()
             (define-key scheme-interaction-mode-map [S-return]
                'jw-scheme-send-expression)))
+
+
+(setq scheme-program-name "/usr/local/bin/scheme")
