@@ -11,6 +11,11 @@
 (cond ((or (is-aquamacs) (is-emacs-23))
        (setq mac-option-modifier 'meta)
 
+       (setq jw-font-chooser 'vera-sans-mono)
+
+       (defun jw-choose-font (pts)
+         (apply jw-font-chooser (list pts)))
+
        (defun monaco (points)
          (interactive "NPoints: ")
          (set-frame-font
@@ -35,12 +40,12 @@
                   "-0-72-72-m-0-iso10646-1")
           t))
 
-       (defun micro()      (interactive) (inconsolata 8))
-       (defun tiny()       (interactive) (inconsolata 12))
-       (defun small()      (interactive) (inconsolata 14))
-       (defun normal()     (interactive) (inconsolata 16))
-       (defun screencast() (interactive) (inconsolata 18))
-       (defun medium()     (interactive) (inconsolata 20))
-       (defun big()        (interactive) (inconsolata 24))
-       (defun huge()       (interactive) (inconsolata 36))
+       (defun micro()      (interactive) (jw-choose-font 8)) 
+       (defun tiny()       (interactive) (jw-choose-font 12))
+       (defun small()      (interactive) (jw-choose-font 14))
+       (defun normal()     (interactive) (jw-choose-font 16))
+       (defun screencast() (interactive) (jw-choose-font 18))
+       (defun medium()     (interactive) (jw-choose-font 20))
+       (defun big()        (interactive) (jw-choose-font 24))
+       (defun huge()       (interactive) (jw-choose-font 36))
        ))
