@@ -38,19 +38,22 @@
       
 ;;; Select *my* custom fonts and do it now!
 
-(defun jw-cons2 (a b tail)
+(defun jw-prepend-pair (a b tail)
   (cons a (cons b tail)) )
 
 (defun jw-color (args)
-  (jw-cons2 :foreground (car args) (jw-color2 (cdr args))) )
+  "Construct a color descriptor from the argument list."
+  (jw-prepend-pair :foreground (car args) (jw-color-tail (cdr args))) )
 
-(defun jw-color2 (args)
+(defun jw-color-tail (args)
   (cond ((null args) ())
         ((eq (car args) :bold)
-         (jw-cons2 :bold t (jw-color2 (cdr args))))
+         (jw-prepend-pair :bold t (jw-color-tail (cdr args))))
         ((eq (car args) :italic)
-         (jw-cons2 :italic t (jw-color2 (cdr args))))
-        (t (jw-cons2 :background (car args) (jw-color2 (cdr args)))) ))
+         (jw-prepend-pair :italic t (jw-color-tail (cdr args))))
+        ((eq (car args) :background)
+         (jw-prepend-pair :background (cadr args) (jw-color-tail (cddr args))))
+        (t (jw-prepend-pair :background (car args) (jw-color-tail (cdr args)))) ))
 
 (defun jw-font (name &rest args)
   "Font Definition Function."
@@ -62,7 +65,6 @@
                 (jw-color args) )
           )
         't ))
-
 
 (defun jw-light ()
   "Set the font-lock fonts to custom colors"
@@ -92,8 +94,8 @@
   (custom-set-faces
    (jw-font 'font-lock-keyword-face            "#d07070" :bold)
    (jw-font 'font-lock-string-face             "LightGreen") ; Strings and Regex
-   (jw-font 'font-lock-comment-face            "grey60")
-   (jw-font 'font-lock-comment-delimiter-face  "grey60")
+   (jw-font 'font-lock-comment-face            "grey70" :italic)
+   (jw-font 'font-lock-comment-delimiter-face  "grey70")
    (jw-font 'font-lock-type-face               "#c0c0ff" :bold)
    (jw-font 'font-lock-variable-name-face      "#90b0ff") ;
    (jw-font 'font-lock-function-name-face      "cyan")
@@ -110,10 +112,11 @@
    (jw-font 'nxml-tag-delimiter-face           "lightblue")
    (jw-font 'nxml-attribute-value-face         "yellow")
    (jw-font 'nxml-attribute-value-delimiter-face "orange")
-   (jw-font 'nxml-comment-delimiter-face "orange")
-   (jw-font 'nxml-comment-content-face "orange")
-   (jw-font 'nxml-entity-ref-name-face "yellow")
-   (jw-font 'nxml-entity-ref-delimiter-face "red")
+   (jw-font 'nxml-comment-delimiter-face       "orange")
+   (jw-font 'nxml-comment-content-face         "orange")
+   (jw-font 'nxml-entity-ref-name-face         "yellow")
+   (jw-font 'nxml-entity-ref-delimiter-face    "red")
+   (jw-font 'region                            "white" "SkyBlue4")
    ))
 
 ;; Abbreviations
@@ -123,48 +126,10 @@
 (defun jwf () (interactive) (jwfd))
 (jwf)
 
-;;; The following functions are used for exploring possible color
-;;; options under emacs.
+;;; Color Editing Hints:
 
-(defun jw-color-example (name color) 
-  "Insert a colored string example with the named color."
-  (let (n f start end e)
-    (setq n (intern (concat "jw-" color)))
-    (setq f (make-face n))
-    (set-face-foreground f color)
-    (setq start (point))
-    (insert-string name)
-    (setq end (point))
-    (insert-string " ")
-    (setq e (make-extent start end))
-    (set-extent-property e 'face f)
-    ()
-    )
-  )
-
-(defun jw-show-font-colors ()
-  "Show the current font settings"
-  (interactive)
-  (let ((fonts jw-font-list))
-    (while fonts
-      (jw-color-example (symbol-name (caar fonts)) (cadar fonts))
-      (insert-string "\n")
-      (setq fonts (cddr fonts))
-      )
-    )
-  )
-      
-
-(defun jw-insert-colors () 
-  "Insert the set of color names defined in jw-rgbcolors."
-  (interactive)
-  (let ((clist jw-rgbcolors))
-    (while clist 
-      (jw-color-example (car clist) (car clist))
-      (setq clist (cdr clist))
-      )
-    )
-  )
+;;; Load the face-list.el library and use the (list-faces-display)
+;;; function to get an interactive font color editor.
 
 ;;; The color list.  Use the perl command below to generate a full
 ;;; color list with the colors defined on your system.
