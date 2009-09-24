@@ -11,8 +11,10 @@
 (cond ((or (is-aquamacs) (is-emacs-23))
        (setq mac-option-modifier 'meta)
 
-       (setq jw-font-chooser 'vera-sans-mono)
-
+       (if (is-aquamacs)
+           (setq jw-font-chooser 'inconsolata)
+         (setq jw-font-chooser 'vera-sans-mono))
+       
        (defun jw-choose-font (pts)
          (apply jw-font-chooser (list pts)))
 
