@@ -21,6 +21,7 @@
            (progn (global-set-key [f4] 'server-start)
                   (global-set-key [(shift f4)] 'gnuserv-start) ))
        (global-set-key [f5] 'call-last-kbd-macro)
+       (global-set-key [C-f6] 'unansi)
        (global-set-key [f6] 'refresh)
        (global-set-key [f10] 'call-last-kbd-macro)
        (global-set-key [f12] 'jw-zap-all-ansi)
