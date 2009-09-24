@@ -104,7 +104,7 @@
       (indent-for-tab-command)
       (beginning-of-line)
       (next-line) )) )
-   
+
 (global-set-key [(control tab)] 'jw-indent-line)
 
 ;;; Notes 
