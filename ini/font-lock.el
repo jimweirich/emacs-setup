@@ -124,7 +124,6 @@
 (defun jwfd ()  (interactive) (jw-dark))
 (defun jwfl ()  (interactive) (jw-light))
 (defun jwf () (interactive) (jwfd))
-(jwf)
 
 ;;; Color Editing Hints:
 
@@ -139,6 +138,6 @@
 
 ;;; perl -ne 'print qq!"$2"\n! if /([0-9]+\s+){3}([A-Za-z0-9]+)$/;' </usr/lib/X11/rgb.txt
 
-(setq default-frame-alist    '((cursor-color . "red")
-             			       (background-color . "black")
-		        	       (foreground-color . "white")))
+(setq default-frame-alist '((cursor-color . "red")
+                            (background-color . "black")
+                            (foreground-color . "white")))
