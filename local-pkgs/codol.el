@@ -56,5 +56,3 @@
         (t
          (codol-full-view)
          (setq codol-state 'full))))
-
-(global-set-key "\C-C\\" 'codol-toggle)

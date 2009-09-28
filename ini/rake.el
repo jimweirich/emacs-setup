@@ -64,5 +64,3 @@ buffer identified by jw-rake-buffer-name."
   (if (get-buffer jw-rake-buffer-name) (kill-buffer jw-rake-buffer-name))
   (jw-start-rake-process (jw-rake-read-task))
   (pop-to-buffer jw-rake-buffer-name))
-
-(global-set-key "\C-cr" 'jw-run-rake)

@@ -72,13 +72,12 @@
 (setq comint-process-echoes nil)
 
 ;;; Key sequence to toggle the process echo flag.
-(global-set-key "\C-cs"
-                (lambda ()
-                  (interactive)
-                  (cond
-                   (comint-process-echoes 
-                    (setq comint-process-echoes nil)
-                    (message "shell not processing echoes"))
-                   (t
-                    (setq comint-process-echoes t)
-                    (message "shell processing echoes")) )))
+(defun jw-toggle-process-echo-flag
+  (interactive)
+  (cond
+   (comint-process-echoes 
+    (setq comint-process-echoes nil)
+    (message "shell not processing echoes"))
+   (t
+    (setq comint-process-echoes t)
+    (message "shell processing echoes")) ))

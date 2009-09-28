@@ -318,5 +318,3 @@ The keywords are returned in a blank delimited string."
 ;;; Menus and Hooks
 ;;; ==================================================================
 
-(global-set-key [f8] 'tempo-forward-mark)
-(global-set-key [f7] 'tempo-backward-mark)

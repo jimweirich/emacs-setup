@@ -32,8 +32,3 @@
 	     zoom-step
 	   (- selective-display zoom-step)))
      (* zoom-step) ) ) )
-
-(global-set-key [f9] 'zoom-in)
-(global-set-key (if (is-xemacs) [(shift f9)] [S-f9]) 'zoom-way-in)
-(global-set-key [f10] 'zoom-out)
-(global-set-key (if (is-xemacs) [(shift f10)] [S-f10]) 'zoom-way-out)

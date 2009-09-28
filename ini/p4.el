@@ -43,8 +43,3 @@ command will resync the buffers with their current state."
 (defun p4-env ()
   (interactive)
   (call-process "/Users/jim/bin/p4_env" nil "*p4*" t) )
-
-(global-set-key "\C-cpe" 'p4-edit)
-(global-set-key "\C-cpr" 'p4-revert)
-(global-set-key "\C-cps" 'p4-sync-code-buffers)
-(global-set-key "\C-cpv" 'p4-env)

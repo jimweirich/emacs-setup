@@ -42,8 +42,6 @@
     (setq compilation-last-buffer outbuf)
     (compilation-mode) ))
 
-(global-set-key "\C-ce" 'find-errors)
-
 (defun refresh ()
   "Refresh the current buffer from disk"
   (interactive)
@@ -132,27 +130,22 @@
 (defun cmt-insert-bar-heavy ()
   (interactive)
   (cmt-insert-bar-line "="))
-(global-set-key "\C-c=" 'cmt-insert-bar-heavy)
 
 (defun cmt-insert-bar-hash ()
   (interactive)
   (cmt-insert-bar-line "#"))
-(global-set-key "\C-c#" 'cmt-insert-bar-hash)
 
 (defun cmt-insert-bar-light ()
   (interactive)
   (cmt-insert-bar-line "-"))
-(global-set-key "\C-c-" 'cmt-insert-bar-light)
 
 (defun cmt-insert-bar-star ()
   (interactive)
   (cmt-insert-bar-line "*"))
-(global-set-key "\C-c*" 'cmt-insert-bar-star) 
 
 (defun cmt-insert-bar-hash ()
   (interactive)
   (cmt-insert-bar-line "#"))
-(global-set-key "\C-c#" 'cmt-insert-bar-hash)
 
 (defun snip ()
   (interactive)
@@ -202,16 +195,6 @@
       (pop-to-buffer buf)
       (goto-char (point-max))
       ))
-
-(global-set-key "\C-c " 'multi-shell)	; override the default binding here
-(global-set-key [M-f1] (lambda () (interactive) (mshell 1)))
-(global-set-key [M-f2] (lambda () (interactive) (mshell 2)))
-(global-set-key [M-f3] (lambda () (interactive) (mshell 3)))
-(global-set-key [M-f4] (lambda () (interactive) (mshell 4)))
-(global-set-key [M-f5] (lambda () (interactive) (mshell 5)))
-(global-set-key [M-f6] (lambda () (interactive) (mshell 6)))
-(global-set-key [M-f7] (lambda () (interactive) (mshell 7)))
-(global-set-key [M-f12] 'jw-select-gud-buffer)
 
 (defun send-shell-command (str)
   "Send commands to a shell process"
@@ -378,9 +361,6 @@
   (interactive)
   (find-mate))
 
-(global-set-key "\M-o" 'fm)
-
-
 ;;; Common Programming Abbreviations and Shortcuts ===================
 
 (defun ac ()
@@ -462,7 +442,6 @@
    (prin1-to-string (key-binding key))
    ")" ))
 
-(global-set-key "\C-ch" 'jw-show-key-binding)
 
 ;;; ==================================================================
 ;;; ANSI Terminal Clutter Zapper

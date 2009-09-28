@@ -100,4 +100,3 @@ that file in the other window and position point on that line."
 
 ;;; Key Bindings -----------------------------------------------------
 
-(global-set-key [f2] 'jw-visit-source)

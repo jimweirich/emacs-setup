@@ -18,4 +18,3 @@
                          nil t)))
 
 (defun ffp () (interactive) (ido-find-file-in-tag-files))
-(global-set-key "\C-c\C-f" 'ido-find-file-in-tag-files)

@@ -52,5 +52,3 @@
         (end (find-down)))
     (goto-char start)
     (do-all () end)))
-
-(global-set-key "\C-cl" (lambda () (interactive) (setq xxx (parse-up))))

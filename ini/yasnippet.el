@@ -38,11 +38,11 @@
   (interactive)
   (mapcar 'delete-overlay (overlays-in (point-min) (point-max))))
 
-;;; Clear overlays and return to top level.
-(global-set-key "\C-ccc"
-                '(lambda () (interactive)
-                   (jw-clear-overlays)
-                   (top-level)))
+(defun jw-clear-overlays-to-top-level
+  "Clear overlays and return to top level."
+  (interactive)
+  (jw-clear-overlays)
+  (top-level))
 
 
 ;;; The default background tends to wash out the foreground color a

@@ -101,6 +101,4 @@
   )
 
 (add-hook 'c-mode-common-hook 'ccaid-init)
-  
-(global-set-key "\C-cnm" 'ccaid-add-mode-comment)
 

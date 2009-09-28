@@ -572,32 +572,6 @@ mappings from other projects."
       (message "Warnings enabled in tests")
     (message "Warnings disabled in tests") ))
 
-;;; -- Key mappings --------------------------------------------------
-
-;;; Map the various run test commands
-(global-set-key "\C-Ctr"    'jw-run-test-rake)
-(global-set-key "\C-Ctu"    'jw-run-test-units)
-(global-set-key "\C-Ctl"    'jw-run-test-functionals)
-(global-set-key "\C-Cti"    'jw-run-test-integration)
-(global-set-key "\C-Ctc"    'jw-run-test-cruise)
-(global-set-key "\C-Ctf"    'jw-run-test-or-spec-file)
-(global-set-key "\C-CtF"    'jw-run-last-test-or-spec-file)
-(global-set-key "\C-Ct\C-f" 'jw-run-last-test-or-spec-file)
-(global-set-key "\C-Ctm"    'jw-run-test-or-spec-method)
-(global-set-key "\C-CtM"    'jw-run-last-test-or-spec-method)
-(global-set-key "\C-Ct\C-m" 'jw-run-last-test-or-spec-method)
-(global-set-key "\C-ctt"    'jw-mark-for-testing)
-(global-set-key "\C-ctw"    'jw-test-toggle-warnings)
-
-(global-set-key "\C-Ct1" (lambda () (interactive)(setq jw-test-single-window t)))
-(global-set-key "\C-Ct2" (lambda () (interactive)(setq jw-test-single-window nil)))
-
-;;; Map the toggle-style command for easy access
-(global-set-key "\C-Cts" 'toggle-style)
-
-;;; Also map the reset all buffer toggle styles command.
-(global-set-key "\C-Ct\C-t" 'jw-toggle-clear-buffer-styles)
-
 ;;; Add the toggle command to the compilation mode, just make it
 ;;; delete the test buffer.
 

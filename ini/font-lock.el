@@ -139,10 +139,6 @@
 
 ;;; perl -ne 'print qq!"$2"\n! if /([0-9]+\s+){3}([A-Za-z0-9]+)$/;' </usr/lib/X11/rgb.txt
 
-;;; Key Bindings =====================================================
-
-(global-set-key "\C-C?" 'jw-show-font-name)
-
 (setq default-frame-alist    '((cursor-color . "red")
              			       (background-color . "black")
 		        	       (foreground-color . "white")))

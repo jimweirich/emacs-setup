@@ -86,8 +86,6 @@
     (fix-backspace)
     (message "C-h / DEL Swapped") ))
 
-(global-set-key "\C-x4h" 'toggle-bs-mode)
-
 ;;; Customized Variables ===============================================
 
 (setq rlogin-initially-track-cwd t)	; track dirs in rlogin
@@ -108,37 +106,7 @@
 (put 'upcase-region 'disabled nil)	; change case enabled
 (put 'eval-expression 'disabled nil)	; allow eval commands
 
-
-;;; Key Binding ======================================================
-;;; The following key bindings are more or less generic.  Bindings for
-;;; newly defined functions usually occur in the file defining the
-;;; binding.
-
-(global-set-key "\M-g" 'goto-line)	; goto a line position
-
-(global-set-key "\C-c " 'shell)		; select a shell
-(global-set-key "\C-c\C-r" 'shell-resync-dirs) ; resync shell with current dir
-(global-set-key "\C-cf" 'auto-fill-mode) ; toggle fill mode
-
-(global-set-key "\C-x\C-m" 'compile)	; do the compile command
-(global-set-key "\C-x\C-n" 'next-error)	; goto next compile error
-(global-set-key "\C-x " 'big-shell)	; select a full screen shell
-
-(global-set-key "\C-z" 'scroll-down)	; I *hate* suspend bound on this key
-
-(global-set-key "\C-c>" 'tags-reset-tags-tables)
-
 (setq shell-dirstack-query "resync_dirs")
-
-;;; The following are only done in emacs-19 --------------------------
-
-(if (is-emacs-19)
-    (progn
-      (global-set-key (if (is-xemacs) [(shift backspace)] [S-backspace]) "\C-?")
-      (global-set-key [f1] "\C-h")
-      (global-set-key [f4] 'call-last-kbd-macro)
-      (global-set-key (if (is-xemacs) [(shift f4)] [S-f4]) 'name-last-kbd-macrob)
-      ))
 
 (require 'compile)
 (setq bad-re "\\([^ :]+\\):\\([0-9]+\\):in")

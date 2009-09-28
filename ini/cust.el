@@ -14,11 +14,6 @@
 
 (defalias 'qrr 'query-replace-regexp)
 
-;;; Quick Access Functions to remote locations =======================
-
-(setq quick-access-map (make-sparse-keymap))
-(global-set-key "\C-cg" quick-access-map)
-
 ;;; Tabbing Helpers ==================================================
 
 (defun jwt2 ()
@@ -104,8 +99,6 @@
       (indent-for-tab-command)
       (beginning-of-line)
       (next-line) )) )
-
-(global-set-key [(control tab)] 'jw-indent-line)
 
 ;;; Notes 
 

@@ -33,6 +33,3 @@
   (twittering-enter))
 
 (define-key twittering-mode-map "r" 'reply-to-tweet)
-
-(global-set-key "\C-cctt" 'tweet)
-(global-set-key "\C-cctb" 'switch-to-buffer-twittering)

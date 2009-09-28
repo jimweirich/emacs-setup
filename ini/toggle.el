@@ -71,5 +71,3 @@
   (insert (format "LOOKING FOR %s\n" path))
   (insert (format "IN RULES %s\n\n" path toggle-mappings))
   (toggle-debug-loop path toggle-mappings))
-
-(global-set-key "\C-ct\C-s" 'toggle-debug)

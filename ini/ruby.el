@@ -35,8 +35,6 @@
    "ruby -r xmp -n -e 'xmp($_, \"%l\t\t# %r\n\")'"
    t))
 
-(global-set-key [(meta f10)] 'ruby-xmp-region)
-
 ;;; TestUnit Compilation Patterns ------------------------------------
 ;;; Add the compilation patterns used by Test::Unit to the list of
 ;;; those recognized by emacs.
@@ -148,9 +146,6 @@
   (define-key ruby-mode-map "\C-C\C-t" 'jw-toggle-buffer)
   (define-key ruby-mode-map "\C-Cx"  'jw-run-ruby-file)
   )
-
-(global-set-key "\C-cm" 'jw-mark-for-rdebug)
-(global-set-key "\C-cd" 'jw-select-gud-buffer)
 
 (add-hook 'ruby-mode-hook 'jw-ruby-init-keys)
 (add-hook 'ruby-mode-hook '(lambda () (jwfd) (font-lock-mode)))

@@ -175,10 +175,6 @@
 ;;; Key Bindings
 ;;; ==================================================================
 
-(global-set-key [f5] 'tempo-forward-mark)
-(global-set-key [f6] 'tempo-backward-mark)
-(global-set-key [f7] 'tempo-complete-tag)
-
 (define-key java-mode-map "\C-cnc" 'jaid-new-class)
 (define-key java-mode-map "\C-cnd" 'tempo-template-jaid-file-comments)
 (define-key java-mode-map "\C-cnh" 'jaid-add-header-protection)
