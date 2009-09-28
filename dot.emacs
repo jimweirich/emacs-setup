@@ -13,9 +13,12 @@
  '(ido-enable-flex-matching t)
  '(ido-mode (quote both) nil (ido))
  '(init-face-from-resources nil)
+ '(ispell-program-name "/opt/local/bin/ispell")
  '(load-home-init-file t t)
  '(make-backup-files nil)
  '(mm-inline-media-tests (quote (("image/jpeg" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote jpeg) handle))) ("image/png" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote png) handle))) ("image/gif" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote gif) handle))) ("image/tiff" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote tiff) handle))) ("image/xbm" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote xbm) handle))) ("image/x-xbitmap" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote xbm) handle))) ("image/xpm" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote xpm) handle))) ("image/x-pixmap" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote xpm) handle))) ("image/bmp" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote bmp) handle))) ("text/plain" mm-inline-text identity) ("text/enriched" mm-inline-text identity) ("text/richtext" mm-inline-text identity) ("text/x-patch" mm-display-patch-inline (lambda (handle) (locate-library "diff-mode"))) ("application/emacs-lisp" mm-display-elisp-inline identity) ("text/x-vcard" mm-inline-text (lambda (handle) (or (featurep (quote vcard)) (locate-library "vcard")))) ("message/delivery-status" mm-inline-text identity) ("message/rfc822" mm-inline-message identity) ("message/partial" mm-inline-partial identity) ("text/.*" mm-inline-text identity) ("audio/wav" mm-inline-audio (lambda (handle) (and (or (featurep (quote nas-sound)) (featurep (quote native-sound))) (device-sound-enabled-p)))) ("audio/au" mm-inline-audio (lambda (handle) (and (or (featurep (quote nas-sound)) (featurep (quote native-sound))) (device-sound-enabled-p)))) ("application/pgp-signature" ignore identity) ("multipart/alternative" ignore identity) ("multipart/mixed" ignore identity) ("multipart/related" ignore identity))))
+ '(show-paren-mode t)
+ '(show-paren-style (quote parenthesis))
  '(toolbar-mail-reader (quote gnus))
  '(toolbar-news-reader (quote gnus)))
 
@@ -30,8 +33,8 @@
  '(Info-title-2-face ((((class color)) (:foreground "red")) (((type tty)) (:foreground "red"))) t)
  '(comint-highlight-input ((((class color)) (:foreground "yellow")) (((type tty)) (:foreground "yellow"))))
  '(comint-highlight-prompt ((((class color)) (:foreground "cyan")) (((type tty)) (:foreground "cyan"))))
- '(font-lock-comment-delimiter-face ((t (:foreground "grey70"))))
- '(font-lock-comment-face ((t (:foreground "grey70" :slant italic))))
+ '(font-lock-comment-delimiter-face ((((class color)) (:foreground "grey70")) (((type tty)) (:foreground "grey70"))))
+ '(font-lock-comment-face ((((class color)) (:foreground "grey70" :italic t)) (((type tty)) (:foreground "grey70" :italic t))))
  '(font-lock-constant-face ((((class color)) (:foreground "pink")) (((type tty)) (:foreground "pink"))))
  '(font-lock-function-name-face ((((class color)) (:foreground "cyan")) (((type tty)) (:foreground "cyan"))))
  '(font-lock-keyword-face ((((class color)) (:foreground "#d07070" :bold t)) (((type tty)) (:foreground "#d07070" :bold t))))
@@ -50,7 +53,7 @@
  '(nxml-entity-ref-delimiter-face ((((class color)) (:foreground "red")) (((type tty)) (:foreground "red"))) t)
  '(nxml-entity-ref-name-face ((((class color)) (:foreground "yellow")) (((type tty)) (:foreground "yellow"))) t)
  '(nxml-tag-delimiter-face ((((class color)) (:foreground "lightblue")) (((type tty)) (:foreground "lightblue"))) t)
- '(region ((t (:background "SkyBlue4" :foreground "white"))))
+ '(region ((((class color)) (:foreground "white" :background "SkyBlue4")) (((type tty)) (:foreground "white" :background "SkyBlue4"))))
  '(smerge-refined-change ((t (:background "orange")))))
 
 
