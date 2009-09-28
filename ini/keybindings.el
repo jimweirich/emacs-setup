@@ -110,7 +110,7 @@
 
 ;; Remap some annoying keys in Aquamacs
 
-(If (boundp 'osx-key-mode-map)
+(if (boundp 'osx-key-mode-map)
     (progn
       (define-key osx-key-mode-map (kbd "A-p") 'jw-noop)
       (define-key osx-key-mode-map (kbd "A-t") 'jw-noop)
