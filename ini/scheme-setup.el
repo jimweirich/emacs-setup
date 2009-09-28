@@ -15,7 +15,8 @@
           '(lambda ()
              (define-key scheme-mode-map "\C-c\C-p" 'scheme-trace-procedure)
              (define-key scheme-mode-map "\C-c\C-t" 'jw-toggle-buffer)
-             (define-key scheme-mode-map "\C-c\C-g" 'jw-scheme-load-and-go)))
+             (define-key scheme-mode-map "\C-c\C-g" 'jw-scheme-load-and-go)
+             (define-key scheme-mode-map [S-return] 'xscheme-send-definition)))
 
 (defun jw-scheme-send-expression ()
   (interactive)
@@ -24,8 +25,7 @@
 
 (add-hook 'scheme-interaction-mode-hook
           '(lambda ()
-            (define-key scheme-interaction-mode-map [S-return]
-               'jw-scheme-send-expression)))
+            (define-key scheme-interaction-mode-map [S-return] 'xscheme-send-definition)))
 
 
 (setq scheme-program-name "/usr/local/bin/scheme")
