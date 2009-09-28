@@ -1,3 +1,3 @@
 ;;; Set the font size
 
-(screencast)
+(if (boundp 'screencast) (screencast))
