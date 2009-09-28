@@ -31,7 +31,6 @@
 (global-set-key (kbd "C-C r")   'jw-run-rake)
 (global-set-key (kbd "C-C s")   'jw-toggle-process-echo-flag)
 
-(global-set-key (kbd "C-C C-r") 'shell-resync-dirs) ; resync shell with current dir
 (global-set-key (kbd "C-C C-f") 'ido-find-file-in-tag-files)
 
 ;; C-C c
