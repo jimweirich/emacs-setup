@@ -38,7 +38,7 @@
   (interactive)
   (mapcar 'delete-overlay (overlays-in (point-min) (point-max))))
 
-(defun jw-clear-overlays-to-top-level
+(defun jw-clear-overlays-to-top-level ()
   "Clear overlays and return to top level."
   (interactive)
   (jw-clear-overlays)
