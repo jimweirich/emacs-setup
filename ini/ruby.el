@@ -71,20 +71,7 @@
       (jw-rb-goto-para-end)
       (narrow-to-region start (point))
       (fill-region start (point))
-      (widen)
-      )
-    ))
-(defun jw-rb-fill-comment-region ()
-  (interactive)
-  (save-excursion
-    (jw-rb-goto-para-begin)
-    (let ((start (point)))
-      (jw-rb-goto-para-end)
-      (narrow-to-region start (point))
-      (fill-region start (point))
-      (widen)
-      )
-    ))
+      (widen) ) ))
 
 (defun rb () (interactive) (ruby-mode))
   
