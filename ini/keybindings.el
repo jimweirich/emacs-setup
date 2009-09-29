@@ -3,12 +3,12 @@
 (global-set-key (kbd "C-<tab>") 'jw-indent-line)
 (global-set-key (kbd "C-z") 'scroll-down) ; I *hate* suspend bound on this key
 (global-set-key (kbd "M-g") 'goto-line)	; goto a line position
-(global-set-key (kbd "M-#") 'comment-region) 
+(global-set-key (kbd "M-#") 'comment-region)
 
 ;; C-x mappings
-(global-set-key (kbd "C-x 4 h") 'toggle-bs-mode)
-(global-set-key (kbd "C-x C-m") 'compile)        
-(global-set-key (kbd "C-x C-n") 'next-error)
+(global-set-key (kbd "C-x 4 h") 'toggle-bs-mode) ; pbk:utils
+(global-set-key (kbd "C-x C-m") 'compile)        ;
+(global-set-key (kbd "C-x C-n") 'next-error) ;
 
 ;; C-C mappings
 (global-set-key (kbd "C-C .")   'cmt-insert-bar-dots)
@@ -43,62 +43,60 @@
 (global-set-key (kbd "C-C p v") 'p4-env) ; pkg:perforce
 
 ;;; C-C t -- Testing Commands
-(global-set-key (kbd "C-C t F")    'jw-run-last-test-or-spec-file)
-(global-set-key (kbd "C-C t M")    'jw-run-last-test-or-spec-method)
-(global-set-key (kbd "C-C t c")    'jw-run-test-cruise)
-(global-set-key (kbd "C-C t f")    'jw-run-test-or-spec-file)
-(global-set-key (kbd "C-C t i")    'jw-run-test-integration)
-(global-set-key (kbd "C-C t l")    'jw-run-test-functionals)
-(global-set-key (kbd "C-C t m")    'jw-run-test-or-spec-method)
-(global-set-key (kbd "C-C t r")    'jw-run-test-rake)
-(global-set-key (kbd "C-C t s")    'toggle-style)
-(global-set-key (kbd "C-C t t")    'jw-mark-for-testing)
-(global-set-key (kbd "C-C t u")    'jw-run-test-units)
-(global-set-key (kbd "C-C t w")    'jw-test-toggle-warnings)
+(global-set-key (kbd "C-C t F")    'jw-run-last-test-or-spec-file) ; pkg:testing
+(global-set-key (kbd "C-C t M")    'jw-run-last-test-or-spec-method) ; pkg:testing
+(global-set-key (kbd "C-C t c")    'jw-run-test-cruise) ; pkg:testing
+(global-set-key (kbd "C-C t f")    'jw-run-test-or-spec-file) ; pkg:testing
+(global-set-key (kbd "C-C t i")    'jw-run-test-integration) ; pkg:testing
+(global-set-key (kbd "C-C t l")    'jw-run-test-functionals) ; pkg:testing
+(global-set-key (kbd "C-C t m")    'jw-run-test-or-spec-method) ; pkg:testing
+(global-set-key (kbd "C-C t r")    'jw-run-test-rake) ; pkg:testing
+(global-set-key (kbd "C-C t s")    'toggle-style) ; pkg:testing
+(global-set-key (kbd "C-C t t")    'jw-mark-for-testing) ; pkg:testing
+(global-set-key (kbd "C-C t u")    'jw-run-test-units) ; pkg:testing
+(global-set-key (kbd "C-C t w")    'jw-test-toggle-warnings) ; pkg:testing
 
-(global-set-key (kbd "C-C t C-f")  'jw-run-last-test-or-spec-file)
-(global-set-key (kbd "C-C t C-m")  'jw-run-last-test-or-spec-method)
-(global-set-key (kbd "C-C t C-t") 'jw-toggle-clear-buffer-styles)
-(global-set-key (kbd "C-C t C-s") 'toggle-debug)
+(global-set-key (kbd "C-C t C-f")  'jw-run-last-test-or-spec-file) ; pkg:testing
+(global-set-key (kbd "C-C t C-m")  'jw-run-last-test-or-spec-method) ; pkg:testing
+(global-set-key (kbd "C-C t C-t") 'jw-toggle-clear-buffer-styles) ; pkg:testing
+(global-set-key (kbd "C-C t C-s") 'toggle-debug) ; pkg:testing
 
-(global-set-key (kbd "C-C t 1") (lambda () (interactive) (setq jw-test-single-window t)))
-(global-set-key (kbd "C-C t 2") (lambda () (interactive) (setq jw-test-single-window nil)))
+(global-set-key (kbd "C-C t 1") (lambda () (interactive) (setq jw-test-single-window t))) ; pkg:testing
+(global-set-key (kbd "C-C t 2") (lambda () (interactive) (setq jw-test-single-window nil))) ; pkg:testing
 
 ;; Function Keys
 
-(global-set-key (kbd "<f2>") 'jw-visit-source)
-(global-set-key (kbd "S-<f2>") "\C-?")
+(global-set-key (kbd "<f2>") 'jw-visit-source) ; pkg:visit-source
 
-(global-set-key (kbd "<f3>") 'jw-cite-filled)
+(global-set-key (kbd "<f3>") 'jw-cite-filled) ; pkg:gnues
 
 (global-set-key (kbd "<f5>") 'call-last-kbd-macro)
 
-(global-set-key (kbd "<f6>") 'refresh)
-(global-set-key (kbd "C-<f6>") 'unansi)
+(global-set-key (kbd "<f6>") 'refresh)  ; pkg:utils
 
-(global-set-key (kbd "<f7>") 'tempo-complete-tag)
+(global-set-key (kbd "<f7>") 'unansi) ; pkg:utils
 
-(global-set-key (kbd "<f9>") 'zoom-in)
-(global-set-key (kbd "S-<f9>") 'zoom-way-in)
+(global-set-key (kbd "<f9>") 'zoom-in)  ; pkg:zoom
+(global-set-key (kbd "S-<f9>") 'zoom-way-in) ; pkg:zoom
 
-(global-set-key (kbd "<f10>") 'zoom-out)
-(global-set-key (kbd "S-<f10>") 'zoom-way-out)
+(global-set-key (kbd "<f10>") 'zoom-out) ; pkg:zoom
+(global-set-key (kbd "S-<f10>") 'zoom-way-out) ; pkg:zoom
 
 (global-set-key (kbd "<f10>") 'call-last-kbd-macro)
 (global-set-key (kbd "M-<f10>") 'ruby-xmp-region)
 
 (global-set-key (kbd "<f12>") 'jw-zap-all-ansi)
-(global-set-key (kbd "M-<f12>") 'jw-select-gud-buffer)
+(global-set-key (kbd "M-<f12>") 'jw-select-gud-buffer) ; pkg:ruby
 
 ;; Shell runners
 
-(global-set-key (kbd "M-<f1>") (lambda () (interactive) (mshell 1)))
-(global-set-key (kbd "M-<f2>") (lambda () (interactive) (mshell 2)))
-(global-set-key (kbd "M-<f3>") (lambda () (interactive) (mshell 3)))
-(global-set-key (kbd "M-<f4>") (lambda () (interactive) (mshell 4)))
-(global-set-key (kbd "M-<f5>") (lambda () (interactive) (mshell 5)))
-(global-set-key (kbd "M-<f6>") (lambda () (interactive) (mshell 6)))
-(global-set-key (kbd "M-<f7>") (lambda () (interactive) (mshell 7)))
+
+(global-set-key (kbd "M-<f1>") (lambda () (interactive) (mshell 1))) ; pkg:utils
+(global-set-key (kbd "M-<f2>") (lambda () (interactive) (mshell 2))) ; pkg:utils
+(global-set-key (kbd "M-<f4>") (lambda () (interactive) (mshell 4))) ; pkg:utils
+(global-set-key (kbd "M-<f5>") (lambda () (interactive) (mshell 5))) ; pkg:utils
+(global-set-key (kbd "M-<f6>") (lambda () (interactive) (mshell 6))) ; pkg:utils
+(global-set-key (kbd "M-<f7>") (lambda () (interactive) (mshell 7))) ; pkg:utils
 
 (if (is-emacs-19)
     (progn
