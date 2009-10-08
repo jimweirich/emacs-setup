@@ -25,7 +25,8 @@
 
 ;;; Customize Ruby Mode Variables ------------------------------------
 
-(setq ruby-deep-arglist nil)		; shallow arglist indentation
+;;(setq ruby-deep-arglist nil)          ; Obsolete?
+(setq ruby-deep-indent-paren-style nil) ;
 
 ;;; XMP setup --------------------------------------------------------
 
