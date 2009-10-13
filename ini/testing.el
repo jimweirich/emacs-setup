@@ -199,11 +199,16 @@ Redefine as needed to define the top directory of a project."
   "Is the given file name a test file?"
   (string-match "\\btest\\b" (file-name-nondirectory file-name)) )
 
+(defun jw-given-file-name-p (file-name)
+  "Is the given file name a given behavior/contract file?"
+  (string-match "\\b\\(behavior\\|contract\\)\\b" (file-name-nondirectory file-name)) )
+
 (defun jw-runnable-test-file-p (file-name)
   "Is the given file name a test or spec file?"
   (or (jw-test-file-name-p file-name)
       (jw-spec-file-name-p file-name)
       (jw-koan-file-name-p file-name)
+      (jw-given-file-name-p file-name)
       (jw-selenium-rc-file-name-p file-name) ))
 
 (defun jw-target-file-name (file-name)
@@ -457,6 +462,7 @@ test file."
     (cond ((jw-test-file-name-p file-name) (jw-run-test-method args))
           ((jw-spec-file-name-p file-name) (jw-run-spec-method args))
           ((jw-koan-file-name-p file-name) (jw-run-test-method args))
+          ((jw-given-file-name-p file-name) (jw-run-test-method args))
           ((jw-selenium-rc-file-name-p file-name) (jw-run-test-method args))
           (t (error "not a test nor a spec")) )))
 
@@ -471,6 +477,7 @@ test file."
     (cond ((jw-test-file-name-p file-name) (jw-run-test-file args))
           ((jw-spec-file-name-p file-name) (jw-run-spec-file args))
           ((jw-koan-file-name-p file-name) (jw-run-test-file args))
+          ((jw-given-file-name-p file-name) (jw-run-test-file args))
           (t (error "not a test nor a spec")) )))
 
 (defun jw-run-last-test-or-spec-file (args)
