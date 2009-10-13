@@ -234,6 +234,15 @@ Redefine as needed to define the top directory of a project."
     (re-search-backward jw-test-all-pattern)
     (jw-extract-name)))
 
+(defun jw-find-given-line-marker ()
+  "Return the line marker of the current test method."
+  (save-excursion
+    (next-line)
+    (move-beginning-of-line 1)
+    (re-search-backward "Given\\|When\\|Then")
+    (concat (buffer-substring (match-beginning 0) (+ 1 (match-beginning 0)))
+            (number-to-string (line-number-at-pos)))))
+
 (defun testor-choose-file (files)
   "Return the first file name in the list of files that exists, or nil."
   (cond ((null files) ())
@@ -430,6 +439,39 @@ test file."
                 jw-rdebug-command (jw-test-option-string)
                 file-name "--" (concat "-n" method-name))) ))))
 
+(defun jw-run-given-method (arg)
+  "Run the test matching the current line of the current file.
+If this file name does not include the string 'test' and there is
+a toggle mapping for this file, then run the test on the toggled
+test file."
+  (interactive "P")
+  (bookmark-set "test")
+  (jw-take-down-test-buffer)
+  (let* ((file-name (buffer-file-name))
+         (default-directory (jw-find-project-top file-name)) )
+    (if (not (jw-given-file-name-p file-name)) 
+        (progn
+          (jw-toggle-buffer)
+          (setq file-name (buffer-file-name)) ))
+    (save-buffer)
+    (setq jw-test-last-test-buffer (buffer-name))
+    (let ((line-marker (jw-find-given-line-marker)))
+      (cond ((null default-directory) (message "Cannot find project top"))
+            ((null arg)
+             (jw-prep-test-buffer)
+             (jw-test-start-process
+              jw-ruby-command (jw-test-option-string)
+              file-name (concat "-n\"/_" line-marker "_/\""))
+             (jw-test-insert-headers
+              "= Test Method ...\n"
+              "== In:     " default-directory "\n"
+              "== File:   " (file-name-nondirectory file-name) "\n"
+              "== Line: " line-marker "\n\n"))
+            (t (jw-prep-test-buffer)
+               (jw-test-start-debugging
+                jw-rdebug-command (jw-test-option-string)
+                file-name "--" (concat "-n\"/_" line-marker "_/\""))) ))))
+
 (defun jw-run-test-file (arg)
   "Run the current file as a test.
 If this file name does not include the string 'test' and there is
@@ -462,7 +504,7 @@ test file."
     (cond ((jw-test-file-name-p file-name) (jw-run-test-method args))
           ((jw-spec-file-name-p file-name) (jw-run-spec-method args))
           ((jw-koan-file-name-p file-name) (jw-run-test-method args))
-          ((jw-given-file-name-p file-name) (jw-run-test-method args))
+          ((jw-given-file-name-p file-name) (jw-run-given-method args))
           ((jw-selenium-rc-file-name-p file-name) (jw-run-test-method args))
           (t (error "not a test nor a spec")) )))
 
