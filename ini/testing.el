@@ -240,14 +240,19 @@ Redefine as needed to define the top directory of a project."
     (re-search-backward jw-test-name-pattern)
     (jw-extract-name)))
 
+(defun jw-keyword-target-char ()
+  (cond ((looking-at "Given") "G")
+        ((looking-at "When") "W")
+        ((looking-at "Then") "T")
+        (t "T")))
+
 (defun jw-find-given-line-marker ()
   "Return the line marker of the current test method."
   (save-excursion
     (next-line)
     (move-beginning-of-line 1)
     (re-search-backward jw-given-keywords-pattern)
-    (concat (buffer-substring (match-beginning 0) (+ 1 (match-beginning 0)))
-            (number-to-string (line-number-at-pos)))))
+    (concat (jw-keyword-target-char) (number-to-string (line-number-at-pos)))))
 
 (defun testor-choose-file (files)
   "Return the first file name in the list of files that exists, or nil."
