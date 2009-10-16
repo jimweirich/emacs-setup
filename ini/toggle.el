@@ -9,42 +9,33 @@
 ;;; Note that we have switched the order of test/code files in these
 ;;; rules.  This allows the lib/*.rb rules to work properly.
 
-(add-to-list
- 'toggle-mapping-styles
- '(jw-rails . (("test/functional/\\1_test.rb"   . "app/controllers/\\1.rb")
-               ("test/unit/helpers/\\1_test.rb" . "app/helpers/\\1.rb")
-               ("test/unit/lib/\\1_test.rb"     . "lib/\\1.rb" )
-               ("test/unit/\\1_test.rb"         . "app/models/\\1.rb")
-               ) ))
+(defun add-toggle-mapping (mapping)
+  (setq toggle-mapping-styles
+        (assq-delete-all (car mapping) toggle-mapping-styles))
+  (add-to-list 'toggle-mapping-styles mapping))
 
-(add-to-list
- 'toggle-mapping-styles
- '(jw-rails-spec . (("spec/\\1_spec.rb"              . "app/\\1.rb")
-               ) ))
+(add-toggle-mapping
+ '(jw-rails
+   ("test/functional/\\1_test.rb"   . "app/controllers/\\1.rb")
+   ("test/unit/helpers/\\1_test.rb" . "app/helpers/\\1.rb")
+   ("test/unit/lib/\\1_test.rb"     . "lib/\\1.rb" )
+   ("test/unit/\\1_test.rb"         . "app/models/\\1.rb")))
 
-(add-to-list
- 'toggle-mapping-styles
- '(jw-postfix    . (("test/\\1_test.rb" . "lib/\\1.rb")
-                    ("\\1_test.rb"      . "\\1.rb")
-                    ) ))
+(add-toggle-mapping
+ '(jw-rails-spec
+   ("spec/\\1_spec.rb"              . "app/\\1.rb")))
 
-(add-to-list
- 'toggle-mapping-styles
- '(jw-prefix    . (("test/test_\\1.rb" . "lib/\\1.rb")
-                   ("test_\\1.rb"      . "\\1.rb")
-                   ) ))
+(add-toggle-mapping
+ '(jw-postfix
+   ("test/\\1_test.rb" . "lib/\\1.rb")
+   ("\\1_test.rb"      . "\\1.rb")))
 
-(toggle-style 'jw-ruby)
+(add-toggle-mapping
+ '(jw-prefix
+   ("test/test_\\1.rb" . "lib/\\1.rb")
+   ("test_\\1.rb"      . "\\1.rb")))
 
-;;; Simple insertion macro for .togglerc files.
-
-(define-key text-mode-map "\C-ci"
-  (lambda () 
-    (interactive)
-    (insert ";; (buffer-toggle-style 'jw-rails)\n")
-    (insert ";; (buffer-toggle-style 'jw-rails-spec)\n")
-    (insert ";; (buffer-toggle-style 'jw-postfix)\n") 
-    (insert ";; (buffer-toggle-style 'jw-prefix)\n") ))
+(toggle-style 'jw-postfix)
 
 ;;; Debugging ========================================================
 
