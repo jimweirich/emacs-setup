@@ -3,7 +3,8 @@
 # --
 (add-to-list
  'toggle-mapping-styles
- '(${1:style}    . (("test/\\1_test.rb" . "lib/\\1.rb")
-                    ("\\1_test.rb"      . "\\1.rb") ) ))
+ '(${1:style}
+   ("test/\\\\1_test.rb" . "lib/\\\\1.rb")
+   ("\\\\1_test.rb"      . "\\\\1.rb")))
 
-(buffer-toggle-style '${1})
+(buffer-toggle-style '$1)
