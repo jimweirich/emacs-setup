@@ -1,0 +1,4 @@
+# -*- mode: emacs-lisp; require-final-newline: nil; backup-inhibited: t -*-
+#name: postfix toggle mode
+# --
+(buffer-toggle-style 'jw-postfix)

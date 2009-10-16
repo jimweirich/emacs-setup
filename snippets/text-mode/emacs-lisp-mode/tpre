@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: prefix toggle mode
+# --
+(buffer-toggle-style 'jw-prefix)

@@ -1,0 +1,4 @@
+# -*- mode: emacs-lisp; require-final-newline: nil -*-
+# name : emacs mode line
+# --
+;; -*- mode: emacs-lisp; -*-
