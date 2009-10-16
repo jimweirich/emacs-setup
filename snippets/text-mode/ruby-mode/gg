@@ -1,0 +1,6 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: Given do end
+# --
+Given(${1:setup}) do
+  $0
+end

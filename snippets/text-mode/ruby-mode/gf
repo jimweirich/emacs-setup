@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: FailsWith(error)
+# --
+FailsWith(${1:exception_name})

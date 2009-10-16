@@ -1,0 +1,6 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: Given test case
+# --
+class ${1:Name}Contract < Given::Contract
+  $0
+end
