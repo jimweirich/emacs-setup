@@ -42,14 +42,20 @@
 ;;; Name of the last buffer running a file or method style test.
 (defvar jw-test-last-test-buffer nil)
 
+;;; Regexp for matching Given/When/Then keywords
+(defvar jw-given-keywords-pattern "\\(Given\\|When\\|Then\\)[ ({]")
+
 ;;; Regexp for matching test unit test names
 (defvar jw-test-test-unit-pattern "^ *def *\\(test_[a-zA-Z0-9_]+\\(!\\|\\?\\)?\\)")
 
 ;;; Regexp for matching test unit test names
 (defvar jw-test-shoulda-pattern "^ *should +\\('[^']+'\\|\"[^\"]+\"\\)")
 
-(defvar jw-test-all-pattern
+(defvar jw-test-name-pattern
   "^ *\\(def\\|should\\|context\\|test\\) +\\(\\(test_[a-zA-Z0-9_]+[!?]?$\\)\\|'\\([^']+\\)'\\|\"\\([^\"]+\\)\"\\)" )
+
+(defvar jw-test-all-pattern
+  (concat "\\(" jw-test-name-pattern "\\|\\(^ *" jw-given-keywords-pattern "\\)\\)") )
 ;;;   (concat jw-test-test-unit-pattern "\\|" jw-test-shoulda-pattern))
 
 (set-face-attribute (make-face 'test-heading1) nil
@@ -231,7 +237,7 @@ Redefine as needed to define the top directory of a project."
   "Return the name of the current test method."
   (save-excursion
     (next-line)
-    (re-search-backward jw-test-all-pattern)
+    (re-search-backward jw-test-name-pattern)
     (jw-extract-name)))
 
 (defun jw-find-given-line-marker ()
@@ -239,7 +245,7 @@ Redefine as needed to define the top directory of a project."
   (save-excursion
     (next-line)
     (move-beginning-of-line 1)
-    (re-search-backward "\\(Given\\|When\\|Then\\)[ ({]")
+    (re-search-backward jw-given-keywords-pattern)
     (concat (buffer-substring (match-beginning 0) (+ 1 (match-beginning 0)))
             (number-to-string (line-number-at-pos)))))
 
@@ -422,22 +428,48 @@ test file."
           (setq file-name (buffer-file-name)) ))
     (save-buffer)
     (setq jw-test-last-test-buffer (buffer-name))
-    (let ((method-name (jw-find-test-method-name)))
-      (cond ((null default-directory) (message "Cannot find project top"))
-            ((null arg)
-             (jw-prep-test-buffer)
-             (jw-test-start-process
-              jw-ruby-command (jw-test-option-string)
-              file-name (concat "-n\"/" method-name "/\""))
-             (jw-test-insert-headers
-              "= Test Method ...\n"
-              "== In:     " default-directory "\n"
-              "== File:   " (file-name-nondirectory file-name) "\n"
-              "== Method: " method-name "\n\n"))
-            (t (jw-prep-test-buffer)
-               (jw-test-start-debugging
-                jw-rdebug-command (jw-test-option-string)
-                file-name "--" (concat "-n" method-name))) ))))
+    (let ((invoke-given (save-excursion
+                          (re-search-backward jw-test-all-pattern)
+                          (looking-at (concat " *" jw-given-keywords-pattern)))))
+    (if invoke-given
+        (let ((line-marker (jw-find-given-line-marker)))
+          (jw-test-invoking-given-by-line arg file-name line-marker))
+        (let ((method-name (jw-find-test-method-name)))
+          (jw-test-invoking-test-by-name arg file-name method-name))))))
+
+(defun jw-test-invoking-test-by-name (arg file-name method-name)
+  (cond ((null default-directory) (message "Cannot find project top"))
+        ((null arg)
+         (jw-prep-test-buffer)
+         (jw-test-start-process
+          jw-ruby-command (jw-test-option-string)
+          file-name (concat "-n\"/" method-name "/\""))
+         (jw-test-insert-headers
+          "= Test Method ...\n"
+          "== In:     " default-directory "\n"
+          "== File:   " (file-name-nondirectory file-name) "\n"
+          "== Method: " method-name "\n\n"))
+        (t (jw-prep-test-buffer)
+           (jw-test-start-debugging
+            jw-rdebug-command (jw-test-option-string)
+            file-name "--" (concat "-n" method-name)))))
+
+(defun jw-test-invoking-given-by-line (arg file-name line-marker)
+  (cond ((null default-directory) (message "Cannot find project top"))
+        ((null arg)
+         (jw-prep-test-buffer)
+         (jw-test-start-process
+          jw-ruby-command (jw-test-option-string)
+          file-name (concat "-n\"/_" line-marker "_/\""))
+         (jw-test-insert-headers
+          "= Test Method ...\n"
+          "== In:     " default-directory "\n"
+          "== File:   " (file-name-nondirectory file-name) "\n"
+          "== Line: " line-marker "\n\n"))
+        (t (jw-prep-test-buffer)
+           (jw-test-start-debugging
+            jw-rdebug-command (jw-test-option-string)
+            file-name "--" (concat "-n\"/_" line-marker "_/\""))) ))
 
 (defun jw-run-given-method (arg)
   "Run the test matching the current line of the current file.
