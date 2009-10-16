@@ -239,7 +239,7 @@ Redefine as needed to define the top directory of a project."
   (save-excursion
     (next-line)
     (move-beginning-of-line 1)
-    (re-search-backward "Given\\|When\\|Then")
+    (re-search-backward "\\(Given\\|When\\|Then\\)[ ({]")
     (concat (buffer-substring (match-beginning 0) (+ 1 (match-beginning 0)))
             (number-to-string (line-number-at-pos)))))
 
