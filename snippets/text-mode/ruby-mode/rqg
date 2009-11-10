@@ -1,5 +1,4 @@
 # -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
 #name: require 'given/test_unit'
 # --
-require 'test/unit'
 require 'given/test_unit'
