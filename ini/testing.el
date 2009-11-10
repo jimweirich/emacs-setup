@@ -440,7 +440,15 @@ test file."
         (let ((line-marker (jw-find-given-line-marker)))
           (jw-test-invoking-given-by-line arg file-name line-marker))
         (let ((method-name (jw-find-test-method-name)))
-          (jw-test-invoking-test-by-name arg file-name method-name))))))
+          (jw-test-invoking-test-by-name arg
+                                         file-name
+                                         (jw-fixup-method-name method-name)))))))
+
+(defun jw-fixup-method-name (name)
+  "Add .* to method names with spaces"
+  (while (string-match " " name)
+    (setq name (replace-match ".*" nil nil name)))
+  name)
 
 (defun jw-test-invoking-test-by-name (arg file-name method-name)
   (cond ((null default-directory) (message "Cannot find project top"))
