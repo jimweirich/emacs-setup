@@ -1,0 +1,4 @@
+# -*- mode: scheme; require-final-newline: nil; backup-inhibited: t -*-
+#name: assert-true
+# --
+(assert-true ${1:condition})

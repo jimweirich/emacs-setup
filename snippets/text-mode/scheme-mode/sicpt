@@ -1,0 +1,7 @@
+# -*- mode: scheme; require-final-newline: nil; backup-inhibited: t -*-
+#name: sicp tests
+# --
+;; SICP Tests $1
+
+(test-case "Ex ${1:exercise}"
+           $0)
