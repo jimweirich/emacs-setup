@@ -1,4 +1,4 @@
 # -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
 #name: Then { }
 # --
-Then { $0 }
+Then { expect(${1:actual}) ${2:op} ${3:expected} }$0
