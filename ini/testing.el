@@ -1,4 +1,3 @@
-
 ;;; ==================================================================
 ;;; Author:  Jim Weirich
 ;;; File:    ini-testing
@@ -14,8 +13,17 @@
 ;;; Name of the test process output buffer.
 (defconst jw-test-buffer-name "*testing*")
 
-;;; Name of the ruby command to run the tests.
+;;; Path to Ruby1.9
+(defconst jw-ruby19-command "/Users/jim/bin/ruby19")
+
+;;; Path to JRuby
+(defconst jw-jruby-command "/Users/jim/bin/jruby")
+
+;;; Path to Ruby
 (defconst jw-ruby-command "ruby")
+
+;;; Name of the ruby command to run the tests.
+(defvar jw-testing-command jw-ruby-command)
 
 ;;; Name of the ruby debugging command to run the tests in debug mode.
 (defconst jw-rdebug-command "rdebug")
@@ -455,7 +463,7 @@ test file."
         ((null arg)
          (jw-prep-test-buffer)
          (jw-test-start-process
-          jw-ruby-command (jw-test-option-string)
+          jw-testing-command (jw-test-option-string)
           file-name (concat "-n\"/" method-name "/\""))
          (jw-test-insert-headers
           "= Test Method ...\n"
@@ -472,7 +480,7 @@ test file."
         ((null arg)
          (jw-prep-test-buffer)
          (jw-test-start-process
-          jw-ruby-command (jw-test-option-string)
+          jw-testing-command (jw-test-option-string)
           file-name (concat "-n\"/_" line-marker "_/\""))
          (jw-test-insert-headers
           "= Test Method ...\n"
@@ -505,7 +513,7 @@ test file."
             ((null arg)
              (jw-prep-test-buffer)
              (jw-test-start-process
-              jw-ruby-command (jw-test-option-string)
+              jw-testing-command (jw-test-option-string)
               file-name (concat "-n\"/_" line-marker "_/\""))
              (jw-test-insert-headers
               "= Test Method ...\n"
@@ -535,7 +543,7 @@ test file."
            (jw-prep-test-buffer)
            (cond ((null arg)
                   (jw-test-start-process
-                   jw-ruby-command (jw-test-option-string) file-name)
+                   jw-testing-command (jw-test-option-string) file-name)
                   (jw-test-insert-headers
                    "= Test File ...\n"
                    "== In:   " default-directory "\n"
@@ -630,6 +638,22 @@ allowing per-project toggle customizations."
           ((equal (cdr old-pair) new-value) ())
           (t (set name (cons pair (assq-delete-all key alist)))) ))
   (eval name) )
+
+(defun jw-set-testing-command (path)
+  (setq jw-testing-command path)
+  (message (concat "Testing with " path)))
+
+(defun jw-testing-use-ruby ()
+  (interactive)
+  (jw-set-testing-command jw-ruby-command))
+
+(defun jw-testing-use-ruby19 ()
+  (interactive)
+  (jw-set-testing-command jw-ruby19-command))
+
+(defun jw-testing-use-jruby ()
+  (interactive)
+  (jw-set-testing-command jw-jruby-command))
 
 ;;; .togglerc specific functions -------------------------------------
 
