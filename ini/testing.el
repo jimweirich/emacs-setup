@@ -16,6 +16,9 @@
 ;;; Path to Ruby1.9
 (defconst jw-ruby19-command "/Users/jim/bin/ruby19")
 
+;;; Path to Ruby1.9 Experimental
+(defconst jw-ruby19x-command "/Users/jim/bin/ruby19x")
+
 ;;; Path to JRuby
 (defconst jw-jruby-command "/Users/jim/bin/jruby")
 
@@ -29,7 +32,7 @@
 (defconst jw-rdebug-command "rdebug")
 
 ;;; Name of the rake command ot run the rake based tests.
-(defconst jw-rake-command "rake")
+(defconst jw-rake-command ". ~/.bashrc; rake")
 
 ;;; Options to be added to the ruby based test commands.
 (defconst jw-test-options "-Ilib:test:.")
@@ -396,7 +399,7 @@ test file."
             (t (jw-prep-test-buffer)
                (jw-test-start-debugging
                 jw-rdebug-command (jw-test-option-string)
-                file-name "--" (concat "-n" method-name))) ))))
+                file-name "--" (concat "--name " method-name))) ))))
 
 (defun jw-run-spec-file (arg)
   "Run the current file as a spec.
@@ -464,7 +467,7 @@ test file."
          (jw-prep-test-buffer)
          (jw-test-start-process
           jw-testing-command (jw-test-option-string)
-          file-name (concat "-n\"/" method-name "/\""))
+          file-name (concat "--name \"/" method-name "/\""))
          (jw-test-insert-headers
           "= Test Method ...\n"
           "== In:     " default-directory "\n"
@@ -473,7 +476,7 @@ test file."
         (t (jw-prep-test-buffer)
            (jw-test-start-debugging
             jw-rdebug-command (jw-test-option-string)
-            file-name "--" (concat "-n" method-name)))))
+            file-name "--" (concat "--name " method-name)))))
 
 (defun jw-test-invoking-given-by-line (arg file-name line-marker)
   (cond ((null default-directory) (message "Cannot find project top"))
@@ -481,7 +484,7 @@ test file."
          (jw-prep-test-buffer)
          (jw-test-start-process
           jw-testing-command (jw-test-option-string)
-          file-name (concat "-n\"/_" line-marker "_/\""))
+          file-name (concat "--name \"/_" line-marker "_/\""))
          (jw-test-insert-headers
           "= Test Method ...\n"
           "== In:     " default-directory "\n"
@@ -490,7 +493,7 @@ test file."
         (t (jw-prep-test-buffer)
            (jw-test-start-debugging
             jw-rdebug-command (jw-test-option-string)
-            file-name "--" (concat "-n\"/_" line-marker "_/\""))) ))
+            file-name "--" (concat "--name \"/_" line-marker "_/\""))) ))
 
 (defun jw-run-given-method (arg)
   "Run the test matching the current line of the current file.
@@ -514,7 +517,7 @@ test file."
              (jw-prep-test-buffer)
              (jw-test-start-process
               jw-testing-command (jw-test-option-string)
-              file-name (concat "-n\"/_" line-marker "_/\""))
+              file-name (concat "--name \"/_" line-marker "_/\""))
              (jw-test-insert-headers
               "= Test Method ...\n"
               "== In:     " default-directory "\n"
@@ -523,7 +526,7 @@ test file."
             (t (jw-prep-test-buffer)
                (jw-test-start-debugging
                 jw-rdebug-command (jw-test-option-string)
-                file-name "--" (concat "-n\"/_" line-marker "_/\""))) ))))
+                file-name "--" (concat "--name \"/_" line-marker "_/\""))) ))))
 
 (defun jw-run-test-file (arg)
   "Run the current file as a test.
@@ -650,6 +653,10 @@ allowing per-project toggle customizations."
 (defun jw-testing-use-ruby19 ()
   (interactive)
   (jw-set-testing-command jw-ruby19-command))
+
+(defun jw-testing-use-ruby19x ()
+  (interactive)
+  (jw-set-testing-command jw-ruby19x-command))
 
 (defun jw-testing-use-jruby ()
   (interactive)
