@@ -11,7 +11,7 @@
 (defconst jw-rake-task-buffer-name "*rake-tasks*")
 
 ;;; Name of the rake command.
-(defconst jw-rake-command "rake")
+(defconst jw-run-rake-command "rake")
 
 ;;; Name of the rake process.
 (defconst jw-rake-process-name "*rake-process*")
@@ -56,7 +56,7 @@ The process is run asynchronously and the output is placed in the
 buffer identified by jw-rake-buffer-name."
   (let* ((process
           (start-process jw-rake-process-name
-                         jw-rake-buffer-name jw-rake-command task)))
+                         jw-rake-buffer-name jw-run-rake-command task)))
     (set-process-filter process 'jw-rake-process-filter) ))
 
 (defun jw-run-rake ()
