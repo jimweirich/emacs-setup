@@ -133,7 +133,7 @@
 
 (defun jw-test-remove-stupid-messages ()
   (save-excursion
-    (goto-char (point-min))
+    (goto-char (max (- (point) 10) (point-min)))
     (while (re-search-forward "\\(WARNING\\|CONTEXT\\|NOTICE\\):.*
 " nil t)
       (replace-match "_"))))
@@ -151,7 +151,9 @@
     (let ((buffer-read-only nil))
       (jw-test-remove-crud))))
 
-(add-hook 'compilation-filter-hook 'jw-test-compilation-buffer-hook-function)
+(defun jw-test-alternate-hook-function () ())
+
+(add-hook 'compilation-filter-hook 'jw-test-alternate-hook-function)
 
 (defun jw-test-start-process (&rest args)
   "Start the test process using the compilation package."
@@ -198,7 +200,7 @@ Redefine as needed to define the top directory of a project."
   (let ((buf (get-buffer jw-test-buffer-name)))
     (if buf (kill-buffer buf))
     (setq buf (get-buffer-create jw-test-buffer-name))
-    (pop-to-buffer buf) ))
+    (pop-to-buffer buf)))
 
 (defun jw-koan-file-name-p (file-name)
   "Is the given file name a koan file?"
