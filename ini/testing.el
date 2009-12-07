@@ -265,17 +265,18 @@ Redefine as needed to define the top directory of a project."
     (re-search-backward jw-given-keywords-pattern)
     (concat (jw-keyword-target-char) (number-to-string (line-number-at-pos)))))
 
-(defun testor-choose-file (files)
+(defun jw-find-existing-file (files)
   "Return the first file name in the list of files that exists, or nil."
   (cond ((null files) ())
         ((file-exists-p (car files)) (car files))
-        (t (testor-choose-file (cdr files)))))
+        (t (jw-find-existing-file (cdr files)))))
 
 (defun jw-spec-command (buffer)
   "Return the name of the appropriate spec command to run for the given buffer."
   (let* ((default-directory (jw-find-project-top (buffer-file-name buffer))))
-    (or (testor-choose-file 
-         (list (concat default-directory "vendor/plugins/rspec/bin/spec")))
+    (or (jw-find-existing-file 
+         (list (concat default-directory "script/spec")
+               (concat default-directory "vendor/plugins/rspec/bin/spec")))
         "spec")))
 
 (defun jw-find-spec-name ()
