@@ -98,6 +98,7 @@
 
 (global-set-key (kbd "M-<f1>") (lambda () (interactive) (mshell 1))) ; pkg:utils
 (global-set-key (kbd "M-<f2>") (lambda () (interactive) (mshell 2))) ; pkg:utils
+(global-set-key (kbd "M-<f3>") (lambda () (interactive) (mshell 3))) ; pkg:utils
 (global-set-key (kbd "M-<f4>") (lambda () (interactive) (mshell 4))) ; pkg:utils
 (global-set-key (kbd "M-<f5>") (lambda () (interactive) (mshell 5))) ; pkg:utils
 (global-set-key (kbd "M-<f6>") (lambda () (interactive) (mshell 6))) ; pkg:utils
