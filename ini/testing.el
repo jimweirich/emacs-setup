@@ -31,8 +31,27 @@
 ;;; Name of the ruby debugging command to run the tests in debug mode.
 (defconst jw-rdebug-command "rdebug")
 
+;;; Name of the command to remove ANSI terminal cruft 
+(defconst jw-noansi-command  (concat (file-name-as-directory elisp-directory) "bin/noansi"))
+
+;;; NOANSI option string (may be empty, or a pipe to the noansi command)
+(defconst jw-noansi-option  (concat " | " jw-noansi-command))
+
+;;; BASH shell initialization
+(defconst jw-shell-rc ". ~/.bashrc")
+
+;;; BASH shell initialization option GNU-Emacs sub-processes do not
+;;; inherit the ENV from Emacs, hence they need the bash.rc file.
+(defconst jw-shell-initialize-option 
+  (if (is-aquamacs)
+      ""
+    (concat jw-shell-rc "; ")))
+
 ;;; Name of the rake command ot run the rake based tests.
-(defconst jw-rake-command ". ~/.bashrc; rake")
+(defconst jw-rake-program "rake")
+
+;;; Name of the rake command ot run the rake based tests.
+(defconst jw-rake-command (concat jw-shell-initialize-option jw-rake-program jw-noansi-option))
 
 ;;; Options to be added to the ruby based test commands.
 (defconst jw-test-options "-Ilib:test:.")
