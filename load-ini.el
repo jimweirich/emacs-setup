@@ -87,4 +87,3 @@ Trailing slashes are stripped and duplicate names are not added."
   (while (not (null files))
     (ini-load (substring (car files) 0 -3))
     (setq files (cdr files)) ))
-
