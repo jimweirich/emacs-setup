@@ -170,17 +170,14 @@
     (let ((buffer-read-only nil))
       (jw-test-remove-crud))))
 
-(defun jw-test-alternate-hook-function () ())
-
-(add-hook 'compilation-filter-hook 'jw-test-alternate-hook-function)
+;; (add-hook 'compilation-filter-hook 'jw-test-compilation-buffer-hook-function)
 
 (defun jw-test-start-process (&rest args)
   "Start the test process using the compilation package."
   (compilation-start
    (mapconcat (lambda (x) x) args " ")
    nil
-   (lambda (x) "*testing*"))
-  )
+   (lambda (x) "*testing*")))
   
 (defun jw-test-start-debugging (&rest args)
   (rdebug (mapconcat (lambda (x) x) args " ")) )
