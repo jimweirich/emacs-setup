@@ -11,7 +11,7 @@ while ch = $stdin.read(1)
   when :copy
     if ch == "\033"
       state = :skip
-    else
+    elsif ch != "\r"
       emit(ch)
     end
   when :skip
