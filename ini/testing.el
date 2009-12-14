@@ -13,6 +13,9 @@
 ;;; Name of the test process output buffer.
 (defconst jw-test-buffer-name "*testing*")
 
+;;; Name of the test process output buffer.
+(defconst jw-test-buffer-name-for-rake "*testing-rake*")
+
 ;;; Path to Ruby1.9
 (defconst jw-ruby19-command "/Users/jim/bin/ruby19")
 
@@ -177,7 +180,7 @@
   (compilation-start
    (mapconcat (lambda (x) x) args " ")
    nil
-   (lambda (x) "*testing*")))
+   (lambda (x) jw-test-buffer-name)))
   
 (defun jw-test-start-debugging (&rest args)
   (rdebug (mapconcat (lambda (x) x) args " ")) )
@@ -327,10 +330,10 @@ test headers."
       (next-line)
       (insert "\n")) )
 
-(defun jw-test-insert-headers (&rest headers)
+(defun jw-test-insert-headers (buffer-name &rest headers)
   "Insert the given strings into the test buffer."
   (save-current-buffer
-    (set-buffer (get-buffer "*testing*"))
+    (set-buffer (get-buffer buffer-name))
     (goto-char (point-min))
     (setq buffer-read-only nil)
     (jw-test-deal-with-mode-line)
@@ -347,6 +350,7 @@ test headers."
   (jw-prep-test-buffer)
   (jw-test-start-process jw-rake-command) 
   (jw-test-insert-headers
+   jw-test-buffer-name
    "= Test Rake\n"
    "== Target: default\n\n") )
 
@@ -356,6 +360,7 @@ test headers."
   (jw-prep-test-buffer)
   (jw-test-start-process jw-rake-command "test:units")
   (jw-test-insert-headers
+   jw-test-buffer-name
    "= Test Rake\n"
    "== Target: test:units\n\n") )
 
@@ -365,6 +370,7 @@ test headers."
   (jw-prep-test-buffer)
   (jw-test-start-process jw-rake-command "test:functionals")
   (jw-test-insert-headers
+   jw-test-buffer-name
    "= Test Rake\n"
    "== Target: test:functionals\n\n") )
 
@@ -374,6 +380,7 @@ test headers."
   (jw-prep-test-buffer)
   (jw-test-start-process jw-rake-command "test:integration")
   (jw-test-insert-headers
+   jw-test-buffer-name
    "= Test Rake\n"
    "== Target: test:integration\n\n") )
 
@@ -383,6 +390,7 @@ test headers."
   (jw-prep-test-buffer)
   (jw-test-start-process jw-rake-command "cruise")
   (jw-test-insert-headers
+   jw-test-buffer-name
    "= Test Rake\n"
    "== Target: cruise\n\n") )
 
@@ -411,6 +419,7 @@ test file."
               (jw-spec-command test-buffer) jw-spec-options
               file-name (concat "-e" " \"" method-name "\""))
              (jw-test-insert-headers
+              jw-test-buffer-name
               "= Individual Spec ...\n"
               "== In:    " default-directory "\n"
               "== File:  " (file-name-nondirectory file-name) "\n"
@@ -441,6 +450,7 @@ test file."
                   (jw-test-start-process
                    (jw-spec-command test-buffer) jw-spec-options file-name)
                   (jw-test-insert-headers
+                   jw-test-buffer-name
                    "= Spec File ...\n"
                    "== In:   " default-directory "\n"
                    "== File: " (file-name-nondirectory file-name) "\n\n") )
@@ -488,6 +498,7 @@ test file."
           jw-testing-command (jw-test-option-string)
           file-name (concat "--name \"/" method-name "/\""))
          (jw-test-insert-headers
+          jw-test-buffer-name
           "= Test Method ...\n"
           "== In:     " default-directory "\n"
           "== File:   " (file-name-nondirectory file-name) "\n"
@@ -505,6 +516,7 @@ test file."
           jw-testing-command (jw-test-option-string)
           file-name (concat "--name \"/_" line-marker "_/\""))
          (jw-test-insert-headers
+          jw-test-buffer-name
           "= Test Method ...\n"
           "== In:     " default-directory "\n"
           "== File:   " (file-name-nondirectory file-name) "\n"
@@ -538,6 +550,7 @@ test file."
               jw-testing-command (jw-test-option-string)
               file-name (concat "--name \"/_" line-marker "_/\""))
              (jw-test-insert-headers
+              jw-test-buffer-name
               "= Test Method ...\n"
               "== In:     " default-directory "\n"
               "== File:   " (file-name-nondirectory file-name) "\n"
@@ -567,6 +580,7 @@ test file."
                   (jw-test-start-process
                    jw-testing-command (jw-test-option-string) file-name)
                   (jw-test-insert-headers
+                   jw-test-buffer-name
                    "= Test File ...\n"
                    "== In:   " default-directory "\n"
                    "== File: " (file-name-nondirectory file-name) "\n\n") )
