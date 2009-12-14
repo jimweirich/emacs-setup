@@ -70,7 +70,7 @@
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (replace-regexp "[\\[0-9;\\]*m" "") 
+    (replace-regexp "\\([\\[0-9;\\]*m\\|\r\\)" "") 
     ))
 
 (defun unhtml ()
