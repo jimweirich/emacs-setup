@@ -12,9 +12,9 @@
 
 (defun project-top-find-file (&rest args)
   "Return the path to the file given a relative path from the project top.
-Usage:   (project-top-find-file config/database.yml)
-         (project-top-find-file config/database.yml starting-file)
-         (project-top-file-file config/database.yml starting-file top-files)"
+Usage: (project-top-find-file config/database.yml)
+       (project-top-find-file config/database.yml starting-file)
+       (project-top-file-file config/database.yml starting-file top-files)"
   (let ((file-path (apply 'project-top-path-to args)))
     (if (and file-path (file-exists-p file-path))
         (find-file file-path)
@@ -28,7 +28,7 @@ Usage:   (project-path-to config/database.yml)
   (let* ((from-path (project-top-arg args (project-top-starting-point)))
          (top-files (project-top-arg (cdr args) project-top-default-top-files))
          (path (project-top-from from-path top-files)))
-    (if path (concat (file-name-directory path) file-from-top))))
+    (if path (concat (file-name-as-directory path) file-from-top))))
 
 (defun project-top-from (path top-files)
   "Return the path to the top of the project containing path.
