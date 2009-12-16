@@ -36,22 +36,31 @@ Remove the leading / from the file name of the candidate."
   "Remove the leading / on an absolute path."
   (substring absolute-path 1))
 
+;; Setup the proper kind of file pattern
+(cond
+ ((file-exists-p "c:/")
+  (let* ((non-dos "[^ \t\n\r\"'([<{]+")
+         (dos-fn  (concat "[a-zA-Z]:\\(\\(" non-dos " " non-dos "\\)\\|" non-dos "\\)+")))
+    (setq jw-flre (concat "\\(" dos-fn "\\):\\([0-9]+\\)"))
+    (setq jw-flre-file 1)
+    (setq jw-flre-line 4)))
+ (t
+  (let* ((unix-fn "[^ \t\n\r\"'([<{]+"))
+    (setq jw-flre (concat "\\(" unix-fn "\\):\\([0-9]+\\)"))
+    (setq jw-flre-file 1)
+    (setq jw-flre-line 2))))
+
 (defun jw-generate-basic-candidates (line)
-  (let*
-      ((unix-fn "[^ \t\n\r\"'([<{]+")
-       (non-dos "[^ \t\n\r\"'([<{]+")
-       (dos-fn  (concat "[a-zA-Z]:\\(\\(" non-dos " " non-dos "\\)\\|" non-dos "\\)+"))
-       (flre (concat "\\(" unix-fn "\\|" dos-fn "\\):\\([0-9]+\\)"))
-       (start nil)
-       (result nil))
-    (while (string-match flre line start)
+  (let ((start nil)
+        (result nil))
+    (while (string-match jw-flre line start)
       (setq start (match-end 0))
       (setq result
             (cons (list 
-                   (substring line (match-beginning 1) (match-end 1))
+                   (substring line (match-beginning jw-flre-file) (match-end jw-flre-file))
                    (string-to-int (substring line
-                                             (match-beginning 4)
-                                             (match-end 4))))
+                                             (match-beginning jw-flre-line)
+                                             (match-end jw-flre-line))))
                   result)))
     (dbg "Generated Candidates: " result)
     result))
