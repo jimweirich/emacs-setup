@@ -63,16 +63,24 @@
 			    ))
 	))
 
+(setq jw-javascript-style
+      '("jw-cc"
+        (c-basic-offset . 2)))
+
 (defun jw-cc-define-styles ()
   (c-add-style "jw-cc" jw-cc-style)
   (c-add-style "jw-java" jw-java-style)
-  (c-set-style "jw-cc") )
+  (c-add-style "jw-javascript" jw-javascript-style)
+  (c-set-style "jw-cc"))
 
 (add-hook 'c-mode-common-hook 'jw-cc-define-styles)
 (add-hook 'c-mode-hook     '(lambda () (c-set-style "jw-cc")) )
 (add-hook 'c++-mode-hook   '(lambda () (c-set-style "jw-cc")) )
 (add-hook 'java-mode-hook  '(lambda () (c-set-style "jw-java")) )
+(add-hook 'javascript-mode-hook  '(lambda () (c-set-style "jw-javascript")) )
 (add-hook 'java-mode-hook  '(lambda () (setq c-access-key nil)))
+
+
 
 ;(add-hook 'java-mode-hook  '(lambda () (require 'jde)))
 
