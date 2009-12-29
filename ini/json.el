@@ -9,7 +9,7 @@
   (save-excursion 
     (let ((start (point-min))
           (end (point-max))
-          (shell-file-name "pp_json.rb")
+          (shell-file-name "pp-json.rb")
           (delete-p t)
           (buffer (current-buffer))
           (redisplay-p t))
