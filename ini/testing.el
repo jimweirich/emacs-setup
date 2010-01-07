@@ -51,7 +51,7 @@
 (defconst jw-rake-program "rake")
 
 ;;; Name of the rake command ot run the rake based tests.
-(defconst jw-rake-command (concat jw-shell-initialize-option jw-rake-program jw-noansi-option))
+(defconst jw-rake-command (concat jw-shell-initialize-option jw-rake-program))
 
 ;;; Options to be added to the ruby based test commands.
 (defconst jw-test-options "-Ilib:test:.")
@@ -117,8 +117,8 @@
                     :weight 'bold)
 
 (add-to-list 'compilation-mode-font-lock-keywords
-             '("^\\([0-9a-zA-z\\[]\\)*\\([0-9]+ examples?, 0 failures?.*\n\\)"
-               (2 'test-success)))
+             '("^\\([0-9]+ examples?, 0 failures?.*\n\\)"
+               (1 'test-success)))
 
 (add-to-list 'compilation-mode-font-lock-keywords
              '("^\\(.* 0 failures, 0 errors.*\n\\)"
@@ -172,10 +172,14 @@
 
 ;; (add-hook 'compilation-filter-hook 'jw-test-compilation-buffer-hook-function)
 
+(defun jw-test-build-command-line (args)
+  "Define the command line needed to run the given command and arguments."
+  (concat (mapconcat (lambda (x) x) args " ") jw-noansi-option) )
+
 (defun jw-test-start-process (&rest args)
   "Start the test process using the compilation package."
   (compilation-start
-   (mapconcat (lambda (x) x) args " ")
+   (jw-test-build-command-line args)
    nil
    (lambda (x) jw-test-buffer-name)))
   
@@ -345,7 +349,7 @@ test headers."
   "Run the default rake command as a test."
   (interactive)
   (jw-prep-test-buffer)
-  (jw-test-start-process jw-rake-command) 
+  (jw-test-start-process jw-rake-command)
   (jw-test-insert-headers
    jw-test-buffer-name
    "= Test Rake\n"
