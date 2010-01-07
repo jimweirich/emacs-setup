@@ -13,9 +13,6 @@
 ;;; Name of the test process output buffer.
 (defconst jw-test-buffer-name "*testing*")
 
-;;; Name of the test process output buffer.
-(defconst jw-test-buffer-name-for-rake "*testing-rake*")
-
 ;;; Path to Ruby1.9
 (defconst jw-ruby19-command "/Users/jim/bin/ruby19")
 
@@ -120,8 +117,8 @@
                     :weight 'bold)
 
 (add-to-list 'compilation-mode-font-lock-keywords
-             '("^\\([0-9]+ examples?, 0 failures?.*\n\\)"
-               (1 'test-success)))
+             '("^\\([0-9a-zA-z\\[]\\)*\\([0-9]+ examples?, 0 failures?.*\n\\)"
+               (2 'test-success)))
 
 (add-to-list 'compilation-mode-font-lock-keywords
              '("^\\(.* 0 failures, 0 errors.*\n\\)"
