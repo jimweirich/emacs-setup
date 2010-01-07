@@ -2,6 +2,7 @@
 
 (global-set-key (kbd "C-<tab>") 'jw-indent-line)
 (global-set-key (kbd "C-z") 'scroll-down) ; I *hate* suspend bound on this key
+
 (if (is-aquamacs)                       ; Why do I have to do this for aquamacs?
     (define-key osx-key-mode-map (kbd "C-z") 'scroll-down))
 (global-set-key (kbd "M-g") 'goto-line)	; goto a line position
@@ -63,7 +64,7 @@
 (global-set-key (kbd "C-C t C-t") 'jw-toggle-clear-buffer-styles) ; pkg:testing
 (global-set-key (kbd "C-C t C-s") 'toggle-debug) ; pkg:testing
 
-(global-set-key (kbd "C-C t u") 'jw-testing-use-ruby)
+(global-set-key (kbd "C-C t y") 'jw-testing-use-ruby)
 (global-set-key (kbd "C-C t j") 'jw-testing-use-jruby)
 (global-set-key (kbd "C-C t 9") 'jw-testing-use-ruby19)
 (global-set-key (kbd "C-C t x") 'jw-testing-use-ruby19x)
