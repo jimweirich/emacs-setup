@@ -60,5 +60,5 @@
   (goto-char (point-max))
   (insert "\n*************************************\n\n")
   (insert (format "LOOKING FOR %s\n" path))
-  (insert (format "IN RULES %s\n\n" path toggle-mappings))
+  (insert (format "IN RULES %s\n\n" toggle-mappings))
   (toggle-debug-loop path toggle-mappings))
