@@ -1,0 +1,6 @@
+[submodule "pkgs/slime"]
+	path = pkgs/slime
+	url = git://git.boinkor.net/slime.git
+[submodule "pkgs/swank-clojure"]
+	path = pkgs/swank-clojure
+	url = git://github.com/jochu/swank-clojure.git
