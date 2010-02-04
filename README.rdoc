@@ -1,0 +1,10 @@
+= Jim Weirich's Emacs Setup
+
+This is my personal emacs setup.  Feel free to clone it and modify it
+to your taste.
+
+== Installation
+
+   cd $HOME
+   git clone git://github.com/jimweirich/emacs-setup.git .elisp
+   ln -s .elisp/dot.emacs .emacs

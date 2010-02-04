@@ -52,6 +52,8 @@
 (make-auto "\\.haml$" 'haml-mode)
 (make-auto "\\.sass$" 'sass-mode)
 (make-auto "\\.clj$" 'clojure-mode)
+(make-auto "\\.yml$" 'yaml-mode)
+(make-auto "\\.yaml$" 'yaml-mode)
 ;;;(make-auto "\\.h$"   'c++-c-mode)
 ;;;(make-auto "\\.c$"   'c++-c-mode)
 
