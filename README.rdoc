@@ -3,7 +3,7 @@
 This is my personal emacs setup.  Feel free to clone it and modify it
 to your taste.
 
-= Installation
+== Installation
 
    cd $HOME
    git clone git://github.com/jimweirich/emacs-setup.git .elisp
