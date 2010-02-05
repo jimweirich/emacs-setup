@@ -91,6 +91,14 @@
 (defun scrub-buffer () (interactive)
   (kill-region (point-min) (point-max)) )
 
+(if (is-aquamacs)
+    (defun jw-next-physical-line ()
+      (interactive)
+      (aquamacs-next-nonvisual-line))
+  (defun jw-next-physical-line ()
+    (interactive)
+    (next-line)))
+
 (defun jw-indent-line ()
   (interactive)
   (cond
@@ -98,7 +106,7 @@
    (t (beginning-of-line)
       (indent-for-tab-command)
       (beginning-of-line)
-      (next-line) )) )
+      (jw-next-physical-line))))
 
 ;;; Notes 
 
