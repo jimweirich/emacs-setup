@@ -91,7 +91,7 @@
 (defun scrub-buffer () (interactive)
   (kill-region (point-min) (point-max)) )
 
-(if (is-aquamacs)
+(if (and (is-aquamacs) (not (string= aquamacs-version "1.9")))
     (defun jw-next-physical-line ()
       (interactive)
       (aquamacs-next-nonvisual-line))
