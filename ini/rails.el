@@ -65,3 +65,7 @@
 (defun routes ()
   (interactive)
   (find-file (concat (rails-root) "/config/routes.rb")))
+
+(defun schema ()
+  (interactive)
+  (find-file (concat (rails-root) "/db/schema.rb")))
