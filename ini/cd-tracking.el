@@ -4,11 +4,6 @@
 ;;; Purpose: Directory tracking for custom commands.
 ;;; ==================================================================
 
-(defun jw-choose-file (files) 
-  (cond ((null files) nil) 
-        ((file-readable-p (car files)) (car files)) 
-        (t (jw-choose-file (cdr files))) )) 
-
 (defconst jw-directory-mappings ())                                             
 
 (add-to-list

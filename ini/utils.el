@@ -13,6 +13,12 @@
 (defun sleep-for-millisecs (n)
   (sleep-for (/ n 1000)))
 
+(defun jw-choose-file (files) 
+  "Choose the first file that is readable."
+  (cond ((null files) nil) 
+        ((file-readable-p (car files)) (car files)) 
+        (t (jw-choose-file (cdr files))) )) 
+
 ;;; Finding errors in the shell
 
 (defconst find-errors-pattern "^[][A-Za-z*+@#%^&=?:;./_-]*\\$")
