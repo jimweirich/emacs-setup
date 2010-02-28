@@ -1,6 +1,0 @@
-# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
-#name: it '...'
-# --
-it 'should ${1:description}' do
-  $0
-end
