@@ -61,3 +61,7 @@
     (recenter)))
 
 (define-key rhtml-mode-map "\C-c\C-v" 'jw-find-action)
+
+(defun routes ()
+  (interactive)
+  (find-file (concat (rails-root) "/config/routes.rb")))
