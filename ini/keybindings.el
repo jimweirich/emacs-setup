@@ -35,6 +35,7 @@
 (global-set-key (kbd "C-C s")   'jw-toggle-process-echo-flag)
 
 (global-set-key (kbd "C-C C-f") 'ido-find-file-in-tag-files)
+(global-set-key (kbd "C-C C-v") 'jw-find-view)
 
 ;; C-C c
 (global-set-key (kbd "C-C c c") 'jw-clear-overlays-to-top-level)
