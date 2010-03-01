@@ -107,5 +107,4 @@ that file in the other window and position point on that line."
           (t 
            (error "No source location on line.")) )))
 
-;;; Key Bindings -----------------------------------------------------
-
+;; jw-visit-source is traditionally bound to <f2>.  (see keybindings.el)
