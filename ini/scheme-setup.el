@@ -14,7 +14,7 @@
 (add-hook 'scheme-mode-hook
           '(lambda ()
              (define-key scheme-mode-map "\C-c\C-p" 'scheme-trace-procedure)
-             (define-key scheme-mode-map "\C-c\C-t" 'jw-toggle-buffer)
+             (define-key scheme-mode-map "\C-c\C-t" 'jw-split-or-toggle)
              (define-key scheme-mode-map "\C-c\C-g" 'jw-scheme-load-and-go)
              (define-key scheme-mode-map [S-return] 'xscheme-send-definition)))
 

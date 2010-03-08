@@ -696,6 +696,26 @@ allowing per-project toggle customizations."
   (interactive)
   (jw-set-testing-command jw-jruby-command))
 
+(defun jw-test-buffer-p ()
+  (string-match "test\." (buffer-name)))
+
+(defun jw-code-test-split ()
+  "Horizontally split between the code and test"
+  (interactive)
+  (delete-other-windows)
+  (if (jw-test-buffer-p)
+      (jw-toggle-buffer))
+  (split-window-horizontally)
+  (other-window 1)
+  (jw-toggle-buffer)
+  (other-window 1))
+
+(defun jw-split-or-toggle (n)
+  "Toggle code/test buffer, or split windows with code and test (if prefix)"
+  (interactive "P")
+  (cond ((null n) (jw-toggle-buffer))
+        (t (jw-code-test-split))))
+
 ;;; .togglerc specific functions -------------------------------------
 
 ;; The following functions are intended to be used in the project

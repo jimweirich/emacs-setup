@@ -36,6 +36,7 @@
 
 (global-set-key (kbd "C-C C-f") 'ido-find-file-in-tag-files)
 (global-set-key (kbd "C-C C-v") 'jw-find-view)
+(global-set-key (kbd "C-C C-t") 'jw-split-or-toggle) ; pkg:testing
 
 ;; C-C c
 (global-set-key (kbd "C-C c c") 'jw-clear-overlays-to-top-level)

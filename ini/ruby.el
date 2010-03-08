@@ -131,7 +131,7 @@
 (defun jw-ruby-init-keys ()
   (define-key ruby-mode-map "\C-ci"  'jw-ruby-insert-template)
   (define-key ruby-mode-map "\M-q"   'jw-rb-fill-comment-region)
-  (define-key ruby-mode-map "\C-C\C-t" 'jw-toggle-buffer)
+  (define-key ruby-mode-map "\C-C\C-t" 'jw-split-or-toggle)
   (define-key ruby-mode-map "\C-Cx"  'jw-run-ruby-file)
   )
 
