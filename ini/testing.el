@@ -567,6 +567,7 @@ If this file name does not include the string 'test' and there is
 a toggle mapping for this file, then run the test on the toggled
 test file."
   (interactive "P")
+  (bookmark-set "test-file")
   (jw-take-down-test-buffer)
   (if (string-equal jw-test-buffer-name (buffer-name))
       (kill-buffer jw-test-buffer-name))
@@ -614,7 +615,7 @@ test file."
 
 (defun jw-run-last-test-or-spec-file (args)
   (interactive "P")
-  (bookmark-jump "test")
+  (bookmark-jump "test-file")
   (jw-run-test-or-spec-file args))
 
 (defun jw-mark-for-testing (n)
