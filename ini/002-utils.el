@@ -212,6 +212,17 @@
   (interactive)
   (send-shell-command "TERM=emacs; stty -onlcr -echo"))
 
+(defun jw-suggest-width ()
+  (interactive)
+  (let ((wwidth (window-width (selected-window))))
+    (concat "export COLUMNS=" (number-to-string wwidth))))
+
+(defun jw-set-width ()
+  (interactive)
+  (send-shell-command (jw-suggest-width)))
+
+(define-key shell-mode-map (kbd "C-c w") 'jw-set-width)
+
 ;;; Resource Editing
 
 (defun display-host ()
