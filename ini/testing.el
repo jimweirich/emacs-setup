@@ -698,13 +698,20 @@ allowing per-project toggle customizations."
   (jw-set-testing-command jw-jruby-command))
 
 (defun jw-test-buffer-p ()
-  (string-match "test\." (buffer-name)))
+  (string-match "_test\." (buffer-name)))
+
+(defun jw-spec-buffer-p ()
+  (string-match "_spec\." (buffer-name)))
+
+(defun jw-test-or-spec-buffer-p ()
+  (or (jw-test-buffer-p)
+      (jw-spec-buffer-p)))
 
 (defun jw-code-test-split ()
   "Horizontally split between the code and test"
   (interactive)
   (delete-other-windows)
-  (if (jw-test-buffer-p)
+  (if (jw-test-or-spec-buffer-p)
       (jw-toggle-buffer))
   (split-window-horizontally)
   (other-window 1)
