@@ -195,10 +195,7 @@
 	    (setq buf (shell))
 	    (rename-buffer shell-name)))
       (pop-to-buffer buf)
-      (goto-char (point-max))
-      (pop-to-buffer buf)
-      (goto-char (point-max))
-      ))
+      (goto-char (point-max))))
 
 (defun send-shell-command (str)
   "Send commands to a shell process"
