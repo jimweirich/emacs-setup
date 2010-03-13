@@ -40,6 +40,7 @@
 
 ;; C-C c
 (global-set-key (kbd "C-C c c") 'jw-clear-overlays-to-top-level)
+(global-set-key (kbd "C-C c s") 'jw-swap-windows)
 
 ;; C-C p -- Perforce bindings
 (global-set-key (kbd "C-C p e") 'p4-edit) ; pkg:perforce
