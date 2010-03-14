@@ -291,6 +291,21 @@
 
 ;;; Window Swapping ==================================================
 
+(defun jw-push-buffer (buffer)
+  "Push a new buffer onto the screen. 
+Current buffer goes to first position."
+  (if (= 2 (count-windows))
+      (progn
+        (let* ((w1 (window-at 0 0))
+               (w2 (if (= (window-number w1) (window-number (first (window-list))))
+                       (second (window-list))
+                     (first (window-list))))
+               (curbuf (window-buffer (selected-window))))
+          (set-window-buffer w1 curbuf)
+          (set-window-buffer w2 "*scheme*")
+          (select-window w2)))
+    (switch-to-buffer "*scheme*"))  )
+
 ;; Courtesy of Steve Yegge (http://steve.yegge.googlepages.com/my-dot-emacs-file)
 (defun jw-swap-windows ()
  "If you have 2 windows, it swaps them." (interactive) (cond ((not (= (count-windows) 2)) (message "You need exactly 2 windows to do this."))

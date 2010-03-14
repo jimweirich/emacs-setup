@@ -9,7 +9,7 @@
 (defun jw-scheme-load-and-go ()
   (interactive)
   (xscheme-send-buffer)
-  (switch-to-buffer "*scheme*") )
+  (jw-push-buffer "*scheme*"))
 
 (add-hook 'scheme-mode-hook
           '(lambda ()
