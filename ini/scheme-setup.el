@@ -6,8 +6,15 @@
 
 (require 'xscheme)
 
+(defun jw-start-scheme-if-needed ()
+  (interactive)
+  (save-excursion
+    (if (not (get-buffer "*scheme*"))
+        (run-scheme (xscheme-default-command-line)))))
+
 (defun jw-scheme-load-and-go ()
   (interactive)
+  (jw-start-scheme-if-needed)
   (xscheme-send-buffer)
   (jw-push-buffer "*scheme*"))
 
