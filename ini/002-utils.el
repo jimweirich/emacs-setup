@@ -315,18 +315,21 @@ Never returns the minibuffer."
         nil
       neighbor)))
 
+(defun jw-neighboring-windows (buf1 buf2)
+  (let* ((w1 (jw-window-at-origin))
+         (w2 (jw-neighbor-edit-window w1)))
+    (set-window-buffer w1 buf1)
+    (set-window-buffer w2 buf2)
+    (select-window w2)))
+
 (defun jw-push-buffer (buffer)
   "Push a new buffer onto the screen. 
 Current buffer goes to first position."
   (if (= 2 (count-windows))
-      (progn
-        (let* ((w1 (jw-window-at-origin))
-               (w2 (jw-neighbor-edit-window w1))
-               (curbuf (window-buffer (selected-window))))
-          (set-window-buffer w1 curbuf)
-          (set-window-buffer w2 buffer)
-          (select-window w2)))
-    (switch-to-buffer buffer))  )
+      (jw-neighboring-windows
+       (window-buffer (selected-window))
+       buffer)
+    (switch-to-buffer buffer)))
 
 ;; Courtesy of Steve Yegge (http://steve.yegge.googlepages.com/my-dot-emacs-file)
 (defun jw-swap-windows ()
