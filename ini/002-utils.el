@@ -21,7 +21,7 @@
 
 ;;; Finding errors in the shell
 
-(defconst find-errors-pattern "^[][A-Za-z*+@#%^&=?:;./_-]*\\$")
+(defconst find-errors-pattern "^[][A-Za-z0-9*+@#%^&=?:;./_- ]*\\$")
 
 (defun find-errors ()
   "Find the Errors in the current shell buffer."
@@ -221,7 +221,6 @@
   (interactive)
   (send-shell-command (jw-suggest-width)))
 
-(define-key shell-mode-map (kbd "C-c w") 'jw-set-width)
 
 ;;; Resource Editing
 

@@ -124,3 +124,7 @@
       (define-key osx-key-mode-map (kbd "A-p") 'jw-noop)
       (define-key osx-key-mode-map (kbd "A-t") 'jw-noop)
       (define-key osx-key-mode-map (kbd "C-A-p") 'aquamacs-print) ))
+
+;;; Modal Keymaps
+
+(define-key shell-mode-map (kbd "C-c w") 'jw-set-width)
