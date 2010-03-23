@@ -220,7 +220,8 @@ Redefine as needed to define the top directory of a project."
   (let ((buf (get-buffer jw-test-buffer-name)))
     (if buf (kill-buffer buf))
     (setq buf (get-buffer-create jw-test-buffer-name))
-    (pop-to-buffer buf)))
+;;    (pop-to-buffer buf)
+    (jw-push-buffer buf)))
 
 (defun jw-koan-file-name-p (file-name)
   "Is the given file name a koan file?"
