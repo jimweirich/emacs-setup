@@ -52,4 +52,4 @@ Return original path if not project top not found."
 
 (defun jw-project-env-file (path)
   "Find the project environment shell file, nil if none found."
-  (jw-find-in-parent-dir path ".project_env.sh"))
+  (jw-find-in-parent-dir path ".project_env.rc"))
