@@ -6,6 +6,7 @@
 
 (require 'compile)
 (require 'toggle)
+(require 'find-in-parent-dir)
 
 ;;; Name of the asynchronous test process.
 (defconst jw-test-process-name "*test-process*")
@@ -13,20 +14,8 @@
 ;;; Name of the test process output buffer.
 (defconst jw-test-buffer-name "*testing*")
 
-;;; Path to Ruby1.9
-(defconst jw-ruby19-command "/Users/jim/bin/ruby19")
-
-;;; Path to Ruby1.9 Experimental
-(defconst jw-ruby19x-command "/Users/jim/bin/ruby19x")
-
-;;; Path to JRuby
-(defconst jw-jruby-command "/Users/jim/bin/jruby")
-
 ;;; Path to Ruby
-(defconst jw-ruby-command "ruby")
-
-;;; Name of the ruby command to run the tests.
-(defvar jw-testing-command jw-ruby-command)
+(defconst jw-ruby-program "ruby")
 
 ;;; Name of the ruby debugging command to run the tests in debug mode.
 (defconst jw-rdebug-command "rdebug")
@@ -38,12 +27,12 @@
 (defconst jw-noansi-option  (concat " | " jw-noansi-command))
 
 ;;; BASH shell initialization
-(defconst jw-shell-rc ". ~/.bashrc")
+(defconst jw-shell-rc "echo `projenv`")
 
 ;;; BASH shell initialization option GNU-Emacs sub-processes do not
 ;;; inherit the ENV from Emacs, hence they need the bash.rc file.
 (defconst jw-shell-initialize-option 
-  (if (is-aquamacs)
+  (if (and (is-aquamacs) nil)
       ""
     (concat jw-shell-rc "; ")))
 
@@ -186,41 +175,11 @@
 (defun jw-test-start-debugging (&rest args)
   (rdebug (mapconcat (lambda (x) x) args " ")) )
 
-(defun jw-dir-contains-p (path file)
-  "Does the path contain the given file name?"
-  (file-readable-p (concat (file-name-as-directory path) file)))
-
-(defun jw-project-top-p (path)
-  "Are we at the top of a project?
-Redefine as needed to define the top directory of a project."
-  (or
-   (jw-dir-contains-p path "Rakefile") 
-   (jw-dir-contains-p path "config/database.yml") ))
-
-(defun jw-parent-dir (path)
-  "Return the parent directory of path.  The parent of / is nil."
-  (cond ((string-equal "/" path) nil)
-        (t (file-name-directory (directory-file-name path))) ))
-
-(defun jw-find-project-top-aid (path full-path)
-  "Find the top level directory of the project containing *path*."
-  (cond ((null path) full-path)
-        ((jw-project-top-p path)
-         (file-name-as-directory (directory-file-name path)))
-        (t (jw-find-project-top-aid (jw-parent-dir path) full-path)) ))
-
-(defun jw-find-project-top (path)
-  (cond ((file-directory-p path)
-         (jw-find-project-top-aid path path))
-        (t (let ((parent (jw-parent-dir path)))
-             (jw-find-project-top-aid parent parent))) ))
-
 (defun jw-prep-test-buffer ()
   "Prepare the test buffer for inserting output from the test process."
   (let ((buf (get-buffer jw-test-buffer-name)))
     (if buf (kill-buffer buf))
     (setq buf (get-buffer-create jw-test-buffer-name))
-;;    (pop-to-buffer buf)
     (jw-push-buffer buf)))
 
 (defun jw-koan-file-name-p (file-name)
@@ -492,12 +451,18 @@ test file."
     (setq name (replace-match ".*" nil nil name)))
   name)
 
+(defun jw-run-test-command ()
+  (let ((proj-env (jw-project-env-file default-directory)))
+    (if proj-env
+        (concat ". " proj-env "; " jw-ruby-program)
+      jw-ruby-program)))
+
 (defun jw-test-invoking-test-by-name (arg file-name method-name)
   (cond ((null default-directory) (message "Cannot find project top"))
         ((null arg)
          (jw-prep-test-buffer)
          (jw-test-start-process
-          jw-testing-command (jw-test-option-string)
+          (jw-run-test-command) (jw-test-option-string)
           file-name (concat "--name \"/" method-name "/\""))
          (jw-test-insert-headers
           jw-test-buffer-name
@@ -515,7 +480,7 @@ test file."
         ((null arg)
          (jw-prep-test-buffer)
          (jw-test-start-process
-          jw-testing-command (jw-test-option-string)
+          (jw-run-test-command) (jw-test-option-string)
           file-name (concat "--name \"/_" line-marker "_/\""))
          (jw-test-insert-headers
           jw-test-buffer-name
@@ -549,7 +514,7 @@ test file."
             ((null arg)
              (jw-prep-test-buffer)
              (jw-test-start-process
-              jw-testing-command (jw-test-option-string)
+              (jw-run-test-command) (jw-test-option-string)
               file-name (concat "--name \"/_" line-marker "_/\""))
              (jw-test-insert-headers
               jw-test-buffer-name
@@ -581,7 +546,7 @@ test file."
            (jw-prep-test-buffer)
            (cond ((null arg)
                   (jw-test-start-process
-                   jw-testing-command (jw-test-option-string) file-name)
+                   (jw-run-test-command) (jw-test-option-string) file-name)
                   (jw-test-insert-headers
                    jw-test-buffer-name
                    "= Test File ...\n"
@@ -677,26 +642,6 @@ allowing per-project toggle customizations."
           ((equal (cdr old-pair) new-value) ())
           (t (set name (cons pair (assq-delete-all key alist)))) ))
   (eval name) )
-
-(defun jw-set-testing-command (path)
-  (setq jw-testing-command path)
-  (message (concat "Testing with " path)))
-
-(defun jw-testing-use-ruby ()
-  (interactive)
-  (jw-set-testing-command jw-ruby-command))
-
-(defun jw-testing-use-ruby19 ()
-  (interactive)
-  (jw-set-testing-command jw-ruby19-command))
-
-(defun jw-testing-use-ruby19x ()
-  (interactive)
-  (jw-set-testing-command jw-ruby19x-command))
-
-(defun jw-testing-use-jruby ()
-  (interactive)
-  (jw-set-testing-command jw-jruby-command))
 
 (defun jw-test-buffer-p ()
   (string-match "_test\." (buffer-name)))
