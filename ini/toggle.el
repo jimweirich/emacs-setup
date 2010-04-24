@@ -26,6 +26,11 @@
    ("spec/\\1_spec.rb"              . "app/\\1.rb")))
 
 (add-toggle-mapping
+ '(jw-spec
+   ("spec/\\1_spec.rb"         . "lib\\1.rb")
+   ("\\1_spec.rb"              . "\\1.rb")))
+
+(add-toggle-mapping
  '(jw-postfix
    ("test/\\1_test.rb" . "lib/\\1.rb")
    ("\\1_test.rb"      . "\\1.rb")))
