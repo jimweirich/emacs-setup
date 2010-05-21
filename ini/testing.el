@@ -372,19 +372,19 @@ test file."
           (setq file-name (buffer-file-name)) ))
     (save-buffer)
     (setq jw-test-last-test-buffer (buffer-name))
-    (let ((method-name (jw-find-spec-name)))
+    (let ((line-number (int-to-string (file-line-number))))
       (cond ((null default-directory) (message "Cannot find project top"))
             ((null arg)
              (jw-prep-test-buffer)
              (jw-test-start-process
               (jw-spec-command test-buffer) jw-spec-options
-              file-name (concat "-e" " \"" method-name "\""))
+              (concat file-name ":" line-number))
              (jw-test-insert-headers
               jw-test-buffer-name
               "= Individual Spec ...\n"
               "== In:    " default-directory "\n"
               "== File:  " (file-name-nondirectory file-name) "\n"
-              "== Spec:  " method-name "\n\n"))
+              "== Line:  " line-number "\n\n"))
             (t (jw-prep-test-buffer)
                (jw-test-start-debugging
                 jw-rdebug-command (jw-test-option-string)
