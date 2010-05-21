@@ -27,7 +27,7 @@
 
 (add-toggle-mapping
  '(jw-spec
-   ("spec/\\1_spec.rb"         . "lib\\1.rb")
+   ("spec/\\1_spec.rb"         . "lib/\\1.rb")
    ("\\1_spec.rb"              . "\\1.rb")))
 
 (add-toggle-mapping
