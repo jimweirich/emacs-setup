@@ -16,7 +16,7 @@
 ;; C-C mappings
 (global-set-key (kbd "C-C .")   'cmt-insert-bar-dots)
 (global-set-key (kbd "C-C #")   'cmt-insert-bar-hash)
-(global-set-key (kbd "C-C *")   'cmt-insert-bar-star) 
+(global-set-key (kbd "C-C *")   'cmt-insert-bar-star)
 (global-set-key (kbd "C-C -")   'cmt-insert-bar-light)
 (global-set-key (kbd "C-C =")   'cmt-insert-bar-heavy)
 (global-set-key (kbd "C-C >")   'tags-reset-tags-tables)
@@ -34,6 +34,7 @@
 (global-set-key (kbd "C-C r")   'jw-run-rake)
 (global-set-key (kbd "C-C s")   'jw-toggle-process-echo-flag)
 
+(global-set-key (kbd "C-C C-d") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-C C-f") 'ido-find-file-in-tag-files)
 (global-set-key (kbd "C-C C-v") 'jw-find-view)
 (global-set-key (kbd "C-C C-t") 'jw-split-or-toggle) ; pkg:testing
