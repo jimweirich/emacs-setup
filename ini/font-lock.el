@@ -117,8 +117,9 @@
    (jw-font 'nxml-entity-ref-name-face         "yellow")
    (jw-font 'nxml-entity-ref-delimiter-face    "red")
    (jw-font 'region                            "white" "SkyBlue4")
+   (jw-font 'trailing-whitespace               "red" "yellow")
    ))
-
+   
 ;; Abbreviations
 
 (defun jwfd ()  (interactive) (jw-dark))
