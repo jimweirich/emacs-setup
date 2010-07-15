@@ -71,11 +71,6 @@
 (global-set-key (kbd "C-C t C-t") 'jw-toggle-clear-buffer-styles) ; pkg:testing
 (global-set-key (kbd "C-C t C-s") 'toggle-debug) ; pkg:testing
 
-(global-set-key (kbd "C-C t y") 'jw-testing-use-ruby)
-(global-set-key (kbd "C-C t j") 'jw-testing-use-jruby)
-(global-set-key (kbd "C-C t 9") 'jw-testing-use-ruby19)
-(global-set-key (kbd "C-C t x") 'jw-testing-use-ruby19x)
-
 (global-set-key (kbd "C-C t 1") (lambda () (interactive) (setq jw-test-single-window t))) ; pkg:testing
 (global-set-key (kbd "C-C t 2") (lambda () (interactive) (setq jw-test-single-window nil))) ; pkg:testing
 
