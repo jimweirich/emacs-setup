@@ -49,7 +49,7 @@
       (cons
        '("^\\(Failure\\|Error\\) occurred in .*\\[\\([^:]+\\):\\([0-9]+\\)\\]" 2 3)
        compilation-error-regexp-alist))
-  
+
 
 ;;; Better Comment Paragraph Filling ---------------------------------
 
@@ -59,11 +59,11 @@
   (search-backward-regexp jw-rb-para-begin-re)
   (beginning-of-line)
   (next-line 1) )
-  
+
 (defun jw-rb-goto-para-end ()
   (search-forward-regexp jw-rb-para-begin-re)
   (beginning-of-line) )
-  
+
 (defun jw-rb-fill-comment-region ()
   (interactive)
   (save-excursion
@@ -75,7 +75,7 @@
       (widen) ) ))
 
 (defun rb () (interactive) (ruby-mode))
-  
+
 
 ;;; Setup for RDebug -------------------------------------------------
 
@@ -91,7 +91,7 @@
          (car bufs))
         (t (jw-find-gud-buffer1 (cdr bufs))) ))
 
-(defun jw-find-gud-buffer () 
+(defun jw-find-gud-buffer ()
   "Find the GUD interaction buffer, nil if not found."
   (jw-find-gud-buffer1 (buffer-list)) )
 
@@ -141,6 +141,15 @@
 (add-hook 'ruby-mode-hook '(lambda () (inf-ruby-keys) ))
 (add-hook 'ruby-mode-hook '(lambda () (setq zoom-step 2) ))
 (add-hook 'ruby-mode-hook 'turn-off-filladapt-mode)
+
+(add-hook 'ruby-mode-hook '(lambda ()
+                             (add-hook
+                              (cond ((boundp 'before-save-hook)
+                                     (make-local-variable 'before-save-hook)
+                                     'before-save-hook)
+                                    ((boundp 'write-contents-functions) 'write-contents-functions)
+                                    ((boundp 'write-contents-hooks) 'write-contents-hooks))
+                              'delete-trailing-whitespace)))
 
 ;;; Undefine the Control-G binding in the Ruby Mode Control-C submap
 ;;; Rinari maps this to rinari-get-path
