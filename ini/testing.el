@@ -20,7 +20,7 @@
 ;;; Name of the ruby debugging command to run the tests in debug mode.
 (defconst jw-rdebug-command "rdebug")
 
-;;; Name of the command to remove ANSI terminal cruft 
+;;; Name of the command to remove ANSI terminal cruft
 (defconst jw-noansi-command  (concat (file-name-as-directory elisp-directory) "bin/noansi"))
 
 ;;; NOANSI option string (may be empty, or a pipe to the noansi command)
@@ -31,7 +31,7 @@
 
 ;;; BASH shell initialization option GNU-Emacs sub-processes do not
 ;;; inherit the ENV from Emacs, hence they need the bash.rc file.
-(defconst jw-shell-initialize-option 
+(defconst jw-shell-initialize-option
   (if (and (is-aquamacs) nil)
       ""
     (concat jw-shell-rc "; ")))
@@ -171,7 +171,7 @@
    (jw-test-build-command-line args)
    nil
    (lambda (x) jw-test-buffer-name)))
-  
+
 (defun jw-test-start-debugging (&rest args)
   (rdebug (mapconcat (lambda (x) x) args " ")) )
 
@@ -218,7 +218,7 @@
 
 (defun jw-extract-name ()
   "Extract the name of the test from the match."
-  (cond 
+  (cond
    ((match-beginning 3)
     (buffer-substring (match-beginning 3) (match-end 3)))
    ((match-beginning 4)
@@ -255,8 +255,15 @@
 
 (defun jw-spec-command (buffer)
   "Return the name of the appropriate spec command to run for the given buffer."
+  (let ((proj-env (jw-project-env-file default-directory)))
+    (if proj-env
+        (concat ". " proj-env "; " (jw-spec-command2 buffer))
+      (jw-spec-command2 buffer))))
+
+(defun jw-spec-command2 (buffer)
+  "Return the name of the appropriate spec command to run for the given buffer."
   (let* ((default-directory (jw-find-project-top (buffer-file-name buffer))))
-    (or (jw-find-existing-file 
+    (or (jw-find-existing-file
          (list (concat default-directory "script/spec")
                (concat default-directory "vendor/plugins/rspec/bin/spec")))
         "spec")))
@@ -300,7 +307,7 @@ test headers."
     (jw-test-deal-with-mode-line)
     (apply 'insert headers)
     (setq buffer-read-only t)
-    (goto-char (point-max)) 
+    (goto-char (point-max))
     (if jw-test-single-window (delete-other-windows)) ))
 
 ;;; -- Test Run Commands ---------------------------------------------
@@ -366,7 +373,7 @@ test file."
   (let* ((file-name (buffer-file-name))
          (default-directory (jw-find-project-top file-name))
          (test-buffer (current-buffer)) )
-    (if (not (jw-spec-file-name-p file-name)) 
+    (if (not (jw-spec-file-name-p file-name))
         (progn
           (jw-toggle-buffer)
           (setq file-name (buffer-file-name)) ))
@@ -428,7 +435,7 @@ test file."
   (jw-take-down-test-buffer)
   (let* ((file-name (buffer-file-name))
          (default-directory (jw-find-project-top file-name)) )
-    (if (not (jw-test-file-name-p file-name)) 
+    (if (not (jw-test-file-name-p file-name))
         (progn
           (jw-toggle-buffer)
           (setq file-name (buffer-file-name)) ))
@@ -503,7 +510,7 @@ test file."
   (jw-take-down-test-buffer)
   (let* ((file-name (buffer-file-name))
          (default-directory (jw-find-project-top file-name)) )
-    (if (not (jw-given-file-name-p file-name)) 
+    (if (not (jw-given-file-name-p file-name))
         (progn
           (jw-toggle-buffer)
           (setq file-name (buffer-file-name)) ))
@@ -611,7 +618,7 @@ project .togglerc file."
   (if (null jw-test-toggle-style)
       (jw-test-load-project-toggle-style) )
   (setq toggle-mappings (toggle-style jw-test-toggle-style)) )
-  
+
 (defun jw-toggle-buffer ()
   "Enhanced version of the Ryan Davis's toggle-buffer function
 Check for a .togglerc file at the top level of the project
@@ -681,7 +688,7 @@ allowing per-project toggle customizations."
 ;;
 ;; Example -- Define a mapping and then select it:
 ;;
-;;   (buffer-toggle-mapping 
+;;   (buffer-toggle-mapping
 ;;    '(project-style    . (("test/\\1_test.rb" . "lib/\\1.rb")
 ;;                           ("\\1_test.rb"      . "\\1.rb") )))
 ;;   (buffer-toggle-style 'project-style)
