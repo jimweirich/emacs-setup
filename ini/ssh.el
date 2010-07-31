@@ -5,4 +5,7 @@
     (if (file-readable-p env-file)
         (load-file env-file))))
 
-(defun rssh () (interactive) (jw-reload-ssh-env))
+(defun rssh ()
+  "Short-cut for jw-reload-ssh-env."
+  (interactive)
+  (jw-reload-ssh-env))
