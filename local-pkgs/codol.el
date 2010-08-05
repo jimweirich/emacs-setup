@@ -45,7 +45,7 @@
                       (codol-hide pt (point))
                       (setq pt nil)) ))
               (t (if (null pt) (setq pt (point)))))
-        (next-line) )
+        (forward-line) )
       (if pt (codol-hide pt (point))) )))
 
 (defun codol-toggle ()
