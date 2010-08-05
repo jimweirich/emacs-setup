@@ -87,17 +87,9 @@
 (setq-default indent-tabs-mode nil)
 
 ;;; Shell Buffer Scrubbing ===========================================
- 
+
 (defun scrub-buffer () (interactive)
   (kill-region (point-min) (point-max)) )
-
-(if (and (is-aquamacs) (not (string= aquamacs-version "1.9")))
-    (defun jw-next-physical-line ()
-      (interactive)
-      (aquamacs-next-nonvisual-line))
-  (defun jw-next-physical-line ()
-    (interactive)
-    (next-line)))
 
 (defun jw-indent-line ()
   (interactive)
@@ -106,9 +98,9 @@
    (t (beginning-of-line)
       (indent-for-tab-command)
       (beginning-of-line)
-      (jw-next-physical-line))))
+      (forward-line))))
 
-;;; Notes 
+;;; Notes
 
 (defun notes ()
   (interactive)

@@ -229,7 +229,7 @@
 (defun jw-find-test-method-name ()
   "Return the name of the current test method."
   (save-excursion
-    (next-line)
+    (forward-line)
     (re-search-backward jw-test-name-pattern)
     (jw-extract-name)))
 
@@ -242,7 +242,7 @@
 (defun jw-find-given-line-marker ()
   "Return the line marker of the current test method."
   (save-excursion
-    (next-line)
+    (forward-line)
     (move-beginning-of-line 1)
     (re-search-backward jw-given-keywords-pattern)
     (concat (jw-keyword-target-char) (number-to-string (line-number-at-pos)))))
@@ -271,7 +271,7 @@
 (defun jw-find-spec-name ()
   "Return the name of the current test method."
   (save-excursion
-    (next-line)
+    (forward-line)
     (re-search-backward "^ *it +['\"]\\([^\"]*\\)['\"] +do")
     (buffer-substring (match-beginning 1) (match-end 1))))
 
@@ -295,7 +295,7 @@ test headers."
             ((bol (save-excursion (beginning-of-line)(point)))
              (eol (save-excursion (end-of-line)(point))))
           (delete-region bol (+ eol 1)))
-      (next-line)
+      (forward-line)
       (insert "\n")) )
 
 (defun jw-test-insert-headers (buffer-name &rest headers)

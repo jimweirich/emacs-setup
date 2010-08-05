@@ -58,7 +58,7 @@
 (defun jw-rb-goto-para-begin ()
   (search-backward-regexp jw-rb-para-begin-re)
   (beginning-of-line)
-  (next-line 1) )
+  (forward-line 1) )
 
 (defun jw-rb-goto-para-end ()
   (search-forward-regexp jw-rb-para-begin-re)
