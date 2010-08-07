@@ -27,7 +27,7 @@
 (defconst jw-noansi-option  (concat " | " jw-noansi-command))
 
 ;;; BASH shell initialization
-(defconst jw-shell-rc "echo `projenv`")
+(defconst jw-shell-rc ". `projenv`")
 
 ;;; BASH shell initialization option GNU-Emacs sub-processes do not
 ;;; inherit the ENV from Emacs, hence they need the bash.rc file.
