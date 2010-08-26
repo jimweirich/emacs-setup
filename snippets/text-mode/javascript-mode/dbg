@@ -1,0 +1,4 @@
+# -*- mode: javascript; require-final-newline: nil; backup-inhibited: t -*-
+#name: console.log("DBG: var=value")
+# --
+console.log("DBG: $1='" + ${1:var} + "'");
