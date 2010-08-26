@@ -45,6 +45,7 @@
 
 ;; C-C g
 (global-set-key (kbd "C-C g g") 'magit-status)
+(global-set-key (kbd "C-C g b") 'jw-mo-git-blame)
 
 ;; C-C p -- Perforce bindings
 (global-set-key (kbd "C-C p e") 'p4-edit) ; pkg:perforce
