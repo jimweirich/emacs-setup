@@ -28,6 +28,25 @@
 ;;(setq ruby-deep-arglist nil)          ; Obsolete?
 (setq ruby-deep-indent-paren-style nil) ;
 
+;;; Customize Ruby Electric Mode -------------------------------------
+
+(require 'ruby-electric)
+
+;; ruby-electric uses this function, but for some reason my ruby-mode
+;; version doesn't define it.
+(defun ruby-insert-end ()
+  (interactive)
+  (insert "end")
+  (ruby-indent-line t)
+  (end-of-line))
+
+(ruby-electric-mode t)
+
+(defun rel ()
+  "Toggle Ruby electric mode (shortcut)"
+  (interactive)
+  (ruby-electric-mode))
+
 ;;; XMP setup --------------------------------------------------------
 
 (defun ruby-xmp-region (reg-start reg-end)
@@ -141,6 +160,7 @@
 (add-hook 'ruby-mode-hook '(lambda () (inf-ruby-keys) ))
 (add-hook 'ruby-mode-hook '(lambda () (setq zoom-step 2) ))
 (add-hook 'ruby-mode-hook 'turn-off-filladapt-mode)
+(add-hook 'ruby-mode-hood '(lambda () (ruby-electric-mode t)))
 
 (add-hook 'ruby-mode-hook '(lambda ()
                              (add-hook

@@ -10,16 +10,16 @@
 
 (defun jw-fancy-font-setup ()
   (interactive)
-  
+
   (setq mac-option-modifier 'meta)
-   
+
   (if (is-aquamacs)
       (setq jw-font-chooser 'inconsolata)
     (setq jw-font-chooser 'vera-sans-mono))
-   
+
   (defun jw-choose-font (pts)
     (apply jw-font-chooser (list pts)))
-   
+
   (defun monaco (points)
     (interactive "NPoints: ")
     (set-frame-font
@@ -27,7 +27,7 @@
              (number-to-string points)
              "-0-72-72-m-0-iso10646-1")
      t))
-   
+
   (defun inconsolata (points)
     (interactive "NPoints: ")
     (set-frame-font
@@ -44,7 +44,7 @@
              "-0-72-72-m-0-iso10646-1")
      t))
 
-  (defun micro()      (interactive) (jw-choose-font 8)) 
+  (defun micro()      (interactive) (jw-choose-font 8))
   (defun tiny()       (interactive) (jw-choose-font 12))
   (defun small()      (interactive) (jw-choose-font 14))
   (defun normal()     (interactive) (jw-choose-font 16))
@@ -59,14 +59,14 @@
          (interactive)
          (screencast)
          (jwf)))
-      
+
       ((is-emacs-23)
        (jw-fancy-font-setup)
        (defun jw-default-font-setup ()
          (interactive)
          (normal)
          (jwf)))
-      
+
       (t
        (defun jw-default-font-setup ()
          (interactive)
