@@ -75,9 +75,13 @@
 (defun jw-toggle-process-echo-flag
   (interactive)
   (cond
-   (comint-process-echoes 
+   (comint-process-echoes
     (setq comint-process-echoes nil)
     (message "shell not processing echoes"))
    (t
     (setq comint-process-echoes t)
     (message "shell processing echoes")) ))
+
+;; Allow ansi color sequences in comint mode
+
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
