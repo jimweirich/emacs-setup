@@ -3,6 +3,8 @@
 (global-set-key (kbd "C-<tab>") 'jw-indent-line)
 (global-set-key (kbd "C-z") 'scroll-down) ; I *hate* suspend bound on this key
 
+(global-set-key (kbd "C-M-q") 'jw-wide-fill-paragraph)
+
 (if (is-aquamacs)                       ; Why do I have to do this for aquamacs?
     (define-key osx-key-mode-map (kbd "C-z") 'scroll-down))
 (global-set-key (kbd "M-g") 'goto-line)	; goto a line position

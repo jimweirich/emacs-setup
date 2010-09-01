@@ -100,6 +100,14 @@
       (beginning-of-line)
       (forward-line))))
 
+(defun jw-wide-fill-paragraph (arg)
+  "Fill paragraph with a wide fill column."
+  (interactive (progn
+		 (barf-if-buffer-read-only)
+		 (list (if current-prefix-arg 'full))))
+  (let ((fill-column 10000000))
+    (fill-paragraph-or-region arg)))
+
 ;;; Notes
 
 (defun notes ()
