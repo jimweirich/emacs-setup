@@ -1,0 +1,4 @@
+# -*- mode: markdown; require-final-newline: nil; backup-inhibited: t -*-
+#name: <img ...>
+# --
+![${2:alt text}](${1:url})$0

@@ -1,0 +1,5 @@
+# -*- mode: markdown; require-final-newline: nil; backup-inhibited: t -*-
+#name: <a><img ...></a>
+# --
+[![${3:alt text}](${1:link url})](${2:click url})$0
+

@@ -1,0 +1,8 @@
+# -*- mode: textile; require-final-newline: nil; backup-inhibited: t -*-
+#name: highlighted code
+# --
+<div class="boxed">
+{% highlight ${1:ruby} ${2:linenos} %}
+$0
+{% endhighlight %}
+</div>
