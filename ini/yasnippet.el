@@ -13,7 +13,7 @@
 ;;       (require 'dropdown-list)
        (yas/initialize)
        (yas/load-directory (concat yas-dir "/snippets"))
-       
+
        (setq yas/root-directory (expand-file-name "~jim/.elisp/snippets/"))
        (yas/load-directory yas/root-directory)
        ))
