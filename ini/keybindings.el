@@ -42,6 +42,7 @@
 (global-set-key (kbd "C-C C-t") 'jw-split-or-toggle) ; pkg:testing
 
 ;; C-C c
+(global-set-key (kbd "C-C c a") 'jw-align)
 (global-set-key (kbd "C-C c c") 'jw-clear-overlays-to-top-level)
 (global-set-key (kbd "C-C c s") 'jw-swap-windows)
 

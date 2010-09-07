@@ -16,6 +16,7 @@
 (autoload 'filladapt-mode   "filladapt"        "Adaptive Filling Minor mode" t)
 (autoload 'forth-mode       "gforth"           "Mode for FORTH programs" t)
 (autoload 'clojure-mode     "clojure"          "Mode for Clojure programs" t)
+(autoload 'jw-align         "jw-align"         "Alignment functionality" t)
 
 (setq auto-mode-alist (assq-delete-all-equal "\\.html$" auto-mode-alist))
 
