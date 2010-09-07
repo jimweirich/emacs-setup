@@ -17,6 +17,8 @@
 (autoload 'forth-mode       "gforth"           "Mode for FORTH programs" t)
 (autoload 'clojure-mode     "clojure"          "Mode for Clojure programs" t)
 
+(setq auto-mode-alist (assq-delete-all-equal "\\.html$" auto-mode-alist))
+
 (make-auto "\\.awk$"  'awk-mode)
 (make-auto "\\.html$" 'rhtml-mode) ; was html-mode
 (make-auto "\\.htm$"  'rhtml-mode)
