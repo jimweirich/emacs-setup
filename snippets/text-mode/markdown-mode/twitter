@@ -1,0 +1,4 @@
+# -*- mode:markdown; require-final-newline: nil; backup-inhibited: t -*-
+#name: [@name](http://twitter.com...)
+# --
+[@${1:name}](http://twitter.com/$1)
