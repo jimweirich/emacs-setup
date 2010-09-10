@@ -44,7 +44,10 @@
 ;; C-C c
 (global-set-key (kbd "C-C c a") 'jw-align)
 (global-set-key (kbd "C-C c c") 'jw-clear-overlays-to-top-level)
+(global-set-key (kbd "C-C c f") 'jw-set-font)
 (global-set-key (kbd "C-C c s") 'jw-swap-windows)
+
+(global-set-key (kbd "C-C c C-f") 'jw-chose-font)
 
 ;; C-C g
 (global-set-key (kbd "C-C g g") 'magit-status)
