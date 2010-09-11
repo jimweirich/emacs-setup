@@ -46,6 +46,9 @@
 (global-set-key (kbd "C-C c c") 'jw-clear-overlays-to-top-level)
 (global-set-key (kbd "C-C c f") 'jw-set-font)
 (global-set-key (kbd "C-C c s") 'jw-swap-windows)
+(global-set-key (kbd "C-C c =") 'jw-bigger-font)
+(global-set-key (kbd "C-C c +") 'jw-bigger-font)
+(global-set-key (kbd "C-C c -") 'jw-smaller-font)
 
 (global-set-key (kbd "C-C c C-f") 'jw-chose-font)
 

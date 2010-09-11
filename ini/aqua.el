@@ -11,6 +11,8 @@
 (defun jw-fancy-font-setup ()
   (interactive)
 
+  (setq *jw-font-size* 18)
+
   (setq mac-option-modifier 'meta)
 
   (if (is-aquamacs)
@@ -22,7 +24,16 @@
     (defun jw-set-font () (interactive) ))
 
   (defun jw-choose-font (pts)
+    (setq *jw-font-size* pts)
     (apply jw-font-chooser (list pts)))
+
+  (defun jw-bigger-font ()
+    (interactive)
+    (jw-choose-font (+ 4 *jw-font-size*)))
+
+  (defun jw-smaller-font ()
+    (interactive)
+    (jw-choose-font (- *jw-font-size* 4)))
 
   (defun monaco (points)
     (interactive "NPoints: ")
@@ -53,7 +64,8 @@
   (defun micro()      (interactive) (jw-choose-font 8))
   (defun tiny()       (interactive) (jw-choose-font 12))
   (defun small()      (interactive) (jw-choose-font 14))
-  (defun normal()     (interactive) (jw-choose-font 16))
+  (defun subnormal()  (interactive) (jw-choose-font 16))
+  (defun normal()     (interactive) (jw-choose-font 18))
   (defun screencast() (interactive) (jw-choose-font 18))
   (defun medium()     (interactive) (jw-choose-font 20))
   (defun big()        (interactive) (jw-choose-font 24))
@@ -87,4 +99,5 @@
 (defun jw-choose-font ()
   (interactive)
   (mac-font-panel-mode)
+
   (jw-set-font))
