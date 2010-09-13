@@ -8,5 +8,5 @@
 (defun ra ()
   "Short-cut for jw-reload-ssh-agent-env."
   (interactive)
-  (jw-reload-ssh-env))
+  (jw-reload-ssh-agent-env))
 
