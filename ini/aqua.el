@@ -42,16 +42,16 @@
              (number-to-string points)
              "-0-72-72-m-0-iso10646-1")
      t)
-    (jw-set-font))
+    (if (not no-set-font) (jw-set-font)))
 
-  (defun inconsolata (points)
+  (defun inconsolata (points &optional no-set-font)
     (interactive "NPoints: ")
     (set-frame-font
      (concat "-*-inconsolata-*-r-normal--"
              (number-to-string points)
              "-0-72-72-m-0-iso10646-1")
      t)
-    (jw-set-font))
+    (if (not no-set-font) (jw-set-font)))
 
   (defun vera-sans-mono (points)
     (interactive "NPoints: ")
@@ -65,7 +65,6 @@
   (defun tiny()       (interactive) (jw-choose-font 12))
   (defun small()      (interactive) (jw-choose-font 14))
   (defun subnormal()  (interactive) (jw-choose-font 16))
-  (defun normal()     (interactive) (jw-choose-font 18))
   (defun screencast() (interactive) (jw-choose-font 18))
   (defun medium()     (interactive) (jw-choose-font 20))
   (defun big()        (interactive) (jw-choose-font 24))
@@ -73,8 +72,12 @@
   (defun humongous()  (interactive) (jw-choose-font 48))
   (defun largest()    (interactive) (jw-choose-font 96)))
 
+  (defun normal (&optional no-set-font)
+    (interactive)
+    (jw-choose-font 18 no-set-font))
+
 (cond ((is-aquamacs)
-       (jw-fancy-font-setup)
+      (jw-fancy-font-setup)
        (defun jw-default-font-setup ()
          (interactive)
          (screencast)
@@ -96,8 +99,7 @@
   (interactive)
   (jw-set-font))
 
-(defun jw-choose-font ()
+(defun jw-interactive-choose-font ()
   (interactive)
-  (mac-font-panel-mode)
-
+  (mac-font-panel-mode nil)
   (jw-set-font))
