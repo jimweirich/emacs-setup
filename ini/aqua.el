@@ -15,17 +15,16 @@
 
   (setq mac-option-modifier 'meta)
 
-  (if (is-aquamacs)
-      (setq jw-font-chooser 'inconsolata)
-    (setq jw-font-chooser 'vera-sans-mono))
+  (cond ((is-aquamacs)
+         (setq jw-font-chooser 'inconsolata)
+         (defun jw-set-font () (interactive) (aquamacs-set-face-as-default)))
+        (t
+         (setq jw-font-chooser 'vera-sans-mono)
+         (defun jw-set-font () (interactive) )))
 
-  (if (is-aquamacs)
-      (defun jw-set-font () (interactive) (aquamacs-set-face-as-default))
-    (defun jw-set-font () (interactive) ))
-
-  (defun jw-choose-font (pts)
+  (defun jw-choose-font (pts &optional no-set-font)
     (setq *jw-font-size* pts)
-    (apply jw-font-chooser (list pts)))
+    (apply jw-font-chooser (list pts no-set-font)))
 
   (defun jw-bigger-font ()
     (interactive)
@@ -35,7 +34,7 @@
     (interactive)
     (jw-choose-font (- *jw-font-size* 4)))
 
-  (defun monaco (points)
+  (defun monaco (points &optional no-set-font)
     (interactive "NPoints: ")
     (set-frame-font
      (concat "-*-monaco-medium-r-normal--"
@@ -70,24 +69,25 @@
   (defun big()        (interactive) (jw-choose-font 24))
   (defun huge()       (interactive) (jw-choose-font 36))
   (defun humongous()  (interactive) (jw-choose-font 48))
-  (defun largest()    (interactive) (jw-choose-font 96)))
+  (defun largest()    (interactive) (jw-choose-font 96))
+)
 
-  (defun normal (&optional no-set-font)
-    (interactive)
-    (jw-choose-font 18 no-set-font))
+(defun normal (&optional no-set-font)
+  (interactive)
+  (jw-choose-font 18 no-set-font))
 
 (cond ((is-aquamacs)
       (jw-fancy-font-setup)
        (defun jw-default-font-setup ()
          (interactive)
-         (screencast)
+         (normal nil)
          (jwf)))
 
       ((is-emacs-23)
        (jw-fancy-font-setup)
        (defun jw-default-font-setup ()
          (interactive)
-         (normal)
+         (normal nil)
          (jwf)))
 
       (t
