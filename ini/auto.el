@@ -18,6 +18,15 @@
 (autoload 'clojure-mode     "clojure"          "Mode for Clojure programs" t)
 (autoload 'jw-align         "jw-align"         "Alignment functionality" t)
 
+(if (not (is-aquamacs))
+    (defun assq-delete-all-equal (key pairs)
+      (let ((result ()))
+	(while (not (null pairs))
+	  (if (not (equal key (caar pairs)))
+	      (setq result (cons (car pairs) result)))
+	  (setq pairs (cdr pairs)) )
+	(reverse result))))
+
 (setq auto-mode-alist (assq-delete-all-equal "\\.html$" auto-mode-alist))
 
 (make-auto "\\.awk$"  'awk-mode)
