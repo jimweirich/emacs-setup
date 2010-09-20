@@ -8,6 +8,8 @@
 ;;; regular emacs, make sure the emacs-goodies-el debian package is
 ;;; installed.
 
+(require 'filladapt)
+
 (defun fam ()
   (interactive)
   (filladapt-mode))
