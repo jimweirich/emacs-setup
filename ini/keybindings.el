@@ -84,8 +84,9 @@
 (global-set-key (kbd "C-C t 1") (lambda () (interactive) (setq jw-test-single-window t))) ; pkg:testing
 (global-set-key (kbd "C-C t 2") (lambda () (interactive) (setq jw-test-single-window nil))) ; pkg:testing
 
-;;(global-set-key (kbd "M-S-RET") 'jw-toggle-maxframe)
-;;(global-set-key (kbd "M-RET") 'jw-toggle-maxframe)
+(if (is-aquamacs)
+    (global-set-key (kbd "M-RET") 'aquamacs-toggle-full-frame)
+    (global-set-key (kbd "M-RET") 'jw-toggle-maxframe))
 
 ;; Function Keys
 
