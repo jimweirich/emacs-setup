@@ -84,6 +84,8 @@
 (global-set-key (kbd "C-C t 1") (lambda () (interactive) (setq jw-test-single-window t))) ; pkg:testing
 (global-set-key (kbd "C-C t 2") (lambda () (interactive) (setq jw-test-single-window nil))) ; pkg:testing
 
+(global-set-key (kbd "S-M-RET") 'jw-toggle-maxframe)
+
 ;; Function Keys
 
 (global-set-key (kbd "<f2>") 'jw-visit-source) ; pkg:visit-source
@@ -109,7 +111,6 @@
 (global-set-key (kbd "M-<f12>") 'jw-select-gud-buffer) ; pkg:ruby
 
 ;; Shell runners
-
 
 (global-set-key (kbd "M-<f1>") (lambda () (interactive) (mshell 1))) ; pkg:utils
 (global-set-key (kbd "M-<f2>") (lambda () (interactive) (mshell 2))) ; pkg:utils
