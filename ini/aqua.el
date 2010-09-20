@@ -52,7 +52,7 @@
      t)
     (if (not no-set-font) (jw-set-font)))
 
-  (defun vera-sans-mono (points)
+  (defun vera-sans-mono (points &optional no-set-font)
     (interactive "NPoints: ")
     (set-frame-font
      (concat "-*-bitstreamverasansmono-*-r-normal--"
@@ -103,3 +103,5 @@
   (interactive)
   (mac-font-panel-mode nil)
   (jw-set-font))
+
+(normal)
