@@ -26,21 +26,11 @@
 ;;; NOANSI option string (may be empty, or a pipe to the noansi command)
 (defconst jw-noansi-option  (concat " | " jw-noansi-command))
 
-;;; BASH shell initialization
-(defconst jw-shell-rc ". `projenv`")
-
-;;; BASH shell initialization option GNU-Emacs sub-processes do not
-;;; inherit the ENV from Emacs, hence they need the bash.rc file.
-(defconst jw-shell-initialize-option
-  (if (and (is-aquamacs) nil)
-      ""
-    (concat jw-shell-rc "; ")))
+(defun jw-shell-env-setup ()
+  (concat (jw-project-env-file )))
 
 ;;; Name of the rake command ot run the rake based tests.
-(defconst jw-rake-program "rake")
-
-;;; Name of the rake command ot run the rake based tests.
-(defconst jw-rake-command (concat jw-shell-initialize-option jw-rake-program))
+(defconst jw-rake-command "rake")
 
 ;;; Options to be added to the ruby based test commands.
 (defconst jw-test-options "-Ilib:test:.")
@@ -163,7 +153,11 @@
 
 (defun jw-test-build-command-line (args)
   "Define the command line needed to run the given command and arguments."
-  (concat (mapconcat (lambda (x) x) args " ") jw-noansi-option) )
+  (let ((proj-env (jw-project-env-file default-directory))
+        (command  (mapconcat (lambda (x) x) args " ")))
+    (if proj-env
+        (concat ". " proj-env "; " command jw-noansi-option)
+      (concat command jw-noansi-option))))
 
 (defun jw-test-start-process (&rest args)
   "Start the test process using the compilation package."
@@ -254,13 +248,6 @@
         (t (jw-find-existing-file (cdr files)))))
 
 (defun jw-spec-command (buffer)
-  "Return the name of the appropriate spec command to run for the given buffer."
-  (let ((proj-env (jw-project-env-file default-directory)))
-    (if proj-env
-        (concat ". " proj-env "; " (jw-spec-command2 buffer))
-      (jw-spec-command2 buffer))))
-
-(defun jw-spec-command2 (buffer)
   "Return the name of the appropriate spec command to run for the given buffer."
   (let* ((default-directory (jw-find-project-top (buffer-file-name buffer))))
     (or (jw-find-existing-file
@@ -379,7 +366,7 @@ test file."
           (setq file-name (buffer-file-name)) ))
     (save-buffer)
     (setq jw-test-last-test-buffer (buffer-name))
-    (let ((line-number (int-to-string (file-line-number))))
+    (let ((line-number (int-to-string (line-number-at-pos))))
       (cond ((null default-directory) (message "Cannot find project top"))
             ((null arg)
              (jw-prep-test-buffer)
@@ -459,10 +446,7 @@ test file."
   name)
 
 (defun jw-run-test-command ()
-  (let ((proj-env (jw-project-env-file default-directory)))
-    (if proj-env
-        (concat ". " proj-env "; " jw-ruby-program)
-      jw-ruby-program)))
+  jw-ruby-program)
 
 (defun jw-test-invoking-test-by-name (arg file-name method-name)
   (cond ((null default-directory) (message "Cannot find project top"))
