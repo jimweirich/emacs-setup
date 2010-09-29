@@ -53,9 +53,11 @@
 (global-set-key (kbd "C-C c C-f") 'jw-chose-font)
 
 ;; C-C g
-(global-set-key (kbd "C-C g g") 'magit-status)
 (global-set-key (kbd "C-C g b") 'jw-mo-git-blame)
 
+(global-set-key (kbd "C-C g g") 'magit-status)
+(global-set-key (kbd "C-C g i") 'gist-region-or-buffer)
+(global-set-key (kbd "C-C g u") 'browse-url)
 ;; C-C p -- Perforce bindings
 (global-set-key (kbd "C-C p e") 'p4-edit) ; pkg:perforce
 (global-set-key (kbd "C-C p r") 'p4-revert) ; pkg:perforce
