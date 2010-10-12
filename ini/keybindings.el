@@ -27,6 +27,7 @@
 (global-set-key (kbd "C-C \\")  'codol-toggle)
 (global-set-key (kbd "C-C ^")   'top-level)
 (global-set-key (kbd "C-C a")   'org-agenda)
+(global-set-key (kbd "C-C c p") 'jw-find-file-in-tag-files)
 (global-set-key (kbd "C-C d")   'jw-select-gud-buffer)
 (global-set-key (kbd "C-C e")   'find-errors)
 (global-set-key (kbd "C-C f")   'auto-fill-mode) ; toggle fill mode
@@ -37,7 +38,7 @@
 (global-set-key (kbd "C-C s")   'jw-toggle-process-echo-flag)
 
 (global-set-key (kbd "C-C C-d") 'delete-trailing-whitespace)
-(global-set-key (kbd "C-C C-f") 'ido-find-file-in-tag-files)
+(global-set-key (kbd "C-C C-f") 'jw-find-file-in-tag-files)
 (global-set-key (kbd "C-C C-v") 'jw-find-view)
 (global-set-key (kbd "C-C C-t") 'jw-split-or-toggle) ; pkg:testing
 
@@ -54,10 +55,10 @@
 
 ;; C-C g
 (global-set-key (kbd "C-C g b") 'jw-mo-git-blame)
-
 (global-set-key (kbd "C-C g g") 'magit-status)
 (global-set-key (kbd "C-C g i") 'gist-region-or-buffer)
 (global-set-key (kbd "C-C g u") 'browse-url)
+
 ;; C-C p -- Perforce bindings
 (global-set-key (kbd "C-C p e") 'p4-edit) ; pkg:perforce
 (global-set-key (kbd "C-C p r") 'p4-revert) ; pkg:perforce

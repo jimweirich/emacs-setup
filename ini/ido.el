@@ -5,16 +5,32 @@
 ;;; ==================================================================
 
 (require 'ido)
-;;(load-file "x-ido.el")
 (ido-mode t)
 
-(defun ido-find-file-in-tag-files ()
+(defun jw-select (func items)
+  (let ((result ()))
+    (while (not (null items))
+      (if (funcall func (car items))
+          (setq result (cons (car items) result)))
+      (setq items (cdr items)))
+    (reverse result)))
+
+(defun jw-interesting-file-name-p (file-name)
+  (not (string-match "^\([/.]|vendor\)" file-name)))
+
+(defun jw-tag-files ()
+  (save-excursion
+    (set-buffer (get-buffer "TAGS"))
+    (jw-select #'jw-interesting-file-name-p (tags-table-files))))
+
+(defun jw-find-file-in-tag-files ()
   (interactive)
   (save-excursion
-    (let ((enable_recursive-minibuffers t))
+    (let ((enable-recursive-minibuffers t))
       (visit-tags-table-buffer))
-    (ido-completing-read "Project files: "
-                         (tags-table-files)
-                         nil t)))
+    (find-file
+     (expand-file-name
+      (ido-completing-read
+       "Project file: " (jw-tag-files) nil t)))))
 
 (defun ffp () (interactive) (ido-find-file-in-tag-files))
