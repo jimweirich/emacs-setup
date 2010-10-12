@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: validates_presence_of :without
+# --
+validates_format_of :${1:attribute}, :without => /${2:regexp}/
