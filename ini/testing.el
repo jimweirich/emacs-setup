@@ -588,8 +588,7 @@ test file."
 
 (defun jw-test-load-project-toggle-style ()
   "Set the buffer's toggle style from the project defaults."
-  (let* ((project-dir (jw-find-project-top (buffer-file-name)))
-         (togglerc (concat project-dir ".togglerc")))
+  (let* ((togglerc (jw-find-in-parent-dir (buffer-file-name) ".togglerc")))
     (if (file-readable-p togglerc)
         (load-file togglerc))
     (if (null jw-test-toggle-style)
