@@ -53,7 +53,7 @@
     (if col
         (progn (goto-char (- (point) (length op))) (current-column))
       (move-beginning-of-line 1)
-      nil))))
+      nil)))
 
 (defun jw-extra-white-p ()
   "Is there extra white space beforethe current point?"
