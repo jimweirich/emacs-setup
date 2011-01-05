@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: Given { } (RSpec)
+# --
+Given { $0 }

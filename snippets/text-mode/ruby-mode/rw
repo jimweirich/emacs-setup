@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: when(result) { } (RSpec)
+# --
+When(:${1:result}) { $0 }

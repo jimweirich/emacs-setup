@@ -1,0 +1,4 @@
+# -*- mode: markdown; require-final-newline: nil; backup-inhibited: t -*-
+#name: inline code
+# --
+\`${1:text}\`
