@@ -20,7 +20,7 @@
          (defun jw-set-font () (interactive) (aquamacs-set-face-as-default)))
         (t
          (setq jw-font-chooser 'vera-sans-mono)
-         (defun jw-set-font () (interactive) )))
+         (defun jw-set-font () (interactive) (subnormal))))
 
   (defun jw-choose-font (pts &optional no-set-font)
     (setq *jw-font-size* pts)
