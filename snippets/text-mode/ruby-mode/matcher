@@ -1,0 +1,13 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name : rspec matcher
+# --
+module RSpec::Matchers
+  matcher :${1:matcher_name} do |${2:expected}|
+    match do |${3:actual}|
+      $0
+    end
+
+    # failure_message_for_should do |expected| ... end
+    # failure_message_for_should_not do |expected| ... end
+  end
+end
