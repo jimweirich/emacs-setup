@@ -21,6 +21,7 @@
  '(safe-local-variable-values (quote ((require-final-newline) (backup-inhibited . t))))
  '(show-paren-mode t)
  '(show-paren-style (quote parenthesis))
+ '(show-trailing-whitespace t)
  '(toolbar-mail-reader (quote gnus))
  '(toolbar-news-reader (quote gnus)))
 
@@ -46,10 +47,10 @@
  '(font-lock-variable-name-face ((((class color)) (:foreground "#90b0ff")) (((type tty)) (:foreground "#90b0ff"))))
  '(info-menu-5 ((((class color)) (:foreground "green")) (((type tty)) (:foreground "green"))) t)
  '(info-menu-star ((((class color)) (:foreground "green")) (((type tty)) (:foreground "green"))))
- '(info-node ((((class color)) (:foreground "red")) (((type tty)) (:foreground "red"))))
+ '(info-node ((((class color)) (:foreground "red")) (((type tty)) (:foreground "red"))) t)
  '(info-title-1 ((((class color)) (:foreground "green")) (((type tty)) (:foreground "green"))))
  '(info-title-2 ((((class color)) (:foreground "red")) (((type tty)) (:foreground "red"))))
- '(info-xref ((((class color)) (:foreground "firebrick")) (((type tty)) (:foreground "firebrick"))))
+ '(info-xref ((((class color)) (:foreground "firebrick")) (((type tty)) (:foreground "firebrick"))) t)
  '(minibuffer-prompt ((((class color)) (:foreground "cyan")) (((type tty)) (:foreground "cyan"))))
  '(nxml-attribute-value-delimiter-face ((((class color)) (:foreground "orange")) (((type tty)) (:foreground "orange"))) t)
  '(nxml-attribute-value-face ((((class color)) (:foreground "yellow")) (((type tty)) (:foreground "yellow"))) t)
@@ -59,7 +60,8 @@
  '(nxml-entity-ref-name-face ((((class color)) (:foreground "yellow")) (((type tty)) (:foreground "yellow"))) t)
  '(nxml-tag-delimiter-face ((((class color)) (:foreground "lightblue")) (((type tty)) (:foreground "lightblue"))) t)
  '(region ((((class color)) (:foreground "white" :background "SkyBlue4")) (((type tty)) (:foreground "white" :background "SkyBlue4"))))
- '(smerge-refined-change ((t (:background "orange")))))
+ '(smerge-refined-change ((t (:background "orange"))))
+ '(trailing-whitespace ((((class color)) (:foreground "red" :background "yellow")) (((type tty)) (:foreground "red" :background "yellow")))))
 
 
 ;;; This was installed by package-install.el.
