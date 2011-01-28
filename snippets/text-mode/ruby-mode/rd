@@ -1,5 +1,5 @@
 # -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
-#name: desc '...' (RSpec)
+#name: describe '...' (RSpec)
 # --
 describe ${1:CodeUnderTest} do
   $0
