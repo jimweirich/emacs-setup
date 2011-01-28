@@ -28,5 +28,6 @@
 (add-to-list 'compilation-error-regexp-alist
              '("Line \\([0-9]+\\) column [0-9]+ in [A-Za-z0-9_]+ (\\(.*\\)) +:" 2 1) )
 
+;; Turn off trailing space notification
 
-
+(add-hook 'compilation-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
