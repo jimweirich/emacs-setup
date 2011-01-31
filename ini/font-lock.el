@@ -35,7 +35,7 @@
   (condition-case nil
       (jw-set-face face properties)
     (error nil)))
-      
+
 ;;; Select *my* custom fonts and do it now!
 
 (defun jw-prepend-pair (a b tail)
@@ -87,7 +87,6 @@
    (jw-font 'Info-title-2-face               "red")
    ))
 
-
 (defun jw-dark ()
   "Set the font-lock fonts to custom colors"
   (interactive)
@@ -119,7 +118,7 @@
    (jw-font 'region                            "white" "SkyBlue4")
    (jw-font 'trailing-whitespace               "red" "yellow")
    ))
-   
+
 ;; Abbreviations
 
 (defun jwfd ()  (interactive) (jw-dark))
