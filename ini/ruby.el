@@ -145,8 +145,10 @@
 
 (autoload 'run-ruby "inf-ruby"
   "Run an inferior Ruby process")
+
 (autoload 'inf-ruby-keys "inf-ruby"
   "Set local key defs for inf-ruby in ruby-mode")
+
 (defun jw-ruby-init-keys ()
   (define-key ruby-mode-map "\C-ci"  'jw-ruby-insert-template)
   (define-key ruby-mode-map "\M-q"   'jw-rb-fill-comment-region)
@@ -160,7 +162,7 @@
 (add-hook 'ruby-mode-hook '(lambda () (inf-ruby-keys) ))
 (add-hook 'ruby-mode-hook '(lambda () (setq zoom-step 2) ))
 (add-hook 'ruby-mode-hook 'turn-off-filladapt-mode)
-(add-hook 'ruby-mode-hood '(lambda () (ruby-electric-mode t)))
+(add-hook 'ruby-mode-hook '(lambda () (ruby-electric-mode 0)))
 
 (add-hook 'ruby-mode-hook '(lambda ()
                              (add-hook
