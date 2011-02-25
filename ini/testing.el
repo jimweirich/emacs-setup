@@ -253,7 +253,7 @@
     (or (jw-find-existing-file
          (list (concat default-directory "script/spec")
                (concat default-directory "vendor/plugins/rspec/bin/spec")))
-        "rspec")))
+        "spec")))
 
 (defun jw-find-spec-name ()
   "Return the name of the current test method."
