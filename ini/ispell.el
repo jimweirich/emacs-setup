@@ -6,6 +6,7 @@
 
 ;;; options ----------------------------------------------------------
 
+(setq ispell-program-name "/usr/local/bin/aspell")
 (setq ispell-grep-command "/bin/egrep")
 (setq ispell-grep-options "-i")
 (setq ispell-highlight-face 'underline)
