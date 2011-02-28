@@ -41,6 +41,8 @@
 (global-set-key (kbd "C-C C-f") 'jw-find-file-in-tag-files)
 (global-set-key (kbd "C-C C-v") 'jw-find-view)
 (global-set-key (kbd "C-C C-t") 'jw-split-or-toggle) ; pkg:testing
+(global-set-key (kbd "C-c C--") 'camelcase-word-or-region)
+(global-set-key (kbd "C-c C-_") 'snakecase-word-or-region)
 
 ;; C-C c
 (global-set-key (kbd "C-C c a") 'jw-align)
