@@ -1,0 +1,4 @@
+# -*- mode: coffee-mode; require-final-newline: nil; backup-inhibited: t -*-
+#name: expect(...).toNotMatch(...)
+# --
+expect(${1:actual}).toNotMatch(${2:pattern})$0

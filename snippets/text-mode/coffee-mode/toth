@@ -1,0 +1,4 @@
+# -*- mode: coffee-mode; require-final-newline: nil; backup-inhibited: t -*-
+#name: expect(...).toThrow()
+# --
+expect(${1:actual}).toThrow(${2:expectedException})$0

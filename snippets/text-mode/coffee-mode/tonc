@@ -1,0 +1,4 @@
+# -*- mode: coffee-mode; require-final-newline: nil; backup-inhibited: t -*-
+#name: expect(...).toNotContain(...)
+# --
+expect(${1:actual}).toNotContain(${2:expected})$0

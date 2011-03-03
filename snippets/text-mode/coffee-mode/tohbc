@@ -1,0 +1,4 @@
+# -*- mode: coffee-mode; require-final-newline: nil; backup-inhibited: t -*-
+#name: expect(...).toHaveBeenCalled()
+# --
+expect(${1:actual}).toHaveBeenCalled()$0

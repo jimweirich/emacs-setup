@@ -1,0 +1,4 @@
+# -*- mode: coffee-mode; require-final-newline: nil; backup-inhibited: t -*-
+#name: expect(...).toBeUndefined()
+# --
+expect(${1:actual}).toBeUndefined()$0

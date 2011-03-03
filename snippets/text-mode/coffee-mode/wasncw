@@ -1,0 +1,4 @@
+# -*- mode: coffee-mode; require-final-newline: nil; backup-inhibited: t -*-
+#name: expect(...).wasNotCalledWith()
+# --
+expect(${1:actual}).wasNotCalledWith()$0

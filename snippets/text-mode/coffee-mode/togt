@@ -1,0 +1,4 @@
+# -*- mode: coffee-mode; require-final-newline: nil; backup-inhibited: t -*-
+#name: expect(...).toBeGreaterThan(...)
+# --
+expect(${1:actual}).toBeGreaterThan(${2:expected})$0
