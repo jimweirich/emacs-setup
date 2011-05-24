@@ -24,7 +24,8 @@
 (defconst jw-noansi-command  (concat (file-name-as-directory elisp-directory) "bin/noansi"))
 
 ;;; NOANSI option string (may be empty, or a pipe to the noansi command)
-(defconst jw-noansi-option  (concat " | " jw-noansi-command))
+;;;(defconst jw-noansi-option  (concat " | " jw-noansi-command))
+(defconst jw-noansi-option  "")
 
 (defun jw-shell-env-setup ()
   (concat (jw-project-env-file )))
@@ -84,15 +85,15 @@
 (set-face-attribute (make-face 'test-success) nil
                     :family "arial"
                     :height 240
-                    :background (if window-system "#33ff33" "#001100")
-                    :foreground (if window-system "black" "white")
+                    :background (if window-system "black" "#001100")
+                    :foreground (if window-system "#33ff33" "white")
                     :weight 'bold)
 
 (set-face-attribute (make-face 'test-failure) nil
                     :family "arial"
                     :height 240
-                    :background (if window-system "#ff3333" "#110000")
-                    :foreground (if window-system "black" "white")
+                    :background (if window-system "black" "#110000")
+                    :foreground (if window-system "ff3333" "white")
                     :weight 'bold)
 
 (add-to-list 'compilation-mode-font-lock-keywords
@@ -250,10 +251,12 @@
 (defun jw-spec-command (buffer)
   "Return the name of the appropriate spec command to run for the given buffer."
   (let* ((default-directory (jw-find-project-top (buffer-file-name buffer))))
-    (or (jw-find-existing-file
+    (or (msg (concat "---: '" (getenv "HOME") "' ---"))
+        (getenv "RSPEC_CMD")
+        (jw-find-existing-file
          (list (concat default-directory "script/spec")
                (concat default-directory "vendor/plugins/rspec/bin/spec")))
-        "spec")))
+        "$SPEC_COMMAND")))
 
 (defun jw-find-spec-name ()
   "Return the name of the current test method."
