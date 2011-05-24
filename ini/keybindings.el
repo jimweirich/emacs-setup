@@ -46,6 +46,7 @@
 
 ;; C-C c
 (global-set-key (kbd "C-C c a") 'jw-align)
+(global-set-key (kbd "C-C c b") 'speedbar)
 (global-set-key (kbd "C-C c c") 'jw-clear-overlays-to-top-level)
 (global-set-key (kbd "C-C c f") 'jw-set-font)
 (global-set-key (kbd "C-C c s") 'jw-swap-windows)
