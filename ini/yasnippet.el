@@ -7,7 +7,7 @@
 (setq yas-dir (expand-file-name "~jim/.elisp/pkgs/yasnippet-0.6.1c"))
 
 (cond ((file-exists-p yas-dir)
-       (add-to-load-path yas-dir)
+       (add-list 'load-path yas-dir)
 
        (require 'yasnippet) ;; not yasnippet-bundle
 ;;       (require 'dropdown-list)
