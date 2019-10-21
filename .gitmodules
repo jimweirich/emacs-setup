@@ -1,0 +1,6 @@
+[submodule "pkgs/ros"]
+	path = pkgs/ros
+	url = https://github.com/LionyxML/ros.git
+[submodule "pkgs/polymode"]
+	path = pkgs/polymode
+	url = https://github.com/vitoshka/polymode.git

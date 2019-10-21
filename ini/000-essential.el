@@ -9,8 +9,6 @@
 (defun is-emacs-19 ()
   (string-equal (substring emacs-version 0 2) "19"))
 
-(defun is-emacs-19-25 ()
-  (string-equal (substring emacs-version 0 5) "19.25"))
 
 (defun is-emacs-20 ()
   (string-equal (substring emacs-version 0 2) "20"))
@@ -23,6 +21,9 @@
 
 (defun is-emacs-23 ()
   (string-equal (substring emacs-version 0 2) "23"))
+
+(defun is-emacs-26 ()
+  (string-equal (substring emacs-version 0 2) "26"))
 
 (defun is-xemacs ()
   (string-match "XEmacs" emacs-version))
@@ -85,6 +86,16 @@
 	    (message "Normal Key Translation"))
     (fix-backspace)
     (message "C-h / DEL Swapped") ))
+
+(defun rmd-mode ()
+  "ESS Markdown mode for rmd files"
+  (interactive)
+  (setq load-path
+    (append (list "~/.elisp/pkgs/polymode/")
+        load-path))
+  (require 'poly-R)
+  (require 'poly-markdown)
+  (poly-markdown+r-mode))
 
 ;;; Customized Variables ===============================================
 

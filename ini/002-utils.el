@@ -13,11 +13,11 @@
 (defun sleep-for-millisecs (n)
   (sleep-for (/ n 1000)))
 
-(defun jw-choose-file (files) 
+(defun jw-choose-file (files)
   "Choose the first file that is readable."
-  (cond ((null files) nil) 
-        ((file-readable-p (car files)) (car files)) 
-        (t (jw-choose-file (cdr files))) )) 
+  (cond ((null files) nil)
+        ((file-readable-p (car files)) (car files))
+        (t (jw-choose-file (cdr files))) ))
 
 ;;; Finding errors in the shell
 
@@ -26,9 +26,9 @@
 (defun find-errors ()
   "Find the Errors in the current shell buffer."
   (interactive)
-  (save-excursion 
+  (save-excursion
     (re-search-backward find-errors-pattern)
-    (set-mark (point))
+   (set-mark (point))
     (re-search-backward find-errors-pattern)
     (find-errors-in-region)
     (next-error '(4)))
@@ -67,7 +67,7 @@
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (replace-string "" "") 
+    (replace-string "" "")
     (goto-char (point-min))
     (replace-string "" "") ))
 
@@ -76,7 +76,7 @@
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (replace-regexp "\\([\\[0-9;\\]*m\\|\r\\)" "") 
+    (replace-regexp "\\([\\[0-9;\\]*m\\|\r\\)" "")
     ))
 
 (defun unhtml ()
@@ -84,7 +84,7 @@
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (replace-regexp "<[^>]*>" "") 
+    (replace-regexp "<[^>]*>" "")
     (goto-char (point-min))
     (replace-string "&nbsp;" " ")
     (goto-char (point-min))
@@ -174,7 +174,7 @@
 	(while (< (current-column) cmt-bar-column)
 	  (insert-string char))))
   (while (and (> (current-column) cmt-bar-column)
-	      (save-excursion 
+	      (save-excursion
 		(backward-char)
 		(looking-at char)))
     (backward-delete-char-untabify 1)))
@@ -234,11 +234,11 @@
 (defun get-resources ()
   "Get the Current X Resources from the X Server"
   (interactive)
-  (let ((vfile (substitute-in-file-name 
+  (let ((vfile (substitute-in-file-name
 		(concat "$HOME/.vue/"
 			(display-host)
 			"/home/vue.resources")))
-	(cfile (substitute-in-file-name 
+	(cfile (substitute-in-file-name
 		(concat "$HOME/.vue/"
 			(display-host)
 			"/current/vue.resources")))
@@ -247,7 +247,7 @@
 	  ((file-writable-p cfile) (find-file cfile))
 	  ((file-writable-p xfile) (find-file xfile))
 	  (t (message "Can not find X Resource file")))))
-	
+
 ;  (shell-command "xrdb -q")
 
 (defun save-resources ()
@@ -298,7 +298,7 @@
   (window-at 0 0))
 
 (defun jw-neighbor-window (win)
-  "Return a neighboring window to WIN. 
+  "Return a neighboring window to WIN.
 Prefer windows on the right to those below.  Might return the minibuffer."
   (let* ((edges (window-edges win))
          (left (caddr edges))
@@ -322,7 +322,7 @@ Never returns the minibuffer."
     (select-window w2)))
 
 (defun jw-push-buffer (buffer)
-  "Push a new buffer onto the screen. 
+  "Push a new buffer onto the screen.
 Current buffer goes to first position."
   (if (= 2 (count-windows))
       (jw-neighboring-windows
@@ -393,8 +393,8 @@ Current buffer goes to first position."
 	(shrink-window y)))
     (select-window now)))
 
-(cond ((is-emacs-19-25)
-       (define-key global-map [mode-line drag-mouse-1] 'drag-mode-line)) )
+;;(cond ((is-emacs-19-25)
+;;       (define-key global-map [mode-line drag-mouse-1] 'drag-mode-line)) )
 
 (defun jw-show-key-binding (key)
   (interactive "kEnter Key: ")

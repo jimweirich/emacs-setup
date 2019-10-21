@@ -12,8 +12,8 @@
   (save-excursion
     (set-buffer (get-buffer-create "*msg*"))
     (goto-char (point-max))
-    (insert-string msg-text)
-    (insert-string "\n") ))
+    (insert msg-text)
+    (insert "\n") ))
 
 ;;; Setup the load path ==============================================
 (defun add-to-load-path (fn)

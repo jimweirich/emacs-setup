@@ -1,23 +1,143 @@
 ;;; Jim Weirich's GNU-Emacs Initialization File
 
-(setq elisp-directory "~jim/.elisp")
-(load (concat elisp-directory "/load-ini.el"))
+(require 'package)
 
+(setq package-archives
+      '(("org"          . "https://orgmode.org/elpa/")
+        ("melpa"        . "https://melpa.org/packages/")
+        ("melpa-stable" . "https://stable.melpa.org/packages/")
+        ("gnu"          . "https://elpa.gnu.org/packages/")))
+(setq elisp-directory "~/.elisp")
+(load (concat elisp-directory "/load-ini.el"))
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . nil)
+   (python . t)
+   (J . t)
+   (R . t)))
+(setq org-confirm-babel-evaluate nil)
+(setq org-babel-python-command "python3")
+(setq org-babel-J-command "ijconsole")
+(global-set-key (kbd "C-=") 'text-scale-decrease)
+(global-set-key (kbd "C-+") 'text-scale-increase)
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(ecb-source-path (quote (("/home/jim/working/rubyforge/rubygems" "RubyGems") ("/home/jim/working/rubyforge/rake" "Rake"))))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ecb-source-path
+   (quote
+    (("/home/jim/working/rubyforge/rubygems" "RubyGems")
+     ("/home/jim/working/rubyforge/rake" "Rake"))))
  '(gnuserv-program (concat exec-directory "/gnuserv"))
  '(ido-enable-flex-matching t)
  '(ido-mode (quote both) nil (ido))
  '(inhibit-startup-screen t)
  '(init-face-from-resources nil)
- '(ispell-program-name "/usr/local/bin/aspell")
+ '(ispell-program-name "/usr/local/bin/aspell" t)
  '(load-home-init-file t t)
  '(make-backup-files nil)
- '(mm-inline-media-tests (quote (("image/jpeg" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote jpeg) handle))) ("image/png" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote png) handle))) ("image/gif" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote gif) handle))) ("image/tiff" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote tiff) handle))) ("image/xbm" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote xbm) handle))) ("image/x-xbitmap" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote xbm) handle))) ("image/xpm" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote xpm) handle))) ("image/x-pixmap" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote xpm) handle))) ("image/bmp" mm-inline-image (lambda (handle) (mm-valid-and-fit-image-p (quote bmp) handle))) ("text/plain" mm-inline-text identity) ("text/enriched" mm-inline-text identity) ("text/richtext" mm-inline-text identity) ("text/x-patch" mm-display-patch-inline (lambda (handle) (locate-library "diff-mode"))) ("application/emacs-lisp" mm-display-elisp-inline identity) ("text/x-vcard" mm-inline-text (lambda (handle) (or (featurep (quote vcard)) (locate-library "vcard")))) ("message/delivery-status" mm-inline-text identity) ("message/rfc822" mm-inline-message identity) ("message/partial" mm-inline-partial identity) ("text/.*" mm-inline-text identity) ("audio/wav" mm-inline-audio (lambda (handle) (and (or (featurep (quote nas-sound)) (featurep (quote native-sound))) (device-sound-enabled-p)))) ("audio/au" mm-inline-audio (lambda (handle) (and (or (featurep (quote nas-sound)) (featurep (quote native-sound))) (device-sound-enabled-p)))) ("application/pgp-signature" ignore identity) ("multipart/alternative" ignore identity) ("multipart/mixed" ignore identity) ("multipart/related" ignore identity))))
+ '(mm-inline-media-tests
+   (quote
+    (("image/jpeg" mm-inline-image
+      (lambda
+        (handle)
+        (mm-valid-and-fit-image-p
+         (quote jpeg)
+         handle)))
+     ("image/png" mm-inline-image
+      (lambda
+        (handle)
+        (mm-valid-and-fit-image-p
+         (quote png)
+         handle)))
+     ("image/gif" mm-inline-image
+      (lambda
+        (handle)
+        (mm-valid-and-fit-image-p
+         (quote gif)
+         handle)))
+     ("image/tiff" mm-inline-image
+      (lambda
+        (handle)
+        (mm-valid-and-fit-image-p
+         (quote tiff)
+         handle)))
+     ("image/xbm" mm-inline-image
+      (lambda
+        (handle)
+        (mm-valid-and-fit-image-p
+         (quote xbm)
+         handle)))
+     ("image/x-xbitmap" mm-inline-image
+      (lambda
+        (handle)
+        (mm-valid-and-fit-image-p
+         (quote xbm)
+         handle)))
+     ("image/xpm" mm-inline-image
+      (lambda
+        (handle)
+        (mm-valid-and-fit-image-p
+         (quote xpm)
+         handle)))
+     ("image/x-pixmap" mm-inline-image
+      (lambda
+        (handle)
+        (mm-valid-and-fit-image-p
+         (quote xpm)
+         handle)))
+     ("image/bmp" mm-inline-image
+      (lambda
+        (handle)
+        (mm-valid-and-fit-image-p
+         (quote bmp)
+         handle)))
+     ("text/plain" mm-inline-text identity)
+     ("text/enriched" mm-inline-text identity)
+     ("text/richtext" mm-inline-text identity)
+     ("text/x-patch" mm-display-patch-inline
+      (lambda
+        (handle)
+        (locate-library "diff-mode")))
+     ("application/emacs-lisp" mm-display-elisp-inline identity)
+     ("text/x-vcard" mm-inline-text
+      (lambda
+        (handle)
+        (or
+         (featurep
+          (quote vcard))
+         (locate-library "vcard"))))
+     ("message/delivery-status" mm-inline-text identity)
+     ("message/rfc822" mm-inline-message identity)
+     ("message/partial" mm-inline-partial identity)
+     ("text/.*" mm-inline-text identity)
+     ("audio/wav" mm-inline-audio
+      (lambda
+        (handle)
+        (and
+         (or
+          (featurep
+           (quote nas-sound))
+          (featurep
+           (quote native-sound)))
+         (device-sound-enabled-p))))
+     ("audio/au" mm-inline-audio
+      (lambda
+        (handle)
+        (and
+         (or
+          (featurep
+           (quote nas-sound))
+          (featurep
+           (quote native-sound)))
+         (device-sound-enabled-p))))
+     ("application/pgp-signature" ignore identity)
+     ("multipart/alternative" ignore identity)
+     ("multipart/mixed" ignore identity)
+     ("multipart/related" ignore identity))))
+ '(package-selected-packages (quote (poly-R tramp ess pivotal-tracker magit)))
+ '(pivotal-api-token "919034dca287a2b4f136e99c11261a01")
  '(quack-fontify-style nil)
  '(safe-local-variable-values (quote ((require-final-newline) (backup-inhibited . t))))
  '(show-paren-mode t)
@@ -29,10 +149,10 @@
 
 (setq minibuffer-max-depth nil)
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default ((t (:size "14pt" :family "Fixed"))))
  '(Info-title-1-face ((((class color)) (:foreground "green")) (((type tty)) (:foreground "green"))) t)
  '(Info-title-2-face ((((class color)) (:foreground "red")) (((type tty)) (:foreground "red"))) t)
@@ -49,10 +169,10 @@
  '(font-lock-variable-name-face ((((class color)) (:foreground "#90b0ff")) (((type tty)) (:foreground "#90b0ff"))))
  '(info-menu-5 ((((class color)) (:foreground "green")) (((type tty)) (:foreground "green"))) t)
  '(info-menu-star ((((class color)) (:foreground "green")) (((type tty)) (:foreground "green"))))
- '(info-node ((((class color)) (:foreground "red")) (((type tty)) (:foreground "red"))) t)
+ '(info-node ((((class color)) (:foreground "red")) (((type tty)) (:foreground "red"))))
  '(info-title-1 ((((class color)) (:foreground "green")) (((type tty)) (:foreground "green"))))
  '(info-title-2 ((((class color)) (:foreground "red")) (((type tty)) (:foreground "red"))))
- '(info-xref ((((class color)) (:foreground "firebrick")) (((type tty)) (:foreground "firebrick"))) t)
+ '(info-xref ((((class color)) (:foreground "firebrick")) (((type tty)) (:foreground "firebrick"))))
  '(minibuffer-prompt ((((class color)) (:foreground "cyan")) (((type tty)) (:foreground "cyan"))))
  '(nxml-attribute-value-delimiter-face ((((class color)) (:foreground "orange")) (((type tty)) (:foreground "orange"))) t)
  '(nxml-attribute-value-face ((((class color)) (:foreground "yellow")) (((type tty)) (:foreground "yellow"))) t)
